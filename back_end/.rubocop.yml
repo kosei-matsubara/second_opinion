@@ -1,0 +1,56 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  # - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  DisplayCopNames: true
+  Exclude:
+    - 'bin/*'
+    - 'config/initializers/**/*'
+    - 'db/**/*'
+    - '.git/**/*'
+    - 'lib/tasks/**/*'
+    - 'log/**/*'
+    # - 'node_modules/**/*'
+    # - 'openapi/**/*'
+    - 'public/**/*'
+    - 'storage/**/*'
+    - 'test/*'
+    - 'terraform/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+  NewCops: enable
+  TargetRubyVersion: 3.2
+
+Layout/LineLength:
+  Max: 200
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# trueかfalseを設定しないと警告を出力するためtrueを設定する
+Style/HashEachMethods:
+  Enabled: true
+
+# trueかfalseを設定しないと警告を出力するためtrueを設定する
+Style/HashTransformKeys:
+  Enabled: true
+
+# trueかfalseを設定しないと警告を出力するためtrueを設定する
+Style/HashTransformValues:
+  Enabled: true
