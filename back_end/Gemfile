@@ -2,6 +2,8 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.3"
+gem "rails", "7.0.8.4"
+
 
 # railsの起動時間を短縮するためbootsnapを導入する（標準gem）
 gem "bootsnap", require: false
@@ -10,10 +12,23 @@ gem "mysql2", "0.5.6"
 
 gem "puma", "5.6.8"
 
-gem "rails", "7.0.8.4"
+# cors設定を管理する
+gem "rack-cors"
+
+# 環境毎のフロントエンド・バックエンドの疎通ポート番号を管理する
+gem "config"
 
 # タイムゾーン情報を提供する（標準gem）
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+
+# ユーザー認証を提供する
+gem "devise"
+
+# deviseを日本語化する
+gem "devise-i18n"
+
+# ユーザーのトークン認証を提供する
+gem "devise_token_auth"
 
 group :development, :test do
   gem "pry-byebug"
