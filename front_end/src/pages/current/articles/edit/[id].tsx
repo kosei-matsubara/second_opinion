@@ -250,7 +250,7 @@ const CurrentArticlesEdit: NextPage = () => {
                     helperText={fieldState.error?.message}
                     multiline
                     fullWidth
-                    // {article.content}
+                    placeholder="Write in Markdown Text"
                     rows={25}
                     sx={{ backgroundColor: 'white' }}
                   />
@@ -280,7 +280,7 @@ const CurrentArticlesEdit: NextPage = () => {
                   marginTop: { xs: '24px', sm: '40px' },
                 }}
               >
-                {article.content}
+                {watch('content')}
               </Box>
             </Card>
           </Box>
