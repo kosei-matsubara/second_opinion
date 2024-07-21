@@ -1,67 +1,64 @@
-import { Box, Grid, Container, Pagination } from '@mui/material'
-import camelcaseKeys from 'camelcase-keys'
-import type { NextPage } from 'next'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import useSWR from 'swr'
-import ArticleCard from '@/components/ArticleCard'
-import { styles } from '@/styles'
-import Error from '@/components/Error'
-import Loading from '@/components/Loading'
-import { fetcher } from '@/utils'
+import Head from 'next/head'
+import { Box } from '@mui/material'
+import styles from '../styles/Home.module.css'
 
-type ArticleProps = {
-  id: number
-  title: string
-  createdAt: string
-  fromToday: string
-  user: {
-    name: string
-  }
-}
-
-const Index: NextPage = () => {
-  const router = useRouter()
-  const page = 'page' in router.query ? Number(router.query.page) : 1
-  const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/articles/?page=' + page
-
-  const { data, error } = useSWR(url, fetcher)
-  if (error) return <Error />
-  if (!data) return <Loading />
-
-  const articles = camelcaseKeys(data.articles)
-  const meta = camelcaseKeys(data.meta)
-
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    router.push('/?page=' + value)
-  }
-
+export default function Home() {
   return (
-    <Box css={styles.pageMinHeight} sx={{ backgroundColor: '#e6f2ff' }}>
-      <Container maxWidth="md" sx={{ pt: 6 }}>
-        <Grid container spacing={4}>
-          {articles.map((article: ArticleProps, i: number) => (
-            <Grid key={i} item xs={12} md={6}>
-              <Link href={'/articles/' + article.id}>
-                <ArticleCard
-                  title={article.title}
-                  fromToday={article.fromToday}
-                  userName={article.user.name}
-                />
-              </Link>
-            </Grid>
-          ))}
-        </Grid>
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
-          <Pagination
-            count={meta.totalPages}
-            page={meta.currentPage}
-            onChange={handleChange}
-          />
-        </Box>
-      </Container>
-    </Box>
-  )
-}
+    <Box className={styles.container} css={styles.pageMinHeight} sx={{ backgroundColor: '#e6f2ff' }}>
+      <Head>
+        <title>ホームページ</title>
+        <meta name="description" content="Next.js を使ったホームページの例" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-export default Index
+      <Box component="main" className={styles.main} >
+        <h1 className={styles.title}>
+          Next.js へようこそ！
+        </h1>
+
+        <p className={styles.description}>
+          このページは Next.js を使って作成されています。
+        </p>
+
+        <Box className={styles.grid} >
+          <a href="https://nextjs.org/docs" className={styles.card}>
+            <h3>ドキュメント &rarr;</h3>
+            <p>Next.js のドキュメントを読む</p>
+          </a>
+
+          <a href="https://nextjs.org/learn" className={styles.card}>
+            <h3>学習 &rarr;</h3>
+            <p>Next.js を学ぶためのインタラクティブなコース</p>
+          </a>
+
+          <a
+            href="https://github.com/vercel/next.js/tree/canary/examples"
+            className={styles.card}
+          >
+            <h3>例 &rarr;</h3>
+            <p>Next.js のプロジェクト例を見る</p>
+          </a>
+
+          <a
+            href="https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=example&utm_campaign=next-example"
+            className={styles.card}
+          >
+            <h3>デプロイ &rarr;</h3>
+            <p>Next.js を Vercel にデプロイする</p>
+          </a>
+        </Box>
+      </Box>
+
+      <Box component="footer" className={styles.footer}>
+        <a
+          href="https://vercel.com?utm_source=github&utm_medium=example&utm_campaign=next-example"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by{' '}
+          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+        </a>
+      </Box>
+    </Box>
+  );
+}
