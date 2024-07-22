@@ -125,7 +125,7 @@ const CurrentArticleDetail: NextPage = () => {
                   lineHeight: '40px',
                 }}
               >
-                  {article.title}
+                {article.title}
               </Typography>
             </Box>
           </Box>
