@@ -7,8 +7,6 @@ import '@/styles/destyle.css'
 import CurrentUserFetch from '@/components/CurrentUserFetch'
 import Header from '@/components/Header'
 import Snackbar from '@/components/Snackbar'
-
-
 import createEmotionCache from '@/styles/createEmotionCache'
 import theme from '@/styles/theme'
 
