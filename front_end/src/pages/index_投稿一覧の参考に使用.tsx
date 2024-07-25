@@ -30,6 +30,7 @@ const Index: NextPage = () => {
   if (!data) return <Loading />
 
   const articles = camelcaseKeys(data.articles)
+  // Pagination情報を管理する
   const meta = camelcaseKeys(data.meta)
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -38,7 +39,6 @@ const Index: NextPage = () => {
 
   return (
     <Box css={styles.pageMinHeight} sx={{ backgroundColor: '#e6f2ff' }}>
-    <Box>aaaaaaa</Box>
       <Container maxWidth="md" sx={{ pt: 6 }}>
         <Grid container spacing={4}>
           {articles.map((article: ArticleProps, i: number) => (

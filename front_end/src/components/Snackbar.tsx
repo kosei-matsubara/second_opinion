@@ -14,6 +14,7 @@ const SuccessSnackbar = () => {
     }
   }, [snackbar, router])
 
+  // 通知バー表示後に閉じる
   const handleClose = (
     event: React.SyntheticEvent | Event,
     reason?: string,
@@ -28,7 +29,7 @@ const SuccessSnackbar = () => {
   return (
     <div>
       {snackbar.severity != null && (
-        // <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        // 表示内容を確認するため一時的にautoHideDurationを2000から20000に延伸している
         <Snackbar open={open} autoHideDuration={20000} onClose={handleClose}>
         <Alert
             onClose={handleClose}

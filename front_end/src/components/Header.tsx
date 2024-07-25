@@ -27,7 +27,7 @@ const Header = () => {
   const open = Boolean(anchorEl)
   const router = useRouter()
 
-  // 記事編集画面はHeaderを非表示にする
+  // 記事編集画面ではnullをreturnしてHeaderを非表示にする
   const hideHeaderPathnames = ['/current/articles/edit/[id]']
   if (hideHeaderPathnames.includes(router.pathname)) return <></>
 
@@ -82,6 +82,7 @@ const Header = () => {
           </Box>
           {user.isFetched && (
             <div>
+              {/* ユーザー未認証のHeader表示内容 */}
               {!user.isSignedIn && (
                 <Box>
                   <Link href="/sign_in">
@@ -117,6 +118,7 @@ const Header = () => {
                   </Link>
                 </Box>
               )}
+              {/* ユーザー認証済のHeader表示内容 */}
               {user.isSignedIn && (
                 <Box sx={{ display: 'flex' }}>
                   <IconButton onClick={handleClick} sx={{ p: 0 }}>

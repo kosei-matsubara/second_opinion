@@ -84,7 +84,9 @@ const CurrentArticlesEdit: NextPage = () => {
     if (data) {
       reset(article)
       setStatusChecked(article.status == '公開中')
-      setIsFetched(true)
+      // 空フォーム表示後にフェッチしたデータを含むフォームを表示する不自然な画面遷移を回避するため
+      // isFetched(false)の間は、<Loading>コンポーネントを画面表示する
+      setIsFetched(true) // データフェッチ終了後、trueに更新する
     }
   }, [data, article, reset])
 

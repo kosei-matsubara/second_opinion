@@ -18,7 +18,11 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ja">
         <Head>
-          {/* PWA primary color */}
+          <meta name="language" content="ja" />
+          <meta
+            name="description"
+            content="保険ポータルサイト。無料保険相談・保険営業者検索でお悩み解決。「インターネットを通じて保険をもっと身近に、もっと便利に。」"
+          />
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link
             rel="stylesheet"

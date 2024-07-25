@@ -12,6 +12,8 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
   end
 
   def create
+    # 未保存ステータスの記事が存在すれば当該レコードをレスポンスする
+    # 未保存ステータスの記事が存在しない場合は未保存記事を新規作成してレスポンスする
     unsaved_article = current_user.articles.unsaved.first || current_user.articles.create!(status: :unsaved)
     render json: unsaved_article
   end
