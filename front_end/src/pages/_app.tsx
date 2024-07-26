@@ -7,6 +7,7 @@ import '@/styles/destyle.css'
 import CurrentUserFetch from '@/components/CurrentUserFetch'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import ScrollToTop from '@/components/ScrollToTop'
 import Snackbar from '@/components/Snackbar'
 import createEmotionCache from '@/styles/createEmotionCache'
 import theme from '@/styles/theme'
@@ -29,6 +30,7 @@ export default function MyApp(props: MyAppProps): JSX.Element {
         <CurrentUserFetch />
         <Header />
         <Component {...pageProps} />
+        <ScrollToTop />
         <Footer />
         <Snackbar />
       </ThemeProvider>

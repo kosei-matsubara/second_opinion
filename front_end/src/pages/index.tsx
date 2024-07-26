@@ -11,6 +11,9 @@ const Main = () => {
   return (
     <Box>
       <Container>
+        <Typography fontSize={18}>
+          イベント・観光（グリッドレイアウト）:
+        </Typography>
         <Typography variant="h2" sx={{ my: 4 }}>
           イベント・観光（グリッドレイアウト）:
         </Typography>
