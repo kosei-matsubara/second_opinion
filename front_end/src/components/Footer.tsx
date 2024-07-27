@@ -7,11 +7,20 @@ const Footer = () => {
       component="footer"
       sx={{
         backgroundColor: '#EEEEEE',
-        py: 6,
+        padding: '40px',
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
-      <Container maxWidth="lg" >
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, p: 4, mt: 4 }}>
+      {/* <Container maxWidth="lg" > */}
+      <Container>
+        <Box
+          sx={{
+            marginBottom: '48px',
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
           <Link href="#" variant="body2" sx={{ mx: 2 }}>
             よくあるお問合せ・ヘルプ
           </Link>
@@ -22,7 +31,7 @@ const Footer = () => {
             利用規約・プライバシーの考え方
           </Link>
           <Link href="#" variant="body2" sx={{ mx: 2 }}>
-            外部監査報告事項の公表等について
+            外部送信規律事項の公表等について
           </Link>
           <Link href="#" variant="body2" sx={{ mx: 2 }}>
             特定商取引法に関する表記
