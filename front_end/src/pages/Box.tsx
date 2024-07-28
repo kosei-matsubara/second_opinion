@@ -113,18 +113,6 @@ const Main = () => {
         Typography・タイトル <br />
         Typography・タイトル・改行
       </Typography>
-      {/* ボディテキストスタイルのテキスト */}
-      <Typography
-        variant="body1"         // テキストスタイルをbody1に設定
-        component="p"           // HTMLタグをpに設定
-        align="justify"         // テキストを両端揃え
-        paragraph               // 段落として表示
-        sx={{
-          color: 'black',       // 黒色
-        }}
-      >
-        Typography・段落、本文
-      </Typography>
     </Box>
   )
 }

@@ -6,33 +6,38 @@ import {
   Card,
   CardContent,
 } from '@mui/material'
+import Link from 'next/link'
 
 const Main = () => {
   return (
-    <Box>
-      <Container>
-        <Typography fontSize={18}>
-          イベント・観光（グリッドレイアウト）:
-        </Typography>
-        <Typography variant="h2" sx={{ my: 4 }}>
-          イベント・観光（グリッドレイアウト）:
-        </Typography>
+    <Box component="main">
+      <Container maxWidth="lg">
+        <Box sx={{ backgroundColor: 'custom.h2backgroundColor', p: 1 }}>
+          <Typography
+            component="h2"
+            variant="h6"
+            sx={{ color: 'custom.h2color' }}
+          >
+            お悩みから解決方法を探す
+          </Typography>
+        </Box>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={6} md={3}>
             <Card>
               <CardContent>
                 <Typography
-                  variant="h4"
+                  component="h3"
+                  variant="h7"
                   sx={{
                     backgroundColor: `red`,
                     p: 2,
-                    color: '#fff',
+                    color: '#FFFFFF',
                   }}
                 >
-                  タイトル
+                  入院・手術
                 </Typography>
-                <Typography variant="body1" sx={{ p: 2 }}>
-                  サンプルテキスト
+                <Typography component="p" variant="body2" sx={{}}>
+                  病気
                 </Typography>
               </CardContent>
             </Card>

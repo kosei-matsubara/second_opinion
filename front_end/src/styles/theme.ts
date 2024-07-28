@@ -10,6 +10,10 @@ const theme = createTheme({
     secondary: {
       main: '#F46969',
     },
+    custom: {
+      h2backgroundColor: '#F46969',
+      h2color: '#FFFFFF',
+    },
     error: {
       main: red.A400,
     },

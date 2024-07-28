@@ -6,39 +6,50 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
+        // width: '50%',
         backgroundColor: '#EEEEEE',
-        padding: '40px',
+        p: 5,
         display: 'flex',
-        alignItems: 'center',
       }}
     >
-      {/* <Container maxWidth="lg" > */}
-      <Container>
+      <Container maxWidth="lg">
         <Box
           sx={{
-            marginBottom: '48px',
+            mb: 6,
             display: 'flex',
-            justifyContent: 'space-between',
           }}
         >
-          <Link href="#" variant="body2" sx={{ mx: 2 }}>
-            よくあるお問合せ・ヘルプ
+          {/* 後で以下リンク先ページを作成する */}
+          <Link href="#">
+            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
+              よくあるお問合せ・ヘルプ
+            </Typography>
           </Link>
-          <Link href="#" variant="body2" sx={{ mx: 2 }}>
-            お問い合わせ窓口
+          <Link href="#">
+            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
+              お問い合わせ窓口
+            </Typography>
           </Link>
-          <Link href="#" variant="body2" sx={{ mx: 2 }}>
-            利用規約・プライバシーの考え方
+          <Link href="#">
+            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
+              利用規約・プライバシーの考え方
+            </Typography>
           </Link>
-          <Link href="#" variant="body2" sx={{ mx: 2 }}>
-            外部送信規律事項の公表等について
+          <Link href="#">
+            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
+              外部送信規律事項の公表等について
+            </Typography>
           </Link>
-          <Link href="#" variant="body2" sx={{ mx: 2 }}>
-            特定商取引法に関する表記
+          <Link href="#">
+            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
+              特定商取引法に関する表記
+            </Typography>
           </Link>
         </Box>
         <Box>
-          <Typography component="p">© hoken-second-opinion.com 2024</Typography>
+          <Typography component="p" variant="body2">
+            © hoken-second-opinion.com 2024
+          </Typography>
         </Box>
       </Container>
     </Box>
