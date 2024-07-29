@@ -8,45 +8,53 @@ const Footer = () => {
       sx={{
         // width: '50%',
         backgroundColor: '#EEEEEE',
-        p: 5,
         display: 'flex',
       }}
     >
       <Container maxWidth="lg">
         <Box
           sx={{
-            mb: 6,
             display: 'flex',
           }}
         >
           {/* 後で以下リンク先ページを作成する */}
-          <Link href="#">
-            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
-              よくあるお問合せ・ヘルプ
-            </Typography>
-          </Link>
-          <Link href="#">
-            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
-              お問い合わせ窓口
-            </Typography>
-          </Link>
-          <Link href="#">
-            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
-              利用規約・プライバシーの考え方
-            </Typography>
-          </Link>
-          <Link href="#">
-            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
-              外部送信規律事項の公表等について
-            </Typography>
-          </Link>
-          <Link href="#">
-            <Typography component="p" variant="body2" sx={{ mx: 1 }}>
-              特定商取引法に関する表記
-            </Typography>
-          </Link>
+          <Box sx={{ m: 2 }}>
+            <Link href="#">
+              <Typography component="p" variant="body2">
+                よくあるお問合せ・ヘルプ
+              </Typography>
+            </Link>
+          </Box>
+          <Box sx={{ m: 2 }}>
+            <Link href="#">
+              <Typography component="p" variant="body2">
+                お問い合わせ窓口
+              </Typography>
+            </Link>
+          </Box>
+          <Box sx={{ m: 2 }}>
+            <Link href="#">
+              <Typography component="p" variant="body2">
+                利用規約・プライバシーの考え方
+              </Typography>
+            </Link>
+          </Box>
+          <Box sx={{ m: 2 }}>
+            <Link href="#">
+              <Typography component="p" variant="body2">
+                外部送信規律事項の公表等について
+              </Typography>
+            </Link>
+          </Box>
+          <Box sx={{ m: 2 }}>
+            <Link href="#">
+              <Typography component="p" variant="body2">
+                特定商取引法に関する表記
+              </Typography>
+            </Link>
+          </Box>
         </Box>
-        <Box>
+        <Box sx={{ m: 2 }}>
           <Typography component="p" variant="body2">
             © hoken-second-opinion.com 2024
           </Typography>
