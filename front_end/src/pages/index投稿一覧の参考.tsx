@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import ArticleCard from '@/components/ArticleCard'
-import { styles } from '@/styles'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
+import { styles } from '@/styles'
 import { fetcher } from '@/utils'
 
 type ArticleProps = {

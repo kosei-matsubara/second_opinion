@@ -67,7 +67,7 @@ const Header = () => {
         py: '12px',
       }}
     >
-      <Container maxWidth="lg" sx={{ px: 2 }}>
+      <Container maxWidth="lg">
         <Box
           sx={{
             display: 'flex',
@@ -75,9 +75,11 @@ const Header = () => {
             alignItems: 'center',
           }}
         >
-          <Box>
+          <Box sx={{ m: 2 }}>
             <Link href="/">
-              <Image src="/logo.png" width={133} height={40} alt="logo" />
+              <Typography component="p" variant="h4">
+                保険のセカンドオピニオン
+              </Typography>
             </Link>
           </Box>
           {user.isFetched && (
@@ -97,7 +99,7 @@ const Header = () => {
                         boxShadow: 'none',
                       }}
                     >
-                      Sign in
+                      ログイン
                     </Button>
                   </Link>
                   <Link href="/sign_up">
@@ -113,7 +115,7 @@ const Header = () => {
                         ml: 2,
                       }}
                     >
-                      Sign Up
+                      会員登録
                     </Button>
                   </Link>
                 </Box>
@@ -140,7 +142,7 @@ const Header = () => {
                       }}
                       onClick={addNewArticle}
                     >
-                      Add new
+                      保険相談を投稿
                     </Button>
                   </Box>
                   <Menu
