@@ -1,6 +1,9 @@
 import ArticleIcon from '@mui/icons-material/Article'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import Logout from '@mui/icons-material/Logout'
 import PersonIcon from '@mui/icons-material/Person'
+import MessageIcon from '@mui/icons-material/Message'
+import LoginIcon from '@mui/icons-material/Login'
 import {
   AppBar,
   Avatar,
@@ -61,10 +64,9 @@ const Header = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: 'white',
-        color: 'black',
+        backgroundColor: '#FFFFFF',
         boxShadow: 'none',
-        py: '12px',
+        color: '#000000',
       }}
     >
       <Container maxWidth="lg">
@@ -77,7 +79,7 @@ const Header = () => {
         >
           <Box sx={{ m: 2 }}>
             <Link href="/">
-              <Typography component="p" variant="h4">
+              <Typography component="p" variant="h5">
                 保険のセカンドオピニオン
               </Typography>
             </Link>
@@ -89,32 +91,40 @@ const Header = () => {
                 <Box>
                   <Link href="/sign_in">
                     <Button
-                      color="primary"
                       variant="contained"
                       sx={{
-                        color: 'white',
+                        width: 130,
+                        boxShadow: 'none',
+                        border: '1.5px solid #D10E0E',
+                        borderRadius: 1,
+                        m: 1,
                         textTransform: 'none',
                         fontSize: 16,
-                        borderRadius: 2,
-                        boxShadow: 'none',
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
                       }}
                     >
+                      <LoginIcon fontSize="small" sx={{ m: 0.5 }} />
                       ログイン
                     </Button>
                   </Link>
                   <Link href="/sign_up">
                     <Button
-                      color="primary"
-                      variant="outlined"
+                      variant="text"
                       sx={{
+                        width: 130,
+                        backgroundColor: '#FFFFFF',
+                        boxShadow: 'none',
+                        border: '1.5px solid #000000',
+                        borderRadius: 1,
+                        m: 1,
                         textTransform: 'none',
                         fontSize: 16,
-                        borderRadius: 2,
-                        boxShadow: 'none',
-                        border: '1.5px solid #3EA8FF',
-                        ml: 2,
+                        fontWeight: 'bold',
+                        color: '#000000',
                       }}
                     >
+                      <PersonAddIcon fontSize="small" sx={{ m: 0.5 }} />
                       会員登録
                     </Button>
                   </Link>
@@ -123,12 +133,7 @@ const Header = () => {
               {/* ユーザー認証済のHeader表示内容 */}
               {user.isSignedIn && (
                 <Box sx={{ display: 'flex' }}>
-                  <IconButton onClick={handleClick} sx={{ p: 0 }}>
-                    <Avatar>
-                      <PersonIcon />
-                    </Avatar>
-                  </IconButton>
-                  <Box sx={{ ml: 2 }}>
+                  <Box sx={{ m: 1 }}>
                     <Button
                       color="primary"
                       variant="contained"
@@ -137,14 +142,20 @@ const Header = () => {
                         textTransform: 'none',
                         fontSize: 16,
                         borderRadius: 2,
-                        width: 100,
+                        width: 190,
                         boxShadow: 'none',
                       }}
                       onClick={addNewArticle}
                     >
+                      <MessageIcon fontSize="small" sx={{ m: 0.5 }} />
                       保険相談を投稿
                     </Button>
                   </Box>
+                  <IconButton onClick={handleClick} sx={{ mx: 1 }}>
+                    <Avatar>
+                      <PersonIcon />
+                    </Avatar>
+                  </IconButton>
                   <Menu
                     anchorEl={anchorEl}
                     id="account-menu"
@@ -154,7 +165,7 @@ const Header = () => {
                   >
                     <Box sx={{ pl: 2, py: 1 }}>
                       <Typography sx={{ fontWeight: 'bold' }}>
-                        {user.name}
+                        {user.name} 様
                       </Typography>
                     </Box>
                     <Divider />

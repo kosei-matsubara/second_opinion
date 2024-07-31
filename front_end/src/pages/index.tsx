@@ -1,3 +1,5 @@
+import ArticleIcon from '@mui/icons-material/Article'
+import SearchIcon from '@mui/icons-material/Search'
 import {
   Box,
   Button,
@@ -6,6 +8,9 @@ import {
   Typography,
   Card,
   CardContent,
+  ListItemIcon,
+  Menu,
+  MenuItem,
 } from '@mui/material'
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -77,6 +82,7 @@ const Index: NextPage = () => {
                     color: '#000000',
                   }}
                 >
+                  <SearchIcon fontSize="small" sx={{ m: 0.5 }} />
                   保険のプロを探す
                 </Button>
               </Link>
