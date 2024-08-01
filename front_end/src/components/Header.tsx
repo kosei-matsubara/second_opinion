@@ -1,9 +1,9 @@
 import ArticleIcon from '@mui/icons-material/Article'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
-import Logout from '@mui/icons-material/Logout'
-import PersonIcon from '@mui/icons-material/Person'
-import MessageIcon from '@mui/icons-material/Message'
 import LoginIcon from '@mui/icons-material/Login'
+import Logout from '@mui/icons-material/Logout'
+import MessageIcon from '@mui/icons-material/Message'
+import PersonIcon from '@mui/icons-material/Person'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import {
   AppBar,
   Avatar,
@@ -26,21 +26,15 @@ import { useUserState } from '@/hooks/useGlobalState'
 
 const Header = () => {
   const [user] = useUserState()
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null) // メニューモーダルの開閉を判定する
+  const open = Boolean(anchorEl) // メニューモーダルの開閉を判定する
   const router = useRouter()
 
   // 記事編集画面ではnullをreturnしてHeaderを非表示にする
   const hideHeaderPathnames = ['/current/articles/edit/[id]']
-  if (hideHeaderPathnames.includes(router.pathname)) return <></>
+  if (hideHeaderPathnames.includes(router.pathname)) return <div></div>
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
+  // 「保険相談を投稿」を押下時の処理を定義する
   const addNewArticle = () => {
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles'
 
@@ -60,6 +54,14 @@ const Header = () => {
       })
   }
 
+  // クリックされた要素の位置を保存、メニューの表示位置を設定する
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
   return (
     <AppBar
       position="static"
@@ -77,7 +79,7 @@ const Header = () => {
             alignItems: 'center',
           }}
         >
-          <Box sx={{ m: 2 }}>
+          <Box sx={{ m: 1 }}>
             <Link href="/">
               <Typography component="p" variant="h5">
                 保険のセカンドオピニオン
@@ -88,12 +90,12 @@ const Header = () => {
             <div>
               {/* ユーザー未認証のHeader表示内容 */}
               {!user.isSignedIn && (
-                <Box>
+                <Box sx={{ display: 'flex' }}>
                   <Link href="/sign_in">
                     <Button
                       variant="contained"
                       sx={{
-                        width: 130,
+                        width: 150,
                         boxShadow: 'none',
                         border: '1.5px solid #D10E0E',
                         borderRadius: 1,
@@ -105,14 +107,14 @@ const Header = () => {
                       }}
                     >
                       <LoginIcon fontSize="small" sx={{ m: 0.5 }} />
-                      ログイン
+                      サインイン
                     </Button>
                   </Link>
                   <Link href="/sign_up">
                     <Button
                       variant="text"
                       sx={{
-                        width: 130,
+                        width: 150,
                         backgroundColor: '#FFFFFF',
                         boxShadow: 'none',
                         border: '1.5px solid #000000',
@@ -133,24 +135,23 @@ const Header = () => {
               {/* ユーザー認証済のHeader表示内容 */}
               {user.isSignedIn && (
                 <Box sx={{ display: 'flex' }}>
-                  <Box sx={{ m: 1 }}>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      sx={{
-                        color: 'white',
-                        textTransform: 'none',
-                        fontSize: 16,
-                        borderRadius: 2,
-                        width: 190,
-                        boxShadow: 'none',
-                      }}
-                      onClick={addNewArticle}
-                    >
-                      <MessageIcon fontSize="small" sx={{ m: 0.5 }} />
-                      保険相談を投稿
-                    </Button>
-                  </Box>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: 180,
+                      boxShadow: 'none',
+                      border: '1.5px solid #D10E0E',
+                      borderRadius: 1,
+                      m: 1,
+                      textTransform: 'none',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}
+                    onClick={addNewArticle}
+                  >
+                    <MessageIcon fontSize="small" sx={{ m: 0.5 }} />
+                    保険相談を投稿
+                  </Button>
                   <IconButton onClick={handleClick} sx={{ mx: 1 }}>
                     <Avatar>
                       <PersonIcon />

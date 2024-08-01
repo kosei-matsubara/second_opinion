@@ -86,6 +86,27 @@ const Index: NextPage = () => {
                   保険のプロを探す
                 </Button>
               </Link>
+              <Link href="/articlelist">
+                <Button
+                  variant="text"
+                  sx={{
+                    backgroundColor: '#FFFFFF',
+                    boxShadow: 'none',
+                    border: '1.5px solid #000000',
+                    borderRadius: 1,
+                    m: 2,
+                    px: 3,
+                    py: 2,
+                    textTransform: 'none',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    color: '#000000',
+                  }}
+                >
+                  <SearchIcon fontSize="small" sx={{ m: 0.5 }} />
+                  保険の相談を探す
+                </Button>
+              </Link>
             </Box>
           </Box>
           <Box

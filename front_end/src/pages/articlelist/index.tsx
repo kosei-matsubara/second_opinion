@@ -1,4 +1,4 @@
-import { Box, Grid, Container, Pagination } from '@mui/material'
+import { Box, Grid, Container, Pagination, Typography } from '@mui/material'
 import camelcaseKeys from 'camelcase-keys'
 import type { NextPage } from 'next'
 import Link from 'next/link'
@@ -40,6 +40,10 @@ const Index: NextPage = () => {
   return (
     <Box css={styles.pageMinHeight} sx={{ backgroundColor: '#e6f2ff' }}>
       <Container maxWidth="md" sx={{ pt: 6 }}>
+        {/* 検索ヒット件数を表示 */}
+        <Typography variant="h6" sx={{ mb: 4 }}>
+          {meta.totalCount}件見つかりました
+        </Typography>
         <Grid container spacing={4}>
           {articles.map((article: ArticleProps, i: number) => (
             <Grid key={i} item xs={12} md={6}>
