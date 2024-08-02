@@ -1,4 +1,3 @@
-import ArticleIcon from '@mui/icons-material/Article'
 import SearchIcon from '@mui/icons-material/Search'
 import {
   Box,
@@ -8,9 +7,6 @@ import {
   Typography,
   Card,
   CardContent,
-  ListItemIcon,
-  Menu,
-  MenuItem,
 } from '@mui/material'
 import type { NextPage } from 'next'
 import Head from 'next/head'

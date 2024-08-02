@@ -9,6 +9,8 @@ import Error from '@/components/Error'
 import Loading from '@/components/Loading'
 import { styles } from '@/styles'
 import { fetcher } from '@/utils'
+import Breadcrumbs from '@/components/Breadcrumbs'
+
 
 type ArticleProps = {
   id: number
@@ -39,9 +41,15 @@ const Index: NextPage = () => {
 
   return (
     <Box css={styles.pageMinHeight} sx={{ backgroundColor: '#e6f2ff' }}>
-      <Container maxWidth="md" sx={{ pt: 6 }}>
-        {/* 検索ヒット件数を表示 */}
-        <Typography variant="h6" sx={{ mb: 4 }}>
+      <Box>
+        <Typography>
+          保険の相談一覧
+        </Typography>
+      </Box>
+      <Container maxWidth="md">
+        <Breadcrumbs />
+        {/* 検索該当件数を表示 */}
+        <Typography component="p" variant="h6" sx={{ m: 2 }}>
           {meta.totalCount}件見つかりました
         </Typography>
         <Grid container spacing={4}>
