@@ -46,15 +46,15 @@ const Breadcrumbs: React.FC = () => {
 
         return isLast ? (
           // 最終要素の場合はテキストとして表示する
-          <Box sx={{ my: 2 }}>
-            <Typography key={href} sx={{ fontSize: 16, color: '#000000' }}>
+          <Box key={href} sx={{ my: 2 }}>
+            <Typography sx={{ fontSize: 16, color: '#000000' }}>
               {translatePathname(value)}
             </Typography>
           </Box>
         ) : (
           // 最終要素・ホーム要素以外をリンクとして表示する
-          <Box sx={{ my: 2, fontSize: 16, color: '#000000' }}>
-            <Link href={href} key={href} color="inherit" underline="hover">
+          <Box key={href} sx={{ my: 2, fontSize: 16, color: '#000000' }}>
+            <Link href={href} color="inherit" underline="hover">
               {translatePathname(value)}
             </Link>
           </Box>
