@@ -221,6 +221,7 @@ const CurrentArticlesEdit: NextPage = () => {
         maxWidth="lg"
         sx={{ pt: 11, pb: 3, display: 'flex', justifyContent: 'center' }}
       >
+        {/* 編集モードの画面を定義する */}
         {!previewChecked && (
           <Box sx={{ width: 840 }}>
             <Box sx={{ mb: 2 }}>
@@ -261,6 +262,7 @@ const CurrentArticlesEdit: NextPage = () => {
             </Box>
           </Box>
         )}
+        {/* プレビュー表示の表示内容を定義する */}
         {previewChecked && (
           <Box sx={{ width: 840 }}>
             <Typography
