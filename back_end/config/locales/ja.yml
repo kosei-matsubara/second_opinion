@@ -1,9 +1,11 @@
+
 ja:
   activerecord:
     attributes:
       article:
         title: タイトル
-        content: 本文
+        background: 背景
+        content: 質問
   enums:
     article:
       status:
