@@ -3,7 +3,12 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
 
   def index
     articles = current_user.articles.not_unsaved.order(created_at: :desc)
-    render json: articles
+
+    # 合計件数を取得する
+    total_count = articles.count
+
+    # メタ情報に合計件数を含める
+    render json: articles, meta: { total_count: total_count }
   end
 
   def show
@@ -12,8 +17,8 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
   end
 
   def create
-    # 未保存ステータスの記事が存在すれば当該レコードをレスポンスする
-    # 未保存ステータスの記事が存在しない場合は未保存記事を新規作成してレスポンスする
+    # 未保存ステータスの相談が存在する場合は該当レコードを返す
+    # 未保存ステータスの相談が存在しない場合は未保存相談を新規作成する
     unsaved_article = current_user.articles.unsaved.first || current_user.articles.create!(status: :unsaved)
     render json: unsaved_article
   end
@@ -27,6 +32,7 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
   private
 
     def article_params
-      params.require(:article).permit(:title, :content, :status)
+      # params.require(:article).permit(:title, :content, :status) 修正前
+      params.require(:article).permit(:categories, :title, :background, :content, :status)
     end
 end

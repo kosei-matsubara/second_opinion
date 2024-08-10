@@ -2,10 +2,12 @@ class ArticleSerializer < ActiveModel::Serializer
   attributes :id, :categories, :title, :background, :content, :status, :created_at, :from_today
   belongs_to :user, serializer: UserSerializer
 
+  # ステータスの翻訳を取得する
   def status
     object.status_i18n
   end
 
+  # 相談作成日をフォーマットする
   def created_at
     object.created_at.strftime("%Y/%m/%d")
   end
