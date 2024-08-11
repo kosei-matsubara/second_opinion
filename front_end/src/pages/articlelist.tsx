@@ -15,11 +15,10 @@ import { fetcher } from '@/utils'
 type ArticleProps = {
   id: number
   title: string
+  categories: string
+  background: string
   createdAt: string
   fromToday: string
-  user: {
-    name: string
-  }
 }
 
 const ArticleList: NextPage = () => {
@@ -72,15 +71,17 @@ const ArticleList: NextPage = () => {
           </Box>
           <Grid
             sx={{ my: 1, display: 'flex', justifyContent: 'center' }}
-            container spacing={4}
+            container
+            spacing={4}
           >
             {articles.map((article: ArticleProps, i: number) => (
-              <Grid key={i} item xs={10} lg={11}>
+              <Grid key={i} item xs={7} lg={8}>
                 <Link href={'/articles/' + article.id}>
                   <ArticleCard
                     title={article.title}
+                    categories={article.categories}
+                    background={article.background}
                     fromToday={article.fromToday}
-                    userName={article.user.name}
                   />
                 </Link>
               </Grid>

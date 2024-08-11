@@ -9,6 +9,7 @@ const Confirmation: NextPage = () => {
   const [, setSnackbar] = useSnackbarState()
 
   useEffect(() => {
+    // ルーターが準備中の場合は処理を実行しない
     if (!router.isReady) {
       return
     }
@@ -40,11 +41,11 @@ const Confirmation: NextPage = () => {
         severity: 'error',
         pathname: '/',
       })
-      router.push('/')
+      router.push('/') // エラー時のリダイレクト
     }
   }, [router, setSnackbar])
 
-  return <></>
+  return <></> // UIをレンダリングしない場合はnullを返す
 }
 
 export default Confirmation

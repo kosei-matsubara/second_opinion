@@ -8,6 +8,7 @@ const SuccessSnackbar = () => {
   const [snackbar, setSnackbar] = useSnackbarState()
   const [open, setOpen] = useState(false)
 
+  // Snackbarを表示する条件を監視する
   useEffect(() => {
     if (snackbar.pathname == router.pathname) {
       setOpen(true)
@@ -22,16 +23,17 @@ const SuccessSnackbar = () => {
     if (reason === 'clickaway') {
       return
     }
+    // Snackbarを閉じる
     setOpen(false)
+    // Snackbarの状態をリセットする
     setSnackbar({ message: null, severity: null, pathname: null })
   }
 
   return (
     <div>
       {snackbar.severity != null && (
-        // 表示内容を確認するため一時的にautoHideDurationを2000から20000に延伸している
-        <Snackbar open={open} autoHideDuration={20000} onClose={handleClose}>
-        <Alert
+        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+          <Alert
             onClose={handleClose}
             severity={snackbar.severity}
             sx={{ width: '100%' }}

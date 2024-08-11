@@ -12,7 +12,7 @@ import Snackbar from '@/components/Snackbar'
 import createEmotionCache from '@/styles/createEmotionCache'
 import theme from '@/styles/theme'
 
-// Client-side cache, shared for the whole session of the user in the browser.
+// クライアント側で使用するEmotionのキャッシュを作成する
 const clientSideEmotionCache = createEmotionCache()
 
 interface MyAppProps extends AppProps {
