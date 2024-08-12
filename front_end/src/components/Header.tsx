@@ -30,8 +30,8 @@ const Header = () => {
   const open = Boolean(anchorEl) // メニューモーダルの開閉を判定する
   const router = useRouter()
 
-  // 記事編集画面ではnullをreturnしてHeaderを非表示にする
-  const hideHeaderPathnames = ['/current/articles/edit/[id]']
+  // 以下URLにおいてnullをreturnしてHeaderを非表示後、個別画面用のHeaderを表示する
+  const hideHeaderPathnames = ['/current/articles/edit/[id]'] // 相談編集画面
   if (hideHeaderPathnames.includes(router.pathname)) return <div></div>
 
   // 「保険相談を投稿」を押下時の処理を定義する

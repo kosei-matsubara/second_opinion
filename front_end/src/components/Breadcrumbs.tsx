@@ -12,9 +12,7 @@ import React from 'react'
 const pathToJapanese: { [key: string]: string } = {
   'home': 'ホーム',
   'articlelist': '保険の相談一覧',
-  'contact': '連絡先',
-  'products': '製品',
-  'services': 'サービス',
+  'edit': '保険相談を入力する',
   // パス名を追加する場合に日本語パス名を追加する
 }
 
@@ -22,6 +20,14 @@ const pathToJapanese: { [key: string]: string } = {
 const translatePathname = (pathname: string): string => {
   return pathToJapanese[pathname] || pathname
 }
+
+// パンくずリストに含めないパス名リスト
+const negativeList: string[] = [
+  'current',
+  'articles',
+  '[id]',
+  // 生成URLから除外する階層パスを追加する
+]
 
 const Breadcrumbs: React.FC = () => {
   const router = useRouter()
@@ -38,28 +44,31 @@ const Breadcrumbs: React.FC = () => {
         </Link>
       </Box>
 
-      {pathnames.map((value, index) => {
-        // ホーム要素以降（2階層以降）の絶対パスを生成する
-        const href = `/${pathnames.slice(0, index + 1).join('/')}`
-        // 最終要素を判定する
-        const isLast = index === pathnames.length - 1
+      {pathnames
+        // パンくずリストに含めないパスをフィルタリングする
+        .filter((value) => !negativeList.includes(value))
+        .map((value, index) => {
+          // ホーム要素以降（2階層以降）の絶対パスを生成する
+          const href = `/${pathnames.slice(0, index + 1).join('/')}`
+          // 最終要素を判定する
+          const isLast = index === pathnames.length - 1
 
-        return isLast ? (
-          // 最終要素の場合はテキストとして表示する
-          <Box key={href} sx={{ my: 2 }}>
-            <Typography sx={{ fontSize: 16, color: '#000000' }}>
-              {translatePathname(value)}
-            </Typography>
-          </Box>
-        ) : (
-          // 最終要素・ホーム要素以外をリンクとして表示する
-          <Box key={href} sx={{ my: 2, fontSize: 16, color: '#000000' }}>
-            <Link href={href} color="inherit" underline="hover">
-              {translatePathname(value)}
-            </Link>
-          </Box>
-        )
-      })}
+          return isLast ? (
+            // 最終要素の場合はテキストとして表示する
+            <Box key={href} sx={{ my: 2 }}>
+              <Typography sx={{ fontSize: 16, color: '#000000' }}>
+                {translatePathname(value)}
+              </Typography>
+            </Box>
+          ) : (
+            // 最終要素・ホーム要素以外をリンクとして表示する
+            <Box key={href} sx={{ my: 2, fontSize: 16, color: '#000000' }}>
+              <Link href={href} color="inherit" underline="hover">
+                {translatePathname(value)}
+              </Link>
+            </Box>
+          )
+        })}
     </MUIBreadcrumbs>
   )
 }

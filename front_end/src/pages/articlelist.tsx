@@ -1,3 +1,4 @@
+import { FilterList } from '@mui/icons-material'
 import { Box, Grid, Container, Pagination, Typography } from '@mui/material'
 import camelcaseKeys from 'camelcase-keys'
 import type { NextPage } from 'next'
@@ -65,6 +66,7 @@ const ArticleList: NextPage = () => {
               justifyContent: 'right',
             }}
           >
+            <FilterList fontSize="small" sx={{ m: 0.5 }} />
             <Typography component="p" variant="h6">
               新着順
             </Typography>
