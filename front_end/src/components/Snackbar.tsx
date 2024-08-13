@@ -32,7 +32,16 @@ const SuccessSnackbar = () => {
   return (
     <div>
       {snackbar.severity != null && (
-        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Snackbar
+          open={open}
+          autoHideDuration={2000}
+          onClose={handleClose}
+          // 表示画面やScrollToTopなどの表示と重複させないため、snackbarの表示位置を左下にする
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+        >
           <Alert
             onClose={handleClose}
             severity={snackbar.severity}

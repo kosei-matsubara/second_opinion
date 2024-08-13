@@ -1,3 +1,4 @@
+import WarningIcon from '@mui/icons-material/Warning';
 import { LoadingButton } from '@mui/lab'
 import {
   AppBar,
@@ -5,9 +6,9 @@ import {
   Card,
   Container,
   TextField,
-  Toolbar,
   Typography,
 } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
 import axios, { AxiosError } from 'axios'
 import type { NextPage } from 'next'
 import Link from 'next/link'
@@ -16,21 +17,28 @@ import { useEffect, useState, useMemo } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import useSWR from 'swr'
 import Breadcrumbs from '@/components/Breadcrumbs'
+import { categoryOptions } from '@/components/CategoryOptions'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
 import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
 import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
 import { styles } from '@/styles'
 import { fetcher } from '@/utils'
+import { Warning } from '@mui/icons-material';
+
 
 type ArticleProps = {
+  categories: string
   title: string
+  background: string
   content: string
   status: string
 }
 
 type ArticleFormData = {
+  categories: string
   title: string
+  background: string
   content: string
 }
 
@@ -54,20 +62,28 @@ const CurrentArticlesEdit: NextPage = () => {
     // 相談データが存在しない場合、nullのデータを生成する
     if (!data) {
       return {
+        categories: '',
         title: '',
+        background: '',
         content: '',
         status: 'draft',
       }
     }
     // 相談データが存在する場合、存在するデータをセットする
     return {
+      categories: data.categories == null ? '' : data.categories,
       title: data.title == null ? '' : data.title,
+      background: data.background == null ? '' : data.background,
       content: data.content == null ? '' : data.content,
       status: data.status,
     }
   }, [data])
 
   // const { handleSubmit, control, reset, watch } = useForm<ArticleFormData>({ 修正前
+  // useFormフックを呼び出しformの状態と動作を管理する
+  // handleSubmit: form送信時に呼び出す関数
+  // control: form・fieldを管理するオブジェクト
+  // reset: formの状態を初期化またはリセットする関数
   const { handleSubmit, control, reset } = useForm<ArticleFormData>({
     defaultValues: article,
   })
@@ -81,11 +97,55 @@ const CurrentArticlesEdit: NextPage = () => {
     }
   }, [data, article, reset])
 
-  // form入力データの事前チェックをする
+  // fieldのvalidationを定義する
+  const validationRules = {
+    categories: {
+      required: 'カテゴリは必須入力です',
+    },
+    title: {
+      required: '相談タイトルは必須入力です',
+      maxLength: {
+        value: 50,
+        message: '相談タイトルは50文字以内で入力してください',
+      },
+    },
+    background: {
+      required: '相談の背景は必須入力です',
+      maxLength: {
+        value: 600,
+        message: '相談の背景は600文字以内で入力してください',
+      },
+    },
+    content: {
+      required: '質問は必須入力です',
+      maxLength: {
+        value: 100,
+        message: '質問は100文字以内で入力してください',
+      },
+    },
+  }
+
+  // form入力データの未入力チェックをする
   const onSubmit: SubmitHandler<ArticleFormData> = (formData) => {
+    if (formData.categories == '') {
+      return setSnackbar({
+        message: 'カテゴリが未入力です',
+        severity: 'error',
+        pathname: '/current/articles/edit/[id]',
+      })
+    }
+
     if (formData.title == '') {
       return setSnackbar({
-        message: '記事の保存にはタイトルが必要です',
+        message: '相談タイトルが未入力です',
+        severity: 'error',
+        pathname: '/current/articles/edit/[id]',
+      })
+    }
+
+    if (formData.background == '') {
+      return setSnackbar({
+        message: '相談の背景が未入力です',
         severity: 'error',
         pathname: '/current/articles/edit/[id]',
       })
@@ -93,7 +153,7 @@ const CurrentArticlesEdit: NextPage = () => {
 
     if (formData.content == '') {
       return setSnackbar({
-        message: '本文なしの記事は公開はできません',
+        message: '質問が未入力です',
         severity: 'error',
         pathname: '/current/articles/edit/[id]',
       })
@@ -124,8 +184,9 @@ const CurrentArticlesEdit: NextPage = () => {
       headers: headers,
     })
       .then(() => {
+        // 後ほど相談投稿完了の専用画面に遷移させる 課題
         setSnackbar({
-          message: '記事を保存しました',
+          message: '相談を投稿しました',
           severity: 'success',
           pathname: '/current/articles/edit/[id]',
         })
@@ -133,7 +194,7 @@ const CurrentArticlesEdit: NextPage = () => {
       .catch((err: AxiosError<{ error: string }>) => {
         console.log(err.message)
         setSnackbar({
-          message: '記事の保存に失敗しました',
+          message: '相談の投稿に失敗しました',
           severity: 'error',
           pathname: '/current/articles/edit/[id]',
         })
@@ -170,53 +231,142 @@ const CurrentArticlesEdit: NextPage = () => {
       </AppBar>
       <Container maxWidth="md">
         <Breadcrumbs />
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ my: 2 }}>
           <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold' }}>
             保険相談を入力する
           </Typography>
         </Box>
         <Box
           sx={{
-            pt: 11,
-            pb: 3,
+            backgroundColor: '#FFFFCC',
+            p: 2,
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <Box sx={{ mb: 2 }}>
-            {/* 相談タイトル入力フィールド */}
+          <WarningIcon fontSize="large" sx={{ mx: 1, color: '#FF9900' }} />
+          <Typography component="p" variant="body1">
+            相談内容はどなたでもご覧になれますので、個人を特定されることのないよう入力内容は十分ご注意ください。また、投稿後の修正・削除はできませんのでご注意ください。
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            my: 4,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0px 10px',
+            }}
+          >
+            <Typography component="p" variant="h6">
+              相談カテゴリ
+            </Typography>
+            <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+              必須
+            </Typography>
+          </Box>
+          <Box sx={{ mb: 8 }}>
+            {/* カテゴリ入力field */}
+            <Controller
+              name="categories"
+              control={control}
+              rules={validationRules.categories}
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  select
+                  value={field.value}
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
+                  fullWidth
+                  placeholder="カテゴリを入力"
+                >
+                  {/* 外部ファイルからimportしたカテゴリオプションを表示する */}
+                  {Object.entries(categoryOptions).map(([key, label]) => (
+                    <MenuItem key={key} value={key}>
+                      {label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0px 10px',
+            }}
+          >
+            <Typography component="p" variant="h6">
+              相談タイトル
+            </Typography>
+            <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+              必須
+            </Typography>
+            <Typography component="p" variant="body1">
+              （50文字以内）
+            </Typography>
+          </Box>
+          <Box sx={{ mb: 8 }}>
+            {/* 相談タイトル入力field */}
             <Controller
               name="title"
               control={control}
+              rules={validationRules.title}
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
                   type="text"
                   error={fieldState.invalid}
                   helperText={fieldState.error?.message}
-                  placeholder="相談タイトルを入力"
                   fullWidth
-                  sx={{ backgroundColor: 'white' }}
+                  placeholder="相談タイトルを入力"
                 />
               )}
             />
           </Box>
-          <Box>
+          <Box sx={{ mb: 8 }}>
+            {/* 相談の背景入力field */}
             <Controller
-              name="content"
+              name="background"
               control={control}
+              rules={validationRules.background}
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
-                  type="textarea"
+                  type="text"
                   error={fieldState.invalid}
                   helperText={fieldState.error?.message}
                   multiline
+                  rows={10}
                   fullWidth
-                  placeholder="Write in Markdown Text"
-                  rows={25}
-                  sx={{ backgroundColor: 'white' }}
+                  placeholder="相談の背景を入力"
+                />
+              )}
+            />
+          </Box>
+          <Box sx={{ mb: 8 }}>
+            {/* 質問入力field */}
+            <Controller
+              name="content"
+              control={control}
+              rules={validationRules.content}
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  type="text"
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
+                  multiline
+                  rows={2}
+                  fullWidth
+                  placeholder="質問を入力"
                 />
               )}
             />
@@ -232,7 +382,7 @@ const CurrentArticlesEdit: NextPage = () => {
                 fontSize: { xs: 12, sm: 16 },
               }}
             >
-              更新する
+              投稿する
             </LoadingButton>
           </Box>
         </Box>

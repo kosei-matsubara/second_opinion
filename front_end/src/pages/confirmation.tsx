@@ -45,7 +45,7 @@ const Confirmation: NextPage = () => {
     }
   }, [router, setSnackbar])
 
-  return <></> // UIをレンダリングしない場合はnullを返す
+  return <div></div> // UIをレンダリングしない場合はnullを返す
 }
 
 export default Confirmation

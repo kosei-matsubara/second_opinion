@@ -2,8 +2,9 @@ class Article < ApplicationRecord
   belongs_to :user
   enum :status, { unsaved: 10, draft: 20, published: 30 }, _prefix: true
 
-  # 相談が公開中の場合にバリデーションをする
+  # 相談のステータスが公開中に移行時、バリデーションをする
   with_options if: :published? do
+    validates :categories, presence: true
     validates :title, presence: true, length: { maximum: 50 }
     validates :background, presence: true, length: { maximum: 600 }
     validates :content, presence: true, length: { maximum: 100 }
