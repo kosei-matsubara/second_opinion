@@ -106,7 +106,7 @@ const Header = () => {
                         color: '#FFFFFF',
                       }}
                     >
-                      <LoginIcon fontSize="small" sx={{ m: 0.5 }} />
+                      <LoginIcon fontSize="small" sx={{ mr: 0.5 }} />
                       サインイン
                     </Button>
                   </Link>
@@ -126,7 +126,7 @@ const Header = () => {
                         color: '#000000',
                       }}
                     >
-                      <PersonAddIcon fontSize="small" sx={{ m: 0.5 }} />
+                      <PersonAddIcon fontSize="small" sx={{ mr: 0.5 }} />
                       会員登録
                     </Button>
                   </Link>
@@ -149,7 +149,7 @@ const Header = () => {
                     }}
                     onClick={addNewArticle}
                   >
-                    <MessageIcon fontSize="small" sx={{ m: 0.5 }} />
+                    <MessageIcon fontSize="small" sx={{ mr: 0.5 }} />
                     保険相談を投稿
                   </Button>
                   <IconButton onClick={handleClick} sx={{ mx: 1 }}>

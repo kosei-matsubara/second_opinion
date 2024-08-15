@@ -12,7 +12,7 @@ import React from 'react'
 const pathToJapanese: { [key: string]: string } = {
   'home': 'ホーム',
   'articlelist': '保険の相談一覧',
-  'edit': '保険相談を入力する',
+  'edit': '保険相談',
   // パス名を追加する場合に日本語パス名を追加する
 }
 

@@ -78,7 +78,7 @@ const Index: NextPage = () => {
                     color: '#000000',
                   }}
                 >
-                  <SearchIcon fontSize="small" sx={{ m: 0.5 }} />
+                  <SearchIcon fontSize="small" sx={{ mr: 0.5 }} />
                   保険のプロを探す
                 </Button>
               </Link>
@@ -99,7 +99,7 @@ const Index: NextPage = () => {
                     color: '#000000',
                   }}
                 >
-                  <SearchIcon fontSize="small" sx={{ m: 0.5 }} />
+                  <SearchIcon fontSize="small" sx={{ mr: 0.5 }} />
                   保険の相談を探す
                 </Button>
               </Link>

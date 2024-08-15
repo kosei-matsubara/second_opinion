@@ -1,11 +1,20 @@
-import InfoIcon from '@mui/icons-material/Info'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import InfoIcon from '@mui/icons-material/Info'
+import SendIcon from '@mui/icons-material/Send'
 import WarningIcon from '@mui/icons-material/Warning'
 import { LoadingButton } from '@mui/lab'
 import {
   AppBar,
   Box,
   Container,
+
+// ステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバー
+  Stepper,
+  Step,
+  StepLabel,
+
+
   TextField,
   Typography,
   Button,
@@ -26,6 +35,14 @@ import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
 import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
 import { styles } from '@/styles'
 import { fetcher } from '@/utils'
+
+// ステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバー
+const steps = ['相談内容入力', '相談内容確認', '相談投稿完了']
+
+
+
+
+
 
 type ArticleProps = {
   categories: string
@@ -50,6 +67,18 @@ const CurrentArticlesEdit: NextPage = () => {
   const [isFetched, setIsFetched] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [previewChecked, setPreviewChecked] = useState<boolean>(false)
+
+
+// ステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバー
+  const [activeStep, setActiveStep] = useState(1)
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  }
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+  }
+
 
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/'
   const { id } = router.query
@@ -80,12 +109,8 @@ const CurrentArticlesEdit: NextPage = () => {
     }
   }, [data])
 
-  // useFormフックを呼び出しformの状態と動作を管理する
-  // handleSubmit: form送信時に呼び出す関数
-  // control: form・fieldを管理するオブジェクト
-  // reset: formの状態を初期化またはリセットする関数
-  // watch: form・view情報を管理する関数
-  const { handleSubmit, control, reset, watch } = useForm<ArticleFormData>({
+  // useFormフックを呼び出しユーザー操作に応じてformの状態と動作を管理する
+  const { handleSubmit, control, reset, trigger, watch } = useForm<ArticleFormData>({
     defaultValues: article,
   })
 
@@ -133,6 +158,12 @@ const CurrentArticlesEdit: NextPage = () => {
         message: '質問は100文字以内で入力してください',
       },
     },
+  }
+
+  // バリデーションチェック後にpreview表示に切り替える関数
+  const handleClickButtonValidation = async () => {
+    const isValid = await trigger() // バリデーションを実行後にboolean値を返す
+    isValid ? setPreviewChecked(!previewChecked) : null
   }
 
   // preview表示を切り替える関数
@@ -199,17 +230,14 @@ const CurrentArticlesEdit: NextPage = () => {
       headers: headers,
     })
       .then(() => {
-        // 後ほど相談投稿完了の専用画面に遷移させる 課題
-        setSnackbar({
-          message: '相談を投稿しました',
-          severity: 'success',
-          pathname: '/current/articles/edit/[id]',
-        })
+        handleNext()
+        // 相談投稿完了画面に遷移する
+        router.push('/current/articles/edit_completion')
       })
       .catch((err: AxiosError<{ error: string }>) => {
         console.log(err.message)
         setSnackbar({
-          message: '相談の投稿に失敗しました',
+          message: '相談の投稿が失敗しました',
           severity: 'error',
           pathname: '/current/articles/edit/[id]',
         })
@@ -246,6 +274,17 @@ const CurrentArticlesEdit: NextPage = () => {
       </AppBar>
       <Container maxWidth="md">
         <Breadcrumbs />
+
+
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+
+
         {/* 入力画面を表示する */}
         {!previewChecked && (
           <Box>
@@ -266,7 +305,7 @@ const CurrentArticlesEdit: NextPage = () => {
                 alignItems: 'center',
               }}
             >
-              <WarningIcon fontSize="large" sx={{ mx: 1, color: '#FF9900' }} />
+              <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
               <Typography component="p" variant="body1">
                 相談内容はどなたでもご覧になれます。個人を特定される可能性がある内容の入力はお控えください。また、投稿後の修正・削除はできませんのでご注意ください。
               </Typography>
@@ -292,7 +331,7 @@ const CurrentArticlesEdit: NextPage = () => {
                   必須
                 </Typography>
               </Box>
-              <Box sx={{ mb: 6 }}>
+              <Box sx={{ mb: 2 }}>
                 {/* カテゴリ入力field */}
                 <Controller
                   name="categories"
@@ -317,6 +356,22 @@ const CurrentArticlesEdit: NextPage = () => {
                     </TextField>
                   )}
                 />
+              </Box>
+              <Box
+                sx={{
+                  backgroundColor: '#EEFFFF	',
+                  mb: 6,
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
+                <Typography component="p" variant="body2">
+                  相談カテゴリには、あなたの「詳しく知りたい商品」や「気になる保障内容」を選択する
+                  <br />
+                  相談カテゴリの選択に悩む場合は、「あなたの悩み」に近いと感じる相談カテゴリを選択する
+                </Typography>
               </Box>
               <Box
                 sx={{
@@ -411,9 +466,9 @@ const CurrentArticlesEdit: NextPage = () => {
                   alignItems: 'center',
                 }}
               >
-                <InfoIcon fontSize="large" sx={{ mx: 1, color: '#005FFF' }} />
+                <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
                 <Typography component="p" variant="body2">
-                  相談の背景には自分の健康状態や家族構成などリスクの程度を書く
+                  相談の背景には「自分の健康状態」や「家族構成」などリスクの程度を書く
                   <br />
                   例:20代社会人になり子供はいませんので今のところ大きなリスクに備える必要はないと感じています。
                 </Typography>
@@ -470,7 +525,7 @@ const CurrentArticlesEdit: NextPage = () => {
                   alignItems: 'center',
                 }}
               >
-                <InfoIcon fontSize="large" sx={{ mx: 1, color: '#005FFF' }} />
+                <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
                 <Typography component="p" variant="body2">
                   質問には、あなたの「聞きたいこと」や「希望」を書く
                   <br />
@@ -492,14 +547,13 @@ const CurrentArticlesEdit: NextPage = () => {
                     textTransform: 'none',
                     fontSize: { xs: 12, sm: 16 },
                     fontWeight: 'bold',
-                    display: 'flex',          // 子要素をフレックスボックスでレイアウト
-                    justifyContent: 'center', // 水平方向の中央揃え
-                    alignItems: 'center',
-
                   }}
-                  onClick={handleClickButtonPreview}
+                  onClick={async () => {
+                    await handleClickButtonValidation() // Validationが正常実行後に画面遷移させるためawaitで処理を制御する
+                    handleNext() // ステップバーステップバーステップバーステップバーステップバー
+                  }}
                 >
-                  <CheckCircleIcon fontSize="small" sx={{ mx: 1 }} />
+                  <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} />
                   同意して確認画面に進む
                 </Button>
               </Box>
@@ -509,40 +563,121 @@ const CurrentArticlesEdit: NextPage = () => {
         {/* 入力確認画面を表示する */}
         {previewChecked && (
           <Box>
-            {watch('title')}
+            <Box sx={{ my: 2 }}>
+              <Typography
+                component="h1"
+                variant="h4"
+                sx={{ fontWeight: 'bold' }}
+              >
+                保険相談を確認する
+              </Typography>
+            </Box>
             <Box
               sx={{
+                mt: 6,
+                pb: 20,
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
               }}
             >
-              <Button
-                variant="contained"
-                onClick={handleClickButtonPreview} // プレビュー表示切り替え関数を紐付け
+              <Box>
+                <Typography component="p" variant="h6">
+                  【相談カテゴリ】
+                </Typography>
+              </Box>
+              <Box sx={{ mb: 6 }}>
+                <Typography component="p" variant="body1">
+                  {watch('categories')}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography component="p" variant="h6">
+                  【相談タイトル】
+                </Typography>
+              </Box>
+              <Box sx={{ mb: 6 }}>
+                <Typography component="p" variant="body1">
+                  {watch('title')}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography component="p" variant="h6">
+                  【相談の背景】
+                </Typography>
+              </Box>
+              <Box sx={{ mb: 6 }}>
+                <Typography component="p" variant="body1">
+                  {watch('background')}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography component="p" variant="h6">
+                  【質問】
+                </Typography>
+              </Box>
+              <Box sx={{ mb: 6 }}>
+                <Typography component="p" variant="body1">
+                  {watch('content')}
+                </Typography>
+              </Box>
+              <Box
                 sx={{
-                  fontWeight: 'bold',
-                  fontSize: { xs: 12, sm: 16 },
-                  backgroundColor: previewChecked ? 'green' : 'blue',
+                  backgroundColor: '#FFFFCC',
+                  mb: 6,
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
-                修正する
-              </Button>
-              <LoadingButton
-                variant="contained"
-                type="submit"
-                loading={isLoading}
-                sx={{
-                  width: 250,
-                  boxShadow: 'none',
-                  borderRadius: 1,
-                  textTransform: 'none',
-                  fontSize: { xs: 12, sm: 16 },
-                  fontWeight: 'bold',
-                }}
-              >
-                投稿する
-              </LoadingButton>
+                <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
+                <Typography component="p" variant="body1">
+                  ・投稿後の修正や削除はできませんのでご注意ください。
+                  <br />
+                  ・入力内容に間違いがないことをお確かめのうえ「投稿する」ボタンを押してください。
+                </Typography>
+              </Box>
+              <Box>
+                <Button
+                  variant="text"
+                  sx={{
+                    width: 150,
+                    boxShadow: 'none',
+                    border: '0.5px solid #000000',
+                    borderRadius: 1,
+                    textTransform: 'none',
+                    fontSize: { xs: 12, sm: 16 },
+                    fontWeight: 'bold',
+                    color: '#000000',
+                    position: 'absolute',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                  }}
+                  onClick={handleClickButtonPreview}
+                >
+                  <ArrowBackIcon fontSize="small" sx={{ mr: 1 }} />
+                  修正する
+                </Button>
+                <LoadingButton
+                  type="submit"
+                  loading={isLoading} // Click時にユーザー入力を停止する
+                  variant="contained"
+                  sx={{
+                    width: 150,
+                    boxShadow: 'none',
+                    borderRadius: 1,
+                    textTransform: 'none',
+                    fontSize: { xs: 12, sm: 16 },
+                    fontWeight: 'bold',
+                    position: 'absolute',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    mt: 8,
+                  }}
+                >
+                  投稿する
+                  <SendIcon fontSize="small" sx={{ ml: 1 }} />
+                </LoadingButton>
+              </Box>
             </Box>
           </Box>
         )}
