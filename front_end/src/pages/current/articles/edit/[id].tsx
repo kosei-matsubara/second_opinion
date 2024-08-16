@@ -8,13 +8,9 @@ import {
   AppBar,
   Box,
   Container,
-
-// ステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバー
   Stepper,
   Step,
   StepLabel,
-
-
   TextField,
   Typography,
   Button,
@@ -22,6 +18,7 @@ import {
 import MenuItem from '@mui/material/MenuItem'
 import axios, { AxiosError } from 'axios'
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState, useMemo } from 'react'
@@ -35,14 +32,6 @@ import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
 import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
 import { styles } from '@/styles'
 import { fetcher } from '@/utils'
-
-// ステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバー
-const steps = ['相談内容入力', '相談内容確認', '相談投稿完了']
-
-
-
-
-
 
 type ArticleProps = {
   categories: string
@@ -67,18 +56,8 @@ const CurrentArticlesEdit: NextPage = () => {
   const [isFetched, setIsFetched] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [previewChecked, setPreviewChecked] = useState<boolean>(false)
-
-
-// ステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバーステップバー
-  const [activeStep, setActiveStep] = useState(1)
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-  }
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
-  }
-
+  const steps = ['相談内容入力', '相談内容確認', '相談投稿完了'] // StepperのStepを定義する
+  const [activeStep, setActiveStep] = useState(1) // Stepperの初期値を定義する
 
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/'
   const { id } = router.query
@@ -124,11 +103,11 @@ const CurrentArticlesEdit: NextPage = () => {
   useEffect(() => {
     if (data) {
       reset(article)
-      setIsFetched(true) // データフェッチ終了後、trueに更新する
       //  入力中の文字が存在する場合は入力文字数をセットする
       setTitleLength(article.title.length)
       setBackgroundLength(article.background.length)
       setContentLength(article.content.length)
+      setIsFetched(true) // データフェッチ終了後、trueに更新する
     }
   }, [data, article, reset])
 
@@ -171,41 +150,19 @@ const CurrentArticlesEdit: NextPage = () => {
     setPreviewChecked(!previewChecked)
   }
 
+  // StepperのStepをカウントアップする
+  const handleNextStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  }
+
+  // StepperのStepをカウントダウンする
+  const handleBackStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+  }
+
   // form入力データの未入力チェックをする
   const onSubmit: SubmitHandler<ArticleFormData> = (formData) => {
-    if (formData.categories == '') {
-      return setSnackbar({
-        message: 'カテゴリが未入力です',
-        severity: 'error',
-        pathname: '/current/articles/edit/[id]',
-      })
-    }
-
-    if (formData.title == '') {
-      return setSnackbar({
-        message: '相談タイトルが未入力です',
-        severity: 'error',
-        pathname: '/current/articles/edit/[id]',
-      })
-    }
-
-    if (formData.background == '') {
-      return setSnackbar({
-        message: '相談の背景が未入力です',
-        severity: 'error',
-        pathname: '/current/articles/edit/[id]',
-      })
-    }
-
-    if (formData.content == '') {
-      return setSnackbar({
-        message: '質問が未入力です',
-        severity: 'error',
-        pathname: '/current/articles/edit/[id]',
-      })
-    }
-
-    setIsLoading(true)
+    setIsLoading(true) // PATCHリクエスト送信のためユーザーアクションを不可に制御する
 
     // form入力データを送信するため、PATCHリクエストのURLを生成する
     const patchUrl =
@@ -230,9 +187,12 @@ const CurrentArticlesEdit: NextPage = () => {
       headers: headers,
     })
       .then(() => {
-        handleNext()
+        handleNextStep()
         // 相談投稿完了画面に遷移する
-        router.push('/current/articles/edit_completion')
+        router.push({
+          pathname: '/current/articles/edit_completion',
+          query: { id, step: activeStep + 1 },
+        })
       })
       .catch((err: AxiosError<{ error: string }>) => {
         console.log(err.message)
@@ -242,446 +202,452 @@ const CurrentArticlesEdit: NextPage = () => {
           pathname: '/current/articles/edit/[id]',
         })
       })
-    setIsLoading(false)
+      .finally(() => {
+        setIsLoading(false) // PATCHリクエスト完了後にユーザーアクションを可能に制御する
+      })
   }
 
   if (error) return <Error />
   if (!data || !isFetched) return <Loading />
 
   return (
-    <Box
-      component="form"
-      css={styles.pageMinHeight}
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <AppBar
-        position="static"
-        sx={{
-          backgroundColor: '#FFFFFF',
-          boxShadow: 'none',
-          color: '#000000',
-        }}
+    <Box>
+      <Head>
+        <title>保険相談</title>
+      </Head>
+      <Box
+        component="form"
+        css={styles.pageMinHeight}
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <Container maxWidth="lg">
-          <Box sx={{ mx: 1, my: 2 }}>
-            <Link href="/">
-              <Typography component="p" variant="h5">
-                保険のセカンドオピニオン
-              </Typography>
-            </Link>
-          </Box>
-        </Container>
-      </AppBar>
-      <Container maxWidth="md">
-        <Breadcrumbs />
-
-
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-
-
-        {/* 入力画面を表示する */}
-        {!previewChecked && (
-          <Box>
-            <Box sx={{ my: 2 }}>
-              <Typography
-                component="h1"
-                variant="h4"
-                sx={{ fontWeight: 'bold' }}
-              >
-                保険相談を入力する
-              </Typography>
+        <AppBar
+          position="static"
+          sx={{
+            backgroundColor: '#FFFFFF',
+            boxShadow: 'none',
+            color: '#000000',
+          }}
+        >
+          <Container maxWidth="lg">
+            <Box sx={{ mx: 1, my: 2 }}>
+              <Link href="/">
+                <Typography component="p" variant="h5">
+                  保険のセカンドオピニオン
+                </Typography>
+              </Link>
             </Box>
-            <Box
-              sx={{
-                backgroundColor: '#FFFFCC',
-                p: 2,
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
-              <Typography component="p" variant="body1">
-                相談内容はどなたでもご覧になれます。個人を特定される可能性がある内容の入力はお控えください。また、投稿後の修正・削除はできませんのでご注意ください。
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                my: 6,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0px 10px',
-                }}
-              >
-                <Typography component="p" variant="h6">
-                  相談カテゴリ
-                </Typography>
-                <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
-                  必須
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                {/* カテゴリ入力field */}
-                <Controller
-                  name="categories"
-                  control={control}
-                  rules={validationRules.categories}
-                  render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      select
-                      value={field.value}
-                      error={fieldState.invalid}
-                      helperText={fieldState.error?.message}
-                      fullWidth
-                      placeholder="カテゴリを入力"
-                    >
-                      {/* 外部ファイルからimportしたカテゴリオプションをプルダウンメニューに表示する */}
-                      {Object.entries(categoryOptions).map(([key, label]) => (
-                        <MenuItem key={key} value={key}>
-                          {label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  )}
-                />
-              </Box>
-              <Box
-                sx={{
-                  backgroundColor: '#EEFFFF	',
-                  mb: 6,
-                  p: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
-                <Typography component="p" variant="body2">
-                  相談カテゴリには、あなたの「詳しく知りたい商品」や「気になる保障内容」を選択する
-                  <br />
-                  相談カテゴリの選択に悩む場合は、「あなたの悩み」に近いと感じる相談カテゴリを選択する
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0px 10px',
-                }}
-              >
-                <Typography component="p" variant="h6">
-                  相談タイトル
-                </Typography>
-                <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
-                  必須
-                </Typography>
-                <Typography component="p" variant="body1">
-                  （50文字以内）
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 6 }}>
-                {/* 相談タイトル入力field */}
-                <Controller
-                  name="title"
-                  control={control}
-                  rules={validationRules.title}
-                  render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      type="text"
-                      error={fieldState.invalid}
-                      // validationエラーを出力していない場合は入力文字数を表示する
-                      helperText={`${fieldState.error?.message || ''} ${titleLength}/50文字`}
-                      onChange={(e) => {
-                        field.onChange(e)
-                        // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
-                        setTitleLength(e.target.value.length)
-                      }}
-                      fullWidth
-                      placeholder="相談タイトルを入力"
-                    />
-                  )}
-                />
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0px 10px',
-                }}
-              >
-                <Typography component="p" variant="h6">
-                  相談の背景
-                </Typography>
-                <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
-                  必須
-                </Typography>
-                <Typography component="p" variant="body1">
-                  （600文字以内）
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                {/* 相談の背景入力field */}
-                <Controller
-                  name="background"
-                  control={control}
-                  rules={validationRules.background}
-                  render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      type="text"
-                      error={fieldState.invalid}
-                      // validationエラーを出力していない場合は入力文字数を表示する
-                      helperText={`${fieldState.error?.message || ''} ${backgroundLength}/600文字`}
-                      onChange={(e) => {
-                        field.onChange(e)
-                        // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
-                        setBackgroundLength(e.target.value.length)
-                      }}
-                      multiline
-                      rows={10}
-                      fullWidth
-                      placeholder="相談の背景を入力"
-                    />
-                  )}
-                />
-              </Box>
-              <Box
-                sx={{
-                  backgroundColor: '#EEFFFF	',
-                  mb: 6,
-                  p: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
-                <Typography component="p" variant="body2">
-                  相談の背景には「自分の健康状態」や「家族構成」などリスクの程度を書く
-                  <br />
-                  例:20代社会人になり子供はいませんので今のところ大きなリスクに備える必要はないと感じています。
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0px 10px',
-                }}
-              >
-                <Typography component="p" variant="h6">
-                  質問
-                </Typography>
-                <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
-                  必須
-                </Typography>
-                <Typography component="p" variant="body1">
-                  （100文字以内）
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                {/* 質問入力field */}
-                <Controller
-                  name="content"
-                  control={control}
-                  rules={validationRules.content}
-                  render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      type="text"
-                      error={fieldState.invalid}
-                      // validationエラーを出力していない場合は入力文字数を表示する
-                      helperText={`${fieldState.error?.message || ''} ${contentLength}/100文字`}
-                      onChange={(e) => {
-                        field.onChange(e)
-                        // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
-                        setContentLength(e.target.value.length)
-                      }}
-                      multiline
-                      rows={2}
-                      fullWidth
-                      placeholder="質問を入力"
-                    />
-                  )}
-                />
-              </Box>
-              <Box
-                sx={{
-                  backgroundColor: '#EEFFFF	',
-                  mb: 6,
-                  p: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
-                <Typography component="p" variant="body2">
-                  質問には、あなたの「聞きたいこと」や「希望」を書く
-                  <br />
-                  例:死亡保険に入る必要はありますか。また入る場合にどのような判断基準で支払われる保険金額を設定すればいいでしょうか。
-                </Typography>
-              </Box>
-              <Box sx={{ borderTop: '0.5px solid #000000', mb: 2, py: 2 }}>
-                <Typography component="p" variant="body2">
-                  利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意して確認画面へ進む」ボタンを押してください。
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    width: 250,
-                    boxShadow: 'none',
-                    borderRadius: 1,
-                    textTransform: 'none',
-                    fontSize: { xs: 12, sm: 16 },
-                    fontWeight: 'bold',
-                  }}
-                  onClick={async () => {
-                    await handleClickButtonValidation() // Validationが正常実行後に画面遷移させるためawaitで処理を制御する
-                    handleNext() // ステップバーステップバーステップバーステップバーステップバー
-                  }}
+          </Container>
+        </AppBar>
+        <Container maxWidth="md">
+          <Breadcrumbs />
+          <Stepper activeStep={activeStep} alternativeLabel sx={{ my: 4 }}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          {/* 入力画面を表示する */}
+          {!previewChecked && (
+            <Box>
+              <Box sx={{ my: 2 }}>
+                <Typography
+                  component="h1"
+                  variant="h4"
+                  sx={{ fontWeight: 'bold' }}
                 >
-                  <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} />
-                  同意して確認画面に進む
-                </Button>
-              </Box>
-            </Box>
-          </Box>
-        )}
-        {/* 入力確認画面を表示する */}
-        {previewChecked && (
-          <Box>
-            <Box sx={{ my: 2 }}>
-              <Typography
-                component="h1"
-                variant="h4"
-                sx={{ fontWeight: 'bold' }}
-              >
-                保険相談を確認する
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                mt: 6,
-                pb: 20,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <Box>
-                <Typography component="p" variant="h6">
-                  【相談カテゴリ】
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 6 }}>
-                <Typography component="p" variant="body1">
-                  {watch('categories')}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography component="p" variant="h6">
-                  【相談タイトル】
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 6 }}>
-                <Typography component="p" variant="body1">
-                  {watch('title')}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography component="p" variant="h6">
-                  【相談の背景】
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 6 }}>
-                <Typography component="p" variant="body1">
-                  {watch('background')}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography component="p" variant="h6">
-                  【質問】
-                </Typography>
-              </Box>
-              <Box sx={{ mb: 6 }}>
-                <Typography component="p" variant="body1">
-                  {watch('content')}
+                  保険相談を入力する
                 </Typography>
               </Box>
               <Box
                 sx={{
                   backgroundColor: '#FFFFCC',
-                  mb: 6,
                   p: 2,
                   display: 'flex',
                   alignItems: 'center',
                 }}
               >
                 <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
-                <Typography component="p" variant="body1">
-                  ・投稿後の修正や削除はできませんのでご注意ください。
-                  <br />
-                  ・入力内容に間違いがないことをお確かめのうえ「投稿する」ボタンを押してください。
+                <Typography component="p" variant="body2">
+                  相談内容はどなたでもご覧になれます。個人を特定される可能性がある内容の入力はお控えください。また、投稿後の修正・削除はできませんのでご注意ください。
                 </Typography>
               </Box>
-              <Box>
-                <Button
-                  variant="text"
+              <Box
+                sx={{
+                  my: 6,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Box
                   sx={{
-                    width: 150,
-                    boxShadow: 'none',
-                    border: '0.5px solid #000000',
-                    borderRadius: 1,
-                    textTransform: 'none',
-                    fontSize: { xs: 12, sm: 16 },
-                    fontWeight: 'bold',
-                    color: '#000000',
-                    position: 'absolute',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                  }}
-                  onClick={handleClickButtonPreview}
-                >
-                  <ArrowBackIcon fontSize="small" sx={{ mr: 1 }} />
-                  修正する
-                </Button>
-                <LoadingButton
-                  type="submit"
-                  loading={isLoading} // Click時にユーザー入力を停止する
-                  variant="contained"
-                  sx={{
-                    width: 150,
-                    boxShadow: 'none',
-                    borderRadius: 1,
-                    textTransform: 'none',
-                    fontSize: { xs: 12, sm: 16 },
-                    fontWeight: 'bold',
-                    position: 'absolute',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    mt: 8,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0px 10px',
                   }}
                 >
-                  投稿する
-                  <SendIcon fontSize="small" sx={{ ml: 1 }} />
-                </LoadingButton>
+                  <Typography component="p" variant="h6">
+                    相談カテゴリ
+                  </Typography>
+                  <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+                    必須
+                  </Typography>
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  {/* カテゴリ入力field */}
+                  <Controller
+                    name="categories"
+                    control={control}
+                    rules={validationRules.categories}
+                    render={({ field, fieldState }) => (
+                      <TextField
+                        {...field}
+                        select
+                        value={field.value}
+                        error={fieldState.invalid}
+                        helperText={fieldState.error?.message}
+                        fullWidth
+                        placeholder="カテゴリを入力"
+                      >
+                        {/* 外部ファイルからimportしたカテゴリオプションをプルダウンメニューに表示する */}
+                        {Object.entries(categoryOptions).map(([key, label]) => (
+                          <MenuItem key={key} value={key}>
+                            {label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    backgroundColor: '#EEFFFF	',
+                    mb: 6,
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
+                  <Typography component="p" variant="body2">
+                    相談カテゴリには、あなたの「詳しく知りたい商品」や「気になる保障内容」を選択する
+                    <br />
+                    相談カテゴリの選択に悩む場合は、「あなたの悩み」に近いと感じる相談カテゴリを選択する
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0px 10px',
+                  }}
+                >
+                  <Typography component="p" variant="h6">
+                    相談タイトル
+                  </Typography>
+                  <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+                    必須
+                  </Typography>
+                  <Typography component="p" variant="body1">
+                    （50文字以内）
+                  </Typography>
+                </Box>
+                <Box sx={{ mb: 6 }}>
+                  {/* 相談タイトル入力field */}
+                  <Controller
+                    name="title"
+                    control={control}
+                    rules={validationRules.title}
+                    render={({ field, fieldState }) => (
+                      <TextField
+                        {...field}
+                        type="text"
+                        error={fieldState.invalid}
+                        // validationエラーを出力していない場合は入力文字数を表示する
+                        helperText={`${fieldState.error?.message || ''} ${titleLength}/50文字`}
+                        onChange={(e) => {
+                          field.onChange(e)
+                          // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                          setTitleLength(e.target.value.length)
+                        }}
+                        fullWidth
+                        placeholder="相談タイトルを入力"
+                      />
+                    )}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0px 10px',
+                  }}
+                >
+                  <Typography component="p" variant="h6">
+                    相談の背景（前提条件）
+                  </Typography>
+                  <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+                    必須
+                  </Typography>
+                  <Typography component="p" variant="body1">
+                    （600文字以内）
+                  </Typography>
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  {/* 相談の背景入力field */}
+                  <Controller
+                    name="background"
+                    control={control}
+                    rules={validationRules.background}
+                    render={({ field, fieldState }) => (
+                      <TextField
+                        {...field}
+                        type="text"
+                        error={fieldState.invalid}
+                        // validationエラーを出力していない場合は入力文字数を表示する
+                        helperText={`${fieldState.error?.message || ''} ${backgroundLength}/600文字`}
+                        onChange={(e) => {
+                          field.onChange(e)
+                          // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                          setBackgroundLength(e.target.value.length)
+                        }}
+                        multiline
+                        rows={10}
+                        fullWidth
+                        placeholder="相談の背景を入力"
+                      />
+                    )}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    backgroundColor: '#EEFFFF	',
+                    mb: 6,
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
+                  <Typography component="p" variant="body2">
+                    相談の背景（前提条件）には「自分の健康状態」や「家族構成」などリスクの程度を書く
+                    <br />
+                    例:20代社会人になり子供はいませんので今のところ大きなリスクに備える必要はないと感じています。
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0px 10px',
+                  }}
+                >
+                  <Typography component="p" variant="h6">
+                    質問
+                  </Typography>
+                  <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+                    必須
+                  </Typography>
+                  <Typography component="p" variant="body1">
+                    （100文字以内）
+                  </Typography>
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  {/* 質問入力field */}
+                  <Controller
+                    name="content"
+                    control={control}
+                    rules={validationRules.content}
+                    render={({ field, fieldState }) => (
+                      <TextField
+                        {...field}
+                        type="text"
+                        error={fieldState.invalid}
+                        // validationエラーを出力していない場合は入力文字数を表示する
+                        helperText={`${fieldState.error?.message || ''} ${contentLength}/100文字`}
+                        onChange={(e) => {
+                          field.onChange(e)
+                          // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                          setContentLength(e.target.value.length)
+                        }}
+                        multiline
+                        rows={2}
+                        fullWidth
+                        placeholder="質問を入力"
+                      />
+                    )}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    backgroundColor: '#EEFFFF	',
+                    mb: 6,
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
+                  <Typography component="p" variant="body2">
+                    質問には、あなたの「聞きたいこと」や「希望」を書く
+                    <br />
+                    例:死亡保険に入る必要はありますか。また入る場合にどのような判断基準で支払われる保険金額を設定すればいいでしょうか。
+                  </Typography>
+                </Box>
+                <Box sx={{ borderTop: '0.5px solid #000000', mb: 2, py: 2 }}>
+                  <Typography component="p" variant="body2">
+                    利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意して確認画面へ進む」ボタンを押してください。
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: 250,
+                      boxShadow: 'none',
+                      borderRadius: 1,
+                      textTransform: 'none',
+                      fontSize: { xs: 12, sm: 16 },
+                      fontWeight: 'bold',
+                    }}
+                    onClick={async () => {
+                      await handleClickButtonValidation() // Validationが正常実行後に画面遷移させるためawaitで処理を制御する
+                      handleNextStep()
+                    }}
+                  >
+                    <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} />
+                    同意して確認画面に進む
+                  </Button>
+                </Box>
               </Box>
             </Box>
-          </Box>
-        )}
-      </Container>
+          )}
+          {/* 入力確認画面を表示する */}
+          {previewChecked && (
+            <Box>
+              <Box sx={{ my: 2 }}>
+                <Typography
+                  component="h1"
+                  variant="h4"
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  保険相談を確認する
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  mt: 6,
+                  pb: 20,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Box>
+                  <Typography component="p" variant="h6">
+                    【相談カテゴリ】
+                  </Typography>
+                </Box>
+                <Box sx={{ mb: 6 }}>
+                  <Typography component="p" variant="body1">
+                    {watch('categories')}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography component="p" variant="h6">
+                    【相談タイトル】
+                  </Typography>
+                </Box>
+                <Box sx={{ mb: 6 }}>
+                  <Typography component="p" variant="body1">
+                    {watch('title')}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography component="p" variant="h6">
+                    【相談の背景】
+                  </Typography>
+                </Box>
+                <Box sx={{ mb: 6 }}>
+                  <Typography component="p" variant="body1">
+                    {watch('background')}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography component="p" variant="h6">
+                    【質問】
+                  </Typography>
+                </Box>
+                <Box sx={{ mb: 6 }}>
+                  <Typography component="p" variant="body1">
+                    {watch('content')}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    backgroundColor: '#FFFFCC',
+                    mb: 6,
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
+                  <Typography component="p" variant="body2">
+                    ・投稿後の修正や削除はできませんのでご注意ください。
+                    <br />
+                    ・入力内容に間違いがないことをお確かめのうえ「投稿する」ボタンを押してください。
+                  </Typography>
+                </Box>
+                <Box>
+                  <Button
+                    variant="text"
+                    sx={{
+                      width: 150,
+                      boxShadow: 'none',
+                      border: '0.5px solid #000000',
+                      borderRadius: 1,
+                      textTransform: 'none',
+                      fontSize: { xs: 12, sm: 16 },
+                      fontWeight: 'bold',
+                      color: '#000000',
+                      position: 'absolute',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                    }}
+                    onClick={async () => {
+                      await handleBackStep() // Stepのカウントダウン後に画面遷移させるためawaitで処理を制御する
+                      handleClickButtonPreview()
+                    }}
+                  >
+                    <ArrowBackIcon fontSize="small" sx={{ mr: 1 }} />
+                    修正する
+                  </Button>
+                  <LoadingButton
+                    type="submit"
+                    loading={isLoading} // Click時にユーザー入力を停止する
+                    variant="contained"
+                    sx={{
+                      width: 150,
+                      boxShadow: 'none',
+                      borderRadius: 1,
+                      textTransform: 'none',
+                      fontSize: { xs: 12, sm: 16 },
+                      fontWeight: 'bold',
+                      position: 'absolute',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      mt: 8,
+                    }}
+                  >
+                    投稿する
+                    <SendIcon fontSize="small" sx={{ ml: 1 }} />
+                  </LoadingButton>
+                </Box>
+              </Box>
+            </Box>
+          )}
+        </Container>
+      </Box>
     </Box>
   )
 }

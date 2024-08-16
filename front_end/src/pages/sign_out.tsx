@@ -1,12 +1,23 @@
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+} from '@mui/material'
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
+import { useUserState } from '@/hooks/useGlobalState'
+import { styles } from '@/styles'
+
 
 const SignOut: NextPage = () => {
   const router = useRouter()
   const [, setUser] = useUserState()
-  const [, setSnackbar] = useSnackbarState()
 
   useEffect(() => {
     localStorage.clear()
@@ -17,15 +28,35 @@ const SignOut: NextPage = () => {
       isSignedIn: false,
       isFetched: true,
     })
-    setSnackbar({
-      message: 'サインアウトに成功しました',
-      severity: 'success',
-      pathname: '/',
-    })
-    router.push('/')
-  }, [router, setUser, setSnackbar])
+  }, [router, setUser])
 
-  return <div></div>
+  return (
+    <Box>
+      <Head>
+        <title>サインアウト</title>
+      </Head>
+      <Box component="main" css={styles.pageMinHeight}>
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              backgroundColor: '#EEEEEE',
+              my: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              textAlign: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h3" sx={{ fontWeight: 'bold' }}>
+              保険のセカンドオピニオンのご利用
+              <br />
+              ありがとうございました。
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
+    </Box>
+  )
 }
 
 export default SignOut

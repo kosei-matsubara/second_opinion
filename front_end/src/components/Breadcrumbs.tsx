@@ -26,6 +26,7 @@ const negativeList: string[] = [
   'current',
   'articles',
   '[id]',
+  'edit_completion',
   // 生成URLから除外する階層パスを追加する
 ]
 
