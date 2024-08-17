@@ -78,7 +78,7 @@ const CurrentArticlesEdit: NextPage = () => {
         status: 'draft',
       }
     }
-    // 相談データが存在する場合、存在するデータをセットする
+    // 相談データが存在する場合、存在するデータを定義する
     return {
       categories: data.categories == null ? '' : data.categories,
       title: data.title == null ? '' : data.title,
@@ -103,7 +103,7 @@ const CurrentArticlesEdit: NextPage = () => {
   useEffect(() => {
     if (data) {
       reset(article)
-      //  入力中の文字が存在する場合は入力文字数をセットする
+      //  入力中の文字が存在する場合は入力文字数をカウントする
       setTitleLength(article.title.length)
       setBackgroundLength(article.background.length)
       setContentLength(article.content.length)
@@ -176,7 +176,7 @@ const CurrentArticlesEdit: NextPage = () => {
       uid: localStorage.getItem('uid'),
     }
 
-    // form入力データをPATCHリクエスト用変数にセットする
+    // form入力データをPATCHリクエスト用変数に定義する
     // form入力データを公開するためstatusを更新する
     const patchData = { ...formData, status: 'published' }
 
@@ -289,7 +289,11 @@ const CurrentArticlesEdit: NextPage = () => {
                   <Typography component="p" variant="h6">
                     相談カテゴリ
                   </Typography>
-                  <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+                  <Typography
+                    component="p"
+                    variant="body1"
+                    sx={{ color: '#FF0000' }}
+                  >
                     必須
                   </Typography>
                 </Box>

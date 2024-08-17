@@ -15,9 +15,14 @@ const Confirmation: NextPage = () => {
     }
 
     if (router.query['confirmation_token']) {
+      // PATCHリクエストのURLを生成する
       const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/user/confirmations'
 
-      axios({ method: 'PATCH', url: url, data: router.query })
+      axios({
+        method: 'PATCH',
+        url: url,
+        data: router.query,
+      })
         .then(() => {
           setSnackbar({
             message: '認証に成功しました',
@@ -41,7 +46,7 @@ const Confirmation: NextPage = () => {
         severity: 'error',
         pathname: '/',
       })
-      router.push('/') // エラー時のリダイレクト
+      router.push('/')
     }
   }, [router, setSnackbar])
 

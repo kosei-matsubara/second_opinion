@@ -31,13 +31,14 @@ const Index: NextPage = () => {
             sx={{
               backgroundColor: '#FFECEC',
               my: 2,
+              p: 4,
               display: 'flex',
               flexDirection: 'column',
               textAlign: 'center',
               alignItems: 'center',
             }}
           >
-            <Box sx={{ m: 2 }}>
+            <Box sx={{ mb: 2 }}>
               <Typography
                 component="h1"
                 variant="h3"
@@ -46,7 +47,7 @@ const Index: NextPage = () => {
                 「保険のセカンドオピニオン」は保険相談ポータルサイトです
               </Typography>
             </Box>
-            <Box sx={{ m: 2 }}>
+            <Box sx={{ mb: 2 }}>
               <Typography
                 component="p"
                 variant="body1"
@@ -59,6 +60,7 @@ const Index: NextPage = () => {
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
+                gap: '0px 20px',
               }}
             >
               <Link href="/#">
@@ -69,7 +71,6 @@ const Index: NextPage = () => {
                     boxShadow: 'none',
                     border: '1.5px solid #000000',
                     borderRadius: 1,
-                    m: 2,
                     px: 3,
                     py: 2,
                     textTransform: 'none',
@@ -90,7 +91,6 @@ const Index: NextPage = () => {
                     boxShadow: 'none',
                     border: '1.5px solid #000000',
                     borderRadius: 1,
-                    m: 2,
                     px: 3,
                     py: 2,
                     textTransform: 'none',

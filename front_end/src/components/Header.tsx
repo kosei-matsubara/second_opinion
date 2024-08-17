@@ -18,7 +18,6 @@ import {
   Typography,
 } from '@mui/material'
 import axios, { AxiosResponse, AxiosError } from 'axios'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'

@@ -1,3 +1,29 @@
+# 目的
+リファクタリングする
+
+# 回答範囲
+Next.js
+Material-UI
+を活用する具体的なコード例を教えてください。
+
+# 前提条件
+Next.js と Material-UI をプロジェクトにインストールは対応済み
+Javascriptプログラムを生成する場合はTypeScriptを導入する
+コード可読性が高い
+コードがある程度重複しても処理内容を一箇所にまとめるコード構造にする
+コードに補足コメントを追加
+コードに補足コメントを追加する場合は体言止めにしない
+ステップ末尾の;は不要
+import from ディレクトリ定義 '@/components/'
+コードを修正する場合は修正箇所を目立つように提示する
+
+# 出力形式
+コードを含む回答をお願いします。また、それぞれの言語ごとにコメントも追加してください。
+
+# インプットスクリーンショット
+添付ファイル
+
+# インプットプログラム
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import HomeIcon from '@mui/icons-material/Home'
 import MessageIcon from '@mui/icons-material/Message'

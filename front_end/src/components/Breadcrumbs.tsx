@@ -13,6 +13,8 @@ const pathToJapanese: { [key: string]: string } = {
   'home': 'ホーム',
   'articlelist': '保険の相談一覧',
   'edit': '保険相談',
+  'sign_out': 'サインアウト',
+  'sign_up': '会員登録',
   // パス名を追加する場合に日本語パス名を追加する
 }
 
@@ -38,10 +40,19 @@ const Breadcrumbs: React.FC = () => {
   return (
     <MUIBreadcrumbs aria-label="breadcrumb">
       {/* ホーム要素をリンクとして表示する */}
-      <Box sx={{ my: 2, fontSize: 18, color: '#000000' }}>
-        <HomeIcon fontSize="small" sx={{ m: 0.5 }} />
+      <Box
+        sx={{
+          my: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <HomeIcon fontSize="small" sx={{ mr: 0.5 }} />
         <Link href="/" color="inherit" underline="hover">
-          {translatePathname('home')}
+          <Typography sx={{ fontSize: 18, color: '#000000' }}>
+            {translatePathname('home')}
+          </Typography>
         </Link>
       </Box>
 
@@ -56,17 +67,19 @@ const Breadcrumbs: React.FC = () => {
 
           return isLast ? (
             // 最終要素の場合はテキストとして表示する
-            <Box key={href} sx={{ my: 2 }}>
+            <Box key={href} sx={{ my: 2, alignItems: 'center' }}>
               <Typography sx={{ fontSize: 16, color: '#000000' }}>
                 {translatePathname(value)}
               </Typography>
             </Box>
           ) : (
             // 最終要素・ホーム要素以外をリンクとして表示する
-            <Box key={href} sx={{ my: 2, fontSize: 16, color: '#000000' }}>
-              <Link href={href} color="inherit" underline="hover">
-                {translatePathname(value)}
-              </Link>
+            <Box key={href} sx={{ my: 2, alignItems: 'center' }}>
+              <Typography sx={{ fontSize: 16, color: '#000000' }}>
+                <Link href={href} color="inherit" underline="hover">
+                  {translatePathname(value)}
+                </Link>
+              </Typography>
             </Box>
           )
         })}

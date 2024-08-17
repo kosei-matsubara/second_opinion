@@ -1,5 +1,12 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, Container, TextField, Typography, Stack } from '@mui/material'
+import {
+  Box,
+  Container,
+  TextField,
+  Typography,
+  Stack,
+  Button,
+} from '@mui/material'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
@@ -18,30 +25,44 @@ const SignIn: NextPage = () => {
   const [user, setUser] = useUserState()
   const [, setSnackbar] = useSnackbarState()
 
-  const { handleSubmit, control } = useForm<SignInFormData>({
+  const { control, setValue, handleSubmit } = useForm<SignInFormData>({
     defaultValues: { email: '', password: '' },
   })
 
+  // fieldのvalidationを定義する
   const validationRules = {
     email: {
-      required: 'メールアドレスを入力してください。',
+      required: 'メールアドレスを入力してください',
       pattern: {
         value:
           /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/,
-        message: '正しい形式のメールアドレスを入力してください。',
+        message: '正しい形式のメールアドレスを入力してください',
       },
     },
     password: {
-      required: 'パスワードを入力してください。',
+      required: 'パスワードを入力してください',
     },
   }
 
+  // ゲストログインを実行する
+  const handleGuestLogin = () => {
+    setValue('email', 'guest@example.com') // ゲストユーザーのemailアドレスを自動入力する
+    setValue('password', 'guestpassword') // ゲストユーザーのpasswordを自動入力する
+    handleSubmit(onSubmit)()
+  }
+
   const onSubmit: SubmitHandler<SignInFormData> = (data) => {
-    setIsLoading(true)
+    setIsLoading(true) // POSTリクエスト送信のためユーザーアクションを不可に制御する
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/sign_in'
+    // APIリクエストのheaderを定義する
     const headers = { 'Content-Type': 'application/json' }
 
-    axios({ method: 'POST', url: url, data: data, headers: headers })
+    axios({
+      method: 'POST',
+      url: url,
+      data: data,
+      headers: headers,
+    })
       .then((res: AxiosResponse) => {
         localStorage.setItem('access-token', res.headers['access-token'])
         localStorage.setItem('client', res.headers['client'])
@@ -64,7 +85,9 @@ const SignIn: NextPage = () => {
           severity: 'error',
           pathname: '/sign_in',
         })
-        setIsLoading(false)
+      })
+      .finally(() => {
+        setIsLoading(false) // POSTリクエスト完了後にユーザーアクションを可能に制御する
       })
   }
 
@@ -123,6 +146,14 @@ const SignIn: NextPage = () => {
           >
             送信する
           </LoadingButton>
+          {/* ゲストログインボタンを追加 */}
+          <Button
+            variant="outlined"
+            onClick={handleGuestLogin}
+            sx={{ fontWeight: 'bold', color: 'black' }}
+          >
+            ゲストログイン
+          </Button>
         </Stack>
       </Container>
     </Box>
