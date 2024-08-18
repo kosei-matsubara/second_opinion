@@ -33,10 +33,10 @@ const Header = () => {
   const hideHeaderPathnames = ['/current/articles/edit/[id]'] // 相談編集画面
   if (hideHeaderPathnames.includes(router.pathname)) return <div></div>
 
-  // 「保険相談を投稿」を押下時の処理を定義する
   const addNewArticle = () => {
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles'
 
+    // APIリクエストのheaderを定義する
     const headers = {
       'Content-Type': 'application/json',
       'access-token': localStorage.getItem('access-token'),
@@ -44,8 +44,13 @@ const Header = () => {
       uid: localStorage.getItem('uid'),
     }
 
-    axios({ method: 'POST', url: url, headers: headers })
+    axios({
+      method: 'POST',
+      url: url,
+      headers: headers,
+    })
       .then((res: AxiosResponse) => {
+        // 相談投稿画面に遷移する
         router.push('/current/articles/edit/' + res.data.id)
       })
       .catch((e: AxiosError<{ error: string }>) => {

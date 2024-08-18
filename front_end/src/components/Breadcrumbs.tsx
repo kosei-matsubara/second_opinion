@@ -1,10 +1,5 @@
 import HomeIcon from '@mui/icons-material/Home'
-import {
-  Breadcrumbs as MUIBreadcrumbs,
-  Link,
-  Typography,
-  Box,
-} from '@mui/material'
+import { Breadcrumbs as MUIBreadcrumbs, Link, Typography, Box } from '@mui/material'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -14,7 +9,9 @@ const pathToJapanese: { [key: string]: string } = {
   'articlelist': '保険の相談一覧',
   'edit': '保険相談',
   'sign_out': 'サインアウト',
-  'sign_up': '会員登録',
+  'sign_up': '会員情報入力',
+  'sign_up_provisional_registration': '仮登録完了',
+  'sign_up_full_registration': '本登録完了',
   // パス名を追加する場合に日本語パス名を追加する
 }
 

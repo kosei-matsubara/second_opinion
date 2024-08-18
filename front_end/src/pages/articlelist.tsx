@@ -89,7 +89,7 @@ const ArticleList: NextPage = () => {
               </Grid>
             ))}
           </Grid>
-          <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
             <Pagination
               count={meta.totalPages}
               page={meta.currentPage}

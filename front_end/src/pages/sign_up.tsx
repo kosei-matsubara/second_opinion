@@ -34,7 +34,7 @@ const SignUp: NextPage = () => {
   const [activeStep, setActiveStep] = useState(1) // Stepperの初期値を定義する
 
   const { handleSubmit, control } = useForm<SignUpFormData>({
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: '', password: '', name: '' },
   })
 
   // fieldのvalidationを定義する
@@ -66,8 +66,7 @@ const SignUp: NextPage = () => {
 
       const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/auth'
       const headers = { 'Content-Type': 'application/json' }
-      const confirmSuccessUrl =
-        process.env.NEXT_PUBLIC_FRONT_BASE_URL + '/sign_in'
+      const confirmSuccessUrl = process.env.NEXT_PUBLIC_FRONT_BASE_URL + '/sign_in'
 
       await axios({
         method: 'POST',
@@ -76,13 +75,13 @@ const SignUp: NextPage = () => {
         headers: headers,
       })
         .then((res: AxiosResponse) => {
-          localStorage.setItem('access-token', res.headers['access-token'] || '',)
+          localStorage.setItem('access-token', res.headers['access-token'] || '')
           localStorage.setItem('client', res.headers['client'] || '')
           localStorage.setItem('uid', res.headers['uid'] || '')
           handleNextStep()
           // 認証メール送信通知画面に遷移する
           router.push({
-            pathname: '/current/articles/edit_completion',
+            pathname: '/sign_up_provisional_registration',
             query: { step: activeStep + 1 },
           })
         })
@@ -116,7 +115,7 @@ const SignUp: NextPage = () => {
               </Step>
             ))}
           </Stepper>
-          <Box sx={{ my: 4 }}>
+          <Box sx={{ mb: 2 }}>
             <Typography component="h1" variant="h5">
               保険のセカンドオピニオンIDを発行
             </Typography>
@@ -125,7 +124,8 @@ const SignUp: NextPage = () => {
             component="form"
             noValidate
             onSubmit={handleSubmit(onSubmit)}
-            spacing={4}
+            sx={{ mb: 4 }}
+            spacing={2}
             divider={<Divider orientation="horizontal" flexItem />}
           >
             <Controller
@@ -172,11 +172,13 @@ const SignUp: NextPage = () => {
             />
             <Box>
               <Typography component="p" variant="body2">
-                「同意して確認画面へ」を押すことにより、以下に同意されるものとします。
+                「登録用URLを送信」を押すことにより、以下に同意されるものとします。
                 <br />
                 ・「利用規約、プライバシーの考え方」を読み、その内容に同意します。
                 <br />
                 ・保険のセカンドオピニオンから広告・宣伝、その他のお知らせを電子メールで送信することがあります。
+                <br />
+                <strong>登録に必要なURLを、入力したメールアドレス宛に送信</strong>します。
               </Typography>
             </Box>
             <LoadingButton

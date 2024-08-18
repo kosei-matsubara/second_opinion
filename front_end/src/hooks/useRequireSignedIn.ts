@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
 
-// ユーザーのサインイン確認、サインインしていない場合はリダイレクトする
+// ユーザーのサインイン有無を確認、サインインしていない場合はリダイレクトする
 export function useRequireSignedIn() {
   const router = useRouter()
   const [user] = useUserState()

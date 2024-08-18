@@ -14,38 +14,41 @@ const Footer = () => {
         <Box
           sx={{
             display: 'flex',
+            mb: 2,
+            pt: 4,
+            gap: '0px 40px',
           }}
         >
           {/* 後で以下リンク先ページを作成する */}
-          <Box sx={{ m: 2 }}>
+          <Box>
             <Link href="#">
               <Typography component="p" variant="body2">
                 よくあるお問合せ・ヘルプ
               </Typography>
             </Link>
           </Box>
-          <Box sx={{ m: 2 }}>
+          <Box>
             <Link href="#">
               <Typography component="p" variant="body2">
                 お問い合わせ窓口
               </Typography>
             </Link>
           </Box>
-          <Box sx={{ m: 2 }}>
+          <Box>
             <Link href="#">
               <Typography component="p" variant="body2">
                 利用規約・プライバシーの考え方
               </Typography>
             </Link>
           </Box>
-          <Box sx={{ m: 2 }}>
+          <Box>
             <Link href="#">
               <Typography component="p" variant="body2">
                 外部送信規律事項の公表等について
               </Typography>
             </Link>
           </Box>
-          <Box sx={{ m: 2 }}>
+          <Box>
             <Link href="#">
               <Typography component="p" variant="body2">
                 特定商取引法に関する表記
@@ -53,7 +56,7 @@ const Footer = () => {
             </Link>
           </Box>
         </Box>
-        <Box sx={{ m: 2 }}>
+        <Box sx={{ pb: 4 }}>
           <Typography component="p" variant="body2">
             © hoken-second-opinion.com 2024
           </Typography>

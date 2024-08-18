@@ -47,7 +47,7 @@ const CurrentUserFetch = () => {
     }
   }, [user, setUser])
 
-  return <></> // フェッチ完了時は何も表示しない
+  return <div></div> // フェッチ完了時は何も表示しない
 }
 
 export default CurrentUserFetch

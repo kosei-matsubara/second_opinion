@@ -24,12 +24,8 @@ const Confirmation: NextPage = () => {
         data: router.query,
       })
         .then(() => {
-          setSnackbar({
-            message: '認証に成功しました',
-            severity: 'success',
-            pathname: '/sign_in',
-          })
-          router.push('/sign_in')
+          // 本登録完了画面に遷移する
+          router.push('/sign_up_full_registration')
         })
         .catch((e: AxiosError<{ error: string }>) => {
           console.log(e.message)

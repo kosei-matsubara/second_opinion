@@ -35,7 +35,7 @@ const SignOut: NextPage = () => {
           <Box
             sx={{
               backgroundColor: '#F9F9F9',
-              my: 2,
+              my: 4,
               py: 2,
               px: 6,
               display: 'flex',
@@ -56,11 +56,7 @@ const SignOut: NextPage = () => {
               </Typography>
             </Box>
             <Box sx={{ mb: 2 }}>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ color: '#003838' }}
-              >
+              <Typography component="p" variant="body1" sx={{ color: '#003838' }}>
                 「保険のセカンドオピニオン」の運営などについて、ご意見やご質問がございましたらお気軽にお問い合わせください。
                 <br />
                 今後の運営にあたり、参考にさせていただきます。
@@ -68,22 +64,14 @@ const SignOut: NextPage = () => {
             </Box>
             <Box sx={{ mb: 2 }}>
               <Link href="/sign_in">
-                <Typography
-                  component="p"
-                  variant="body1"
-                  sx={{ color: '#003838' }}
-                >
+                <Typography component="p" variant="body1" sx={{ color: '#003838' }}>
                   再度サインインする
                 </Typography>
               </Link>
             </Box>
             <Box>
               <Link href="/">
-                <Typography
-                  component="p"
-                  variant="body1"
-                  sx={{ color: '#003838' }}
-                >
+                <Typography component="p" variant="body1" sx={{ color: '#003838' }}>
                   トップページに戻る
                 </Typography>
               </Link>

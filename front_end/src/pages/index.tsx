@@ -30,7 +30,7 @@ const Index: NextPage = () => {
           <Box
             sx={{
               backgroundColor: '#FFECEC',
-              my: 2,
+              my: 4,
               p: 4,
               display: 'flex',
               flexDirection: 'column',
@@ -39,20 +39,12 @@ const Index: NextPage = () => {
             }}
           >
             <Box sx={{ mb: 2 }}>
-              <Typography
-                component="h1"
-                variant="h3"
-                sx={{ fontWeight: 'bold' }}
-              >
+              <Typography component="h1" variant="h3" sx={{ fontWeight: 'bold' }}>
                 「保険のセカンドオピニオン」は保険相談ポータルサイトです
               </Typography>
             </Box>
             <Box sx={{ mb: 2 }}>
-              <Typography
-                component="p"
-                variant="body1"
-                sx={{ color: '#828282' }}
-              >
+              <Typography component="p" variant="body1" sx={{ color: '#828282' }}>
                 「保険のセカンドオピニオン」は、保険のプロに無料で保険相談できる「みんなの保険相談」や、地域やお悩み内容などから保険のプロを探せる「保険のプロ検索」など、保険の悩みの解決をサポートするコンテンツを多数ご用意しています。
               </Typography>
             </Box>
@@ -112,11 +104,7 @@ const Index: NextPage = () => {
               p: 1,
             }}
           >
-            <Typography
-              component="h2"
-              variant="h6"
-              sx={{ color: 'custom.h2color' }}
-            >
+            <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
               お悩みから解決方法を探す
             </Typography>
           </Box>

@@ -160,13 +160,11 @@ const CurrentArticlesEdit: NextPage = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  // form入力データの未入力チェックをする
   const onSubmit: SubmitHandler<ArticleFormData> = (formData) => {
     setIsLoading(true) // PATCHリクエスト送信のためユーザーアクションを不可に制御する
 
     // form入力データを送信するため、PATCHリクエストのURLを生成する
-    const patchUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/' + id
+    const patchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/' + id
 
     // APIリクエストのheaderを定義する
     const headers = {
@@ -187,7 +185,6 @@ const CurrentArticlesEdit: NextPage = () => {
       headers: headers,
     })
       .then(() => {
-        handleNextStep()
         // 相談投稿完了画面に遷移する
         router.push({
           pathname: '/current/articles/edit_completion',
@@ -215,11 +212,7 @@ const CurrentArticlesEdit: NextPage = () => {
       <Head>
         <title>保険相談</title>
       </Head>
-      <Box
-        component="form"
-        css={styles.pageMinHeight}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <Box component="form" css={styles.pageMinHeight} onSubmit={handleSubmit(onSubmit)}>
         <AppBar
           position="static"
           sx={{
@@ -250,12 +243,8 @@ const CurrentArticlesEdit: NextPage = () => {
           {/* 入力画面を表示する */}
           {!previewChecked && (
             <Box>
-              <Box sx={{ my: 2 }}>
-                <Typography
-                  component="h1"
-                  variant="h4"
-                  sx={{ fontWeight: 'bold' }}
-                >
+              <Box sx={{ mb: 2 }}>
+                <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold' }}>
                   保険相談を入力する
                 </Typography>
               </Box>
@@ -274,7 +263,7 @@ const CurrentArticlesEdit: NextPage = () => {
               </Box>
               <Box
                 sx={{
-                  my: 6,
+                  my: 4,
                   display: 'flex',
                   flexDirection: 'column',
                 }}
@@ -289,11 +278,7 @@ const CurrentArticlesEdit: NextPage = () => {
                   <Typography component="p" variant="h6">
                     相談カテゴリ
                   </Typography>
-                  <Typography
-                    component="p"
-                    variant="body1"
-                    sx={{ color: '#FF0000' }}
-                  >
+                  <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
                     必須
                   </Typography>
                 </Box>
@@ -530,18 +515,14 @@ const CurrentArticlesEdit: NextPage = () => {
           {previewChecked && (
             <Box>
               <Box sx={{ my: 2 }}>
-                <Typography
-                  component="h1"
-                  variant="h4"
-                  sx={{ fontWeight: 'bold' }}
-                >
+                <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold' }}>
                   保険相談を確認する
                 </Typography>
               </Box>
               <Box
                 sx={{
                   mt: 6,
-                  pb: 20,
+                  pb: 18,
                   display: 'flex',
                   flexDirection: 'column',
                 }}
@@ -589,7 +570,7 @@ const CurrentArticlesEdit: NextPage = () => {
                 <Box
                   sx={{
                     backgroundColor: '#FFFFCC',
-                    mb: 6,
+                    mb: 4,
                     p: 2,
                     display: 'flex',
                     alignItems: 'center',
@@ -597,7 +578,7 @@ const CurrentArticlesEdit: NextPage = () => {
                 >
                   <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
                   <Typography component="p" variant="body2">
-                    ・投稿後の修正や削除はできませんのでご注意ください。
+                    ・<strong>投稿後の修正や削除はできません</strong>のでご注意ください。
                     <br />
                     ・入力内容に間違いがないことをお確かめのうえ「投稿する」ボタンを押してください。
                   </Typography>
