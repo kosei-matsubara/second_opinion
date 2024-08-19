@@ -17,8 +17,8 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import Breadcrumbs from '@/components/Breadcrumbs'
+import { validationRules } from '@/components/ValidationRules'
 import { useSnackbarState } from '@/hooks/useGlobalState'
-import { styles } from '@/styles'
 
 type SignUpFormData = {
   email: string
@@ -37,24 +37,6 @@ const SignUp: NextPage = () => {
     defaultValues: { email: '', password: '', name: '' },
   })
 
-  // fieldのvalidationを定義する
-  const validationRules = {
-    email: {
-      required: 'メールアドレスを入力してください。',
-      pattern: {
-        value:
-          /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/,
-        message: 'メールアドレス形式を入力してください。',
-      },
-    },
-    password: {
-      required: 'パスワードを入力してください。',
-    },
-    name: {
-      required: 'ユーザー名を入力してください。',
-    },
-  }
-
   // StepperのStepをカウントアップする
   const handleNextStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -71,7 +53,7 @@ const SignUp: NextPage = () => {
       await axios({
         method: 'POST',
         url: url,
-        data: { ...data, confirm_success_url: confirmSuccessUrl },
+        data: { ...data, confirm_success_url: confirmSuccessUrl }, // POSTリクエストに認証成功時のリダイレクト先URLを含める
         headers: headers,
       })
         .then((res: AxiosResponse) => {
@@ -105,7 +87,7 @@ const SignUp: NextPage = () => {
       <Head>
         <title>会員登録</title>
       </Head>
-      <Box css={styles.pageMinHeight}>
+      <Box>
         <Container maxWidth="sm">
           <Breadcrumbs />
           <Stepper activeStep={activeStep} alternativeLabel sx={{ my: 4 }}>

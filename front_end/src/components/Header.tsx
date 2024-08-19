@@ -24,10 +24,10 @@ import { useState } from 'react'
 import { useUserState } from '@/hooks/useGlobalState'
 
 const Header = () => {
+  const router = useRouter()
   const [user] = useUserState()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null) // メニューモーダルの開閉を判定する
   const open = Boolean(anchorEl) // メニューモーダルの開閉を判定する
-  const router = useRouter()
 
   // 以下URLにおいてnullをreturnしてHeaderを非表示後、個別画面用のHeaderを表示する
   const hideHeaderPathnames = ['/current/articles/edit/[id]'] // 相談編集画面
@@ -169,9 +169,7 @@ const Header = () => {
                     onClick={handleClose}
                   >
                     <Box sx={{ pl: 2, py: 1 }}>
-                      <Typography sx={{ fontWeight: 'bold' }}>
-                        {user.name} 様
-                      </Typography>
+                      <Typography sx={{ fontWeight: 'bold' }}>{user.name} 様</Typography>
                     </Box>
                     <Divider />
                     <Link href={"/current/articles"}>

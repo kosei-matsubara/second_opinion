@@ -2,11 +2,19 @@
 ja:
   activerecord:
     attributes:
+      user:
+        # categories: カテゴリ
       article:
+        categories: カテゴリ
         title: タイトル
         background: 背景
         content: 質問
   enums:
+    user:
+      # status:
+      #   unsaved: 未保存
+      #   draft: 下書き
+      #   published: 公開中
     article:
       status:
         unsaved: 未保存

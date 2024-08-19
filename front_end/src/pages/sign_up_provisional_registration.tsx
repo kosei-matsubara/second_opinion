@@ -4,7 +4,6 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Breadcrumbs from '@/components/Breadcrumbs'
-import { styles } from '@/styles'
 
 const SignUpProvisionalRegistration: NextPage = () => {
   const router = useRouter()
@@ -16,7 +15,7 @@ const SignUpProvisionalRegistration: NextPage = () => {
       <Head>
         <title>仮登録完了</title>
       </Head>
-      <Box css={styles.pageMinHeight}>
+      <Box>
         <Container maxWidth="sm">
           <Breadcrumbs />
           <Stepper activeStep={activeStep} alternativeLabel sx={{ m: 4 }}>

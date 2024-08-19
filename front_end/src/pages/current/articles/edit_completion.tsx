@@ -15,7 +15,6 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { styles } from '@/styles'
 
 const EditCompletion: NextPage = () => {
   const router = useRouter()
@@ -28,7 +27,7 @@ const EditCompletion: NextPage = () => {
       <Head>
         <title>保険相談投稿完了</title>
       </Head>
-      <Box component="main" css={styles.pageMinHeight}>
+      <Box component="main">
         <Container maxWidth="md">
           <Stepper activeStep={activeStep} alternativeLabel sx={{ mt: 10, mb: 4 }}>
             {steps.map((label) => (

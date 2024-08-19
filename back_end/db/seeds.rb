@@ -4,7 +4,7 @@ ActiveRecord::Base.transaction do
   user3 = User.create!(name: "ゲストユーザー", email: "guest@example.com", password: "guestpassword", confirmed_at: Time.current)
 
   15.times do |i|
-    Article.create!(title: "テストタイトル1-#{i}", background: "テスト背景1-#{i}", content: "テスト本文1-#{i}", status: :published, user: user1)
-    Article.create!(title: "テストタイトル2-#{i}", background: "テスト背景2-#{i}", content: "テスト本文2-#{i}", status: :published, user: user2)
+    Article.create!(categories: "カテゴリ定期保険-#{i}", title: "テストタイトル1-#{i}", background: "テスト背景1-#{i}", content: "テスト本文1-#{i}", status: :published, user: user1)
+    Article.create!(categories: "カテゴリ定期保険-#{i}", title: "テストタイトル2-#{i}", background: "テスト背景2-#{i}", content: "テスト本文2-#{i}", status: :published, user: user2)
   end
 end

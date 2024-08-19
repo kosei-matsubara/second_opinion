@@ -1,10 +1,14 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, Container, TextField, Typography, Stack, Button } from '@mui/material'
+import { Box, Container, Divider, TextField, Typography, Stack } from '@mui/material'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import type { NextPage } from 'next'
+import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import Breadcrumbs from '@/components/Breadcrumbs'
+import { validationRules } from '@/components/ValidationRules'
 import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
 
 type SignInFormData = {
@@ -14,31 +18,18 @@ type SignInFormData = {
 
 const SignIn: NextPage = () => {
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
-  const [user, setUser] = useUserState()
   const [, setSnackbar] = useSnackbarState()
+  const [isLoading, setIsLoading] = useState(false)
+  const [isGuestLoading, setIsGuestLoading] = useState(false)
+  const [user, setUser] = useUserState()
 
   const { control, setValue, handleSubmit } = useForm<SignInFormData>({
     defaultValues: { email: '', password: '' },
   })
 
-  // fieldのvalidationを定義する
-  const validationRules = {
-    email: {
-      required: 'メールアドレスを入力してください',
-      pattern: {
-        value:
-          /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/,
-        message: '正しい形式のメールアドレスを入力してください',
-      },
-    },
-    password: {
-      required: 'パスワードを入力してください',
-    },
-  }
-
   // ゲストログインを実行する
   const handleGuestLogin = () => {
+    setIsGuestLoading(true) // POSTリクエスト送信のためユーザーアクションを不可に制御する
     setValue('email', 'guest@example.com') // ゲストユーザーのemailアドレスを自動入力する
     setValue('password', 'guestpassword') // ゲストユーザーのpasswordを自動入力する
     handleSubmit(onSubmit)()
@@ -46,6 +37,7 @@ const SignIn: NextPage = () => {
 
   const onSubmit: SubmitHandler<SignInFormData> = (data) => {
     setIsLoading(true) // POSTリクエスト送信のためユーザーアクションを不可に制御する
+
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/sign_in'
     // APIリクエストのheaderを定義する
     const headers = { 'Content-Type': 'application/json' }
@@ -79,76 +71,113 @@ const SignIn: NextPage = () => {
           pathname: '/sign_in',
         })
       })
+      // POSTリクエスト完了後にユーザーアクションを可能に制御する
       .finally(() => {
-        setIsLoading(false) // POSTリクエスト完了後にユーザーアクションを可能に制御する
+        setIsLoading(false)
+        setIsGuestLoading(false)
       })
   }
 
   return (
-    <Box
-      sx={{
-        backgroundColor: '#EDF2F7',
-        minHeight: 'calc(100vh - 57px)',
-      }}
-    >
-      <Container maxWidth="sm">
-        <Box sx={{ mb: 4, pt: 4 }}>
-          <Typography
-            component="h2"
-            sx={{ fontSize: 32, color: 'black', fontWeight: 'bold' }}
+    <Box>
+      <Head>
+        <title>サインイン</title>
+      </Head>
+      <Box>
+        <Container maxWidth="sm">
+          <Breadcrumbs />
+          <Box sx={{ my: 2 }}>
+            <Typography component="h1" variant="h5">
+              サインインする
+            </Typography>
+          </Box>
+          <Stack
+            component="form"
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{ mb: 4 }}
+            spacing={2}
+            divider={<Divider orientation="horizontal" flexItem />}
           >
-            Sign in
-          </Typography>
-        </Box>
-        <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={4}>
-          <Controller
-            name="email"
-            control={control}
-            rules={validationRules.email}
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                type="text"
-                label="メールアドレス"
-                error={fieldState.invalid}
-                helperText={fieldState.error?.message}
-                sx={{ backgroundColor: 'white' }}
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            control={control}
-            rules={validationRules.password}
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                type="password"
-                label="パスワード"
-                error={fieldState.invalid}
-                helperText={fieldState.error?.message}
-                sx={{ backgroundColor: 'white' }}
-              />
-            )}
-          />
-          <LoadingButton
-            variant="contained"
-            type="submit"
-            loading={isLoading}
-            sx={{ fontWeight: 'bold', color: 'white' }}
-          >
-            送信する
-          </LoadingButton>
-          {/* ゲストログインボタンを追加 */}
-          <Button
-            variant="outlined"
-            onClick={handleGuestLogin}
-            sx={{ fontWeight: 'bold', color: 'black' }}
-          >
-            ゲストログイン
-          </Button>
-        </Stack>
-      </Container>
+            <Controller
+              name="email"
+              control={control}
+              rules={validationRules.email}
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  type="text"
+                  label="メールアドレス"
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
+                />
+              )}
+            />
+            <Controller
+              name="password"
+              control={control}
+              rules={validationRules.password}
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  type="password"
+                  label="パスワード"
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
+                />
+              )}
+            />
+            <LoadingButton
+              type="submit"
+              loading={isLoading}
+              variant="contained"
+              sx={{
+                boxShadow: 'none',
+                borderRadius: 1,
+                textTransform: 'none',
+                fontSize: { xs: 12, sm: 16 },
+                fontWeight: 'bold',
+              }}
+            >
+              送信する
+            </LoadingButton>
+            <LoadingButton
+              onClick={handleGuestLogin}
+              loading={isGuestLoading}
+              variant="text"
+              sx={{
+                boxShadow: 'none',
+                border: '0.5px solid #000000',
+                borderRadius: 1,
+                textTransform: 'none',
+                fontSize: { xs: 12, sm: 16 },
+                fontWeight: 'bold',
+                color: '#000000',
+              }}
+            >
+              ゲストサインイン
+            </LoadingButton>
+            <Box>
+              <Typography component="p" variant="body2">
+                アカウントをお持ちでない方は
+                <Link
+                  href="/sign_up"
+                  style={{
+                    color: '#1976D2',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                >
+                  無料会員登録
+                </Link>
+                をしてください。
+              </Typography>
+            </Box>
+          </Stack>
+        </Container>
+      </Box>
     </Box>
   )
 }

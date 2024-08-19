@@ -12,6 +12,7 @@ const pathToJapanese: { [key: string]: string } = {
   'sign_up': '会員情報入力',
   'sign_up_provisional_registration': '仮登録完了',
   'sign_up_full_registration': '本登録完了',
+  'sign_in': 'サインイン',
   // パス名を追加する場合に日本語パス名を追加する
 }
 

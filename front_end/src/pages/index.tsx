@@ -13,7 +13,6 @@ import Head from 'next/head'
 import Link from 'next/link'
 import useSWR from 'swr'
 import Error from '@/components/Error'
-import { styles } from '@/styles'
 
 const Index: NextPage = () => {
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/'
@@ -25,7 +24,7 @@ const Index: NextPage = () => {
       <Head>
         <title>保険のセカンドオピニオン</title>
       </Head>
-      <Box component="main" css={styles.pageMinHeight}>
+      <Box component="main">
         <Container maxWidth="lg">
           <Box
             sx={{

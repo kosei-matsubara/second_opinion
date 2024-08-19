@@ -4,7 +4,6 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useState } from 'react'
 import Breadcrumbs from '@/components/Breadcrumbs'
-import { styles } from '@/styles'
 
 const SignUpFullRegistration: NextPage = () => {
   const steps = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
@@ -15,7 +14,7 @@ const SignUpFullRegistration: NextPage = () => {
       <Head>
         <title>本登録完了</title>
       </Head>
-      <Box css={styles.pageMinHeight}>
+      <Box>
         <Container maxWidth="sm">
           <Breadcrumbs />
           <Stepper activeStep={activeStep} alternativeLabel sx={{ m: 4 }}>

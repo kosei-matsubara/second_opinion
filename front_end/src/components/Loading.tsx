@@ -5,20 +5,14 @@ import { styles } from '@/styles'
 const Loading = () => {
   return (
     <Box
-      css={styles.pageMinHeight}
+      css={styles.pageMinHeight} // LoadingのImageを表示中、画面内にFooterを表示しないようMinHeightを定義する
       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
       }}
     >
-      <Image
-        src="/loading.svg"
-        width={150}
-        height={150}
-        alt="loading..."
-        priority
-      />
+      <Image src="/loading.svg" width={150} height={150} alt="loading..." priority />
     </Box>
   )
 }

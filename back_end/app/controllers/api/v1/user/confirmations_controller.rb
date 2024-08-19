@@ -1,5 +1,6 @@
 class Api::V1::User::ConfirmationsController < Api::V1::BaseController
   def update
+    # メール認証におけるトークンを検証する
     user = User.find_by(confirmation_token: params[:confirmation_token])
     return render json: { message: "User record is not found." }, status: :not_found if user.nil?
     return render json: { message: "User has already been confirmed." }, status: :bad_request if user.confirmed?

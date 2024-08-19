@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { useUserState } from '@/hooks/useGlobalState'
-import { styles } from '@/styles'
 
 const SignOut: NextPage = () => {
   const router = useRouter()
@@ -29,7 +28,7 @@ const SignOut: NextPage = () => {
       <Head>
         <title>サインアウト</title>
       </Head>
-      <Box component="main" css={styles.pageMinHeight}>
+      <Box component="main">
         <Container maxWidth="lg">
           <Breadcrumbs />
           <Box
@@ -63,17 +62,31 @@ const SignOut: NextPage = () => {
               </Typography>
             </Box>
             <Box sx={{ mb: 2 }}>
-              <Link href="/sign_in">
-                <Typography component="p" variant="body1" sx={{ color: '#003838' }}>
-                  再度サインインする
-                </Typography>
+              <Link
+                href="/sign_in"
+                style={{
+                  color: '#1976D2',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+              >
+                再度サインインする
               </Link>
             </Box>
             <Box>
-              <Link href="/">
-                <Typography component="p" variant="body1" sx={{ color: '#003838' }}>
-                  トップページに戻る
-                </Typography>
+              <Link
+                href="/"
+                style={{
+                  color: '#1976D2',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+              >
+                トップページに戻る
               </Link>
             </Box>
           </Box>

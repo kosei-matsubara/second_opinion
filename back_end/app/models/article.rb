@@ -10,6 +10,7 @@ class Article < ApplicationRecord
     validates :content, presence: true, length: { maximum: 100 }
   end
 
+  # 未保存の保険相談が複数存在しないことを確認する
   validate :verify_only_one_unsaved_status_is_allowed
 
   private

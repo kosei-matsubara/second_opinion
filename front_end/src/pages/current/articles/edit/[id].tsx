@@ -28,6 +28,7 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import { categoryOptions } from '@/components/CategoryOptions'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
+import { validationRules } from '@/components/ValidationRules'
 import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
 import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
 import { styles } from '@/styles'
@@ -111,34 +112,6 @@ const CurrentArticlesEdit: NextPage = () => {
     }
   }, [data, article, reset])
 
-  // fieldのvalidationを定義する
-  const validationRules = {
-    categories: {
-      required: 'カテゴリは必須入力です',
-    },
-    title: {
-      required: '相談タイトルは必須入力です',
-      maxLength: {
-        value: 50,
-        message: '相談タイトルは50文字以内で入力してください',
-      },
-    },
-    background: {
-      required: '相談の背景は必須入力です',
-      maxLength: {
-        value: 600,
-        message: '相談の背景は600文字以内で入力してください',
-      },
-    },
-    content: {
-      required: '質問は必須入力です',
-      maxLength: {
-        value: 100,
-        message: '質問は100文字以内で入力してください',
-      },
-    },
-  }
-
   // バリデーションチェック後にpreview表示に切り替える関数
   const handleClickButtonValidation = async () => {
     const isValid = await trigger() // バリデーションを実行後にboolean値を返す
@@ -212,7 +185,7 @@ const CurrentArticlesEdit: NextPage = () => {
       <Head>
         <title>保険相談</title>
       </Head>
-      <Box component="form" css={styles.pageMinHeight} onSubmit={handleSubmit(onSubmit)}>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <AppBar
           position="static"
           sx={{
@@ -283,7 +256,7 @@ const CurrentArticlesEdit: NextPage = () => {
                   </Typography>
                 </Box>
                 <Box sx={{ mb: 2 }}>
-                  {/* カテゴリ入力field */}
+                  {/* 相談カテゴリ入力field */}
                   <Controller
                     name="categories"
                     control={control}
@@ -296,7 +269,7 @@ const CurrentArticlesEdit: NextPage = () => {
                         error={fieldState.invalid}
                         helperText={fieldState.error?.message}
                         fullWidth
-                        placeholder="カテゴリを入力"
+                        placeholder="相談カテゴリを入力"
                       >
                         {/* 外部ファイルからimportしたカテゴリオプションをプルダウンメニューに表示する */}
                         {Object.entries(categoryOptions).map(([key, label]) => (
@@ -346,14 +319,14 @@ const CurrentArticlesEdit: NextPage = () => {
                   <Controller
                     name="title"
                     control={control}
-                    rules={validationRules.title}
+                    // rules={validationRules.title}
                     render={({ field, fieldState }) => (
                       <TextField
                         {...field}
                         type="text"
-                        error={fieldState.invalid}
+                        // error={fieldState.invalid}
                         // validationエラーを出力していない場合は入力文字数を表示する
-                        helperText={`${fieldState.error?.message || ''} ${titleLength}/50文字`}
+                        // helperText={`${fieldState.error?.message || ''} ${titleLength}/50文字`}
                         onChange={(e) => {
                           field.onChange(e)
                           // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
@@ -522,7 +495,7 @@ const CurrentArticlesEdit: NextPage = () => {
               <Box
                 sx={{
                   mt: 6,
-                  pb: 18,
+                  pb: 16,
                   display: 'flex',
                   flexDirection: 'column',
                 }}
