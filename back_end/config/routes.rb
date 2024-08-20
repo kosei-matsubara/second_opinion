@@ -12,10 +12,11 @@ Rails.application.routes.draw do
       end
 
       namespace :current do
-        resource :user, only: [:show]
+        resource :user, only: [:show, :update]
         resources :articles, only: [:index, :show, :create, :update]
       end
 
+      resources :users, only: [:index, :show]
       resources :articles, only: [:index, :show]
     end
   end

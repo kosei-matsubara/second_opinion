@@ -3,7 +3,15 @@ ja:
   activerecord:
     attributes:
       user:
-        # categories: カテゴリ
+        name: 名前
+        belong: 所属
+        address: 住所
+        self_introduction: 自己紹介
+        my_strength: わたしの強み
+        career: 経歴
+        message: 相談者へのメッセージ
+        access: アクセス
+        website: ホームページ
       article:
         categories: カテゴリ
         title: タイトル
@@ -11,10 +19,23 @@ ja:
         content: 質問
   enums:
     user:
-      # status:
-      #   unsaved: 未保存
-      #   draft: 下書き
-      #   published: 公開中
+      user_division:
+        policyholder: 保険契約者
+        insurance_agent: 保険営業者
+      sex:
+        male: 男性
+        female: 女性
+      generation:
+        teens: 10代
+        twenties: 20代
+        thirties: 30代
+        forties: 40代
+        fifties: 50代
+        sixties_and_above: 60代以降
+      family_structure:
+        single: 独身
+        couple: 夫婦
+        couple_with_children: 夫婦＋子供
     article:
       status:
         unsaved: 未保存

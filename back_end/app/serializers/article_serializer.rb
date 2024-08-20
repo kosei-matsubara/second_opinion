@@ -1,8 +1,9 @@
 class ArticleSerializer < ActiveModel::Serializer
+  # 保険相談に表示する項目を定義する
   attributes :id, :categories, :title, :background, :content, :status, :created_at, :from_today
   belongs_to :user, serializer: UserSerializer
 
-  # ステータスの翻訳を取得する
+  # ステータスを日本語変換する
   def status
     object.status_i18n
   end

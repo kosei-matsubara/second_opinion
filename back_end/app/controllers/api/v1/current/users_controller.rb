@@ -1,4 +1,5 @@
 class Api::V1::Current::UsersController < Api::V1::BaseController
+  # リクエストheaderの認証をする
   before_action :authenticate_user!
 
   def show

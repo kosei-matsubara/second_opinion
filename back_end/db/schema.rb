@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_09_060799) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_19_115340) do
   create_table "articles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "categories", comment: "お悩みカテゴリ"
     t.string "title", comment: "タイトル"
@@ -42,6 +42,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_09_060799) do
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_division", comment: "ユーザー区分（10:保険契約者, 20:保険営業者）"
+    t.integer "sex", comment: "性別（10:男性, 20:女性）"
+    t.integer "generation", comment: "年代（10:10代, 20:20代, 30:30代, 40:40代, 50:50代, 60:60代以降）"
+    t.integer "family_structure", comment: "家族構成（10:独身, 20:夫婦, 30:夫婦＋子供）"
+    t.string "prefectures", comment: "都道府県"
+    t.string "belong", comment: "所属"
+    t.string "address", comment: "住所"
+    t.text "self_introduction", comment: "自己紹介"
+    t.text "my_strength", comment: "わたしの強み"
+    t.text "career", comment: "経歴"
+    t.text "message", comment: "相談者へのメッセージ"
+    t.text "access", comment: "アクセス"
+    t.string "website", comment: "ホームページ"
+    t.string "inquiry_opening_time", comment: "問い合わせ_受付時間"
+    t.string "inquiry_telephone_number", comment: "問い合わせ_電話番号"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
