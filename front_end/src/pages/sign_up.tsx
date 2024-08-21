@@ -31,16 +31,11 @@ const SignUp: NextPage = () => {
   const [, setSnackbar] = useSnackbarState()
   const [isLoading, setIsLoading] = useState(false)
   const steps = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
-  const [activeStep, setActiveStep] = useState(1) // Stepperの初期値を定義する
+  const [activeStep] = useState<number>(1) // Stepperの初期値を定義する
 
   const { handleSubmit, control } = useForm<SignUpFormData>({
     defaultValues: { email: '', password: '', name: '' },
   })
-
-  // StepperのStepをカウントアップする
-  const handleNextStep = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-  }
 
   const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
     const SignUp = async (data: SignUpFormData) => {
@@ -60,7 +55,6 @@ const SignUp: NextPage = () => {
           localStorage.setItem('access-token', res.headers['access-token'] || '')
           localStorage.setItem('client', res.headers['client'] || '')
           localStorage.setItem('uid', res.headers['uid'] || '')
-          handleNextStep()
           // 認証メール送信通知画面に遷移する
           router.push({
             pathname: '/sign_up_provisional_registration',

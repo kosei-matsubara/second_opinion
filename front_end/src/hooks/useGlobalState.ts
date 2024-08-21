@@ -1,7 +1,6 @@
 import useSWR from 'swr'
 
 export const useUserState = () => {
-  // ユーザー状態の型を定義する
   type userStateType = {
     id: number
     name: string
@@ -10,7 +9,7 @@ export const useUserState = () => {
     isFetched: boolean
   }
 
-  // ユーザー状態のデータを初期化する
+  // ユーザーのサインイン関連データを初期化する
   const fallbackData: userStateType = {
     id: 0,
     name: '',
@@ -33,7 +32,7 @@ export const useSnackbarState = () => {
   }
 
   const fallbackData: snackbarStateType = {
-    // スナックバー状態のデータを初期化する
+    // スナックバーのデータを初期化する
     message: null,
     severity: null,
     pathname: null,

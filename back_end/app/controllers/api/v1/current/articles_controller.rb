@@ -17,8 +17,8 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
   end
 
   def create
-    # 未保存ステータスの相談が存在する場合は該当レコードを返す
-    # 未保存ステータスの相談が存在しない場合は未保存相談を新規作成する
+    # 未保存ステータスの保険相談が存在する場合は該当レコードを返す
+    # 未保存ステータスの保険相談が存在しない場合は未保存相談を新規作成する
     unsaved_article = current_user.articles.unsaved.first || current_user.articles.create!(status: :unsaved)
     render json: unsaved_article
   end

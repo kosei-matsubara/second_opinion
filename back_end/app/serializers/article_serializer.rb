@@ -8,7 +8,7 @@ class ArticleSerializer < ActiveModel::Serializer
     object.status_i18n
   end
 
-  # 相談作成日をフォーマットする
+  # 保険相談作成日をフォーマットする
   def created_at
     object.created_at.strftime("%Y/%m/%d")
   end

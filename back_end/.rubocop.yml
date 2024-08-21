@@ -26,7 +26,7 @@ AllCops:
   TargetRubyVersion: 3.2
 
 Layout/LineLength:
-  Max: 200
+  Max: 150
 
 Metrics/AbcSize:
   Enabled: false

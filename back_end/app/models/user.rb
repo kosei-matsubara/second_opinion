@@ -11,10 +11,30 @@ class User < ActiveRecord::Base
   # （「articles dependent: :destroy」を定義しない。）
   has_many :articles
 
-  enum :user_division, { policyholder: 10, insurance_agent: 20 }, _prefix: true
-  enum :sex, { male: 10, female: 20 }, _prefix: true
-  enum :generation, { teens: 10, twenties: 20, thirties: 30, forties: 40, fifties: 50, sixties_and_above: 60 }, _prefix: true
-  enum :family_structure, { single: 10, couple: 20, couple_with_children: 30 }, _prefix: true
+  enum :user_division, {
+    policyholder: 10,
+    insurance_agent: 20
+  }, _prefix: true
+
+  enum :sex, {
+    male: 10,
+    female: 20
+  }, _prefix: true
+
+  enum :generation, {
+    teens: 10,
+    twenties: 20,
+    thirties: 30,
+    forties: 40,
+    fifties: 50,
+    sixties_and_above: 60
+  }, _prefix: true
+
+  enum :family_structure, {
+    single: 10,
+    couple: 20,
+    couple_with_children: 30
+  }, _prefix: true
 
   # ユーザー区分が保険営業者の場合のみバリデーションをする
   with_options if: :user_division_insurance_agent? do

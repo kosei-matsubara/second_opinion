@@ -16,7 +16,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const EditCompletion: NextPage = () => {
+const CurrentArticlesEditCompletion: NextPage = () => {
   const router = useRouter()
   const steps = ['相談内容入力', '相談内容確認', '相談投稿完了'] // StepperのStepを定義する
   const activeStep = parseInt(router.query.step as string, 10)
@@ -120,4 +120,4 @@ const EditCompletion: NextPage = () => {
   )
 }
 
-export default EditCompletion
+export default CurrentArticlesEditCompletion

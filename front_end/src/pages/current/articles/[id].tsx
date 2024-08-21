@@ -76,19 +76,13 @@ const CurrentArticleDetail: NextPage = () => {
         >
           <Box sx={{ display: 'flex', gap: '0 8px' }}>
             <SettingsIcon />
-            <Typography
-              component="p"
-              sx={{ mr: 1, fontSize: { xs: 14, sm: 16 } }}
-            >
+            <Typography component="p" sx={{ mr: 1, fontSize: { xs: 14, sm: 16 } }}>
               ステータス: {article.status}
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: '0 8px' }}>
             <ArticleIcon />
-            <Typography
-              component="p"
-              sx={{ mr: 1, fontSize: { xs: 14, sm: 16 } }}
-            >
+            <Typography component="p" sx={{ mr: 1, fontSize: { xs: 14, sm: 16 } }}>
               公開: {article.createdAt}
             </Typography>
           </Box>

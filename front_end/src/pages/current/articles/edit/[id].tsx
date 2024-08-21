@@ -31,7 +31,6 @@ import Loading from '@/components/Loading'
 import { validationRules } from '@/components/ValidationRules'
 import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
 import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
-import { styles } from '@/styles'
 import { fetcher } from '@/utils'
 
 type ArticleProps = {
@@ -58,7 +57,7 @@ const CurrentArticlesEdit: NextPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [previewChecked, setPreviewChecked] = useState<boolean>(false)
   const steps = ['相談内容入力', '相談内容確認', '相談投稿完了'] // StepperのStepを定義する
-  const [activeStep, setActiveStep] = useState(1) // Stepperの初期値を定義する
+  const [activeStep, setActiveStep] = useState<number>(1) // Stepperの初期値を定義する
 
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/'
   const { id } = router.query
@@ -319,14 +318,14 @@ const CurrentArticlesEdit: NextPage = () => {
                   <Controller
                     name="title"
                     control={control}
-                    // rules={validationRules.title}
+                    rules={validationRules.title}
                     render={({ field, fieldState }) => (
                       <TextField
                         {...field}
                         type="text"
-                        // error={fieldState.invalid}
+                        error={fieldState.invalid}
                         // validationエラーを出力していない場合は入力文字数を表示する
-                        // helperText={`${fieldState.error?.message || ''} ${titleLength}/50文字`}
+                        helperText={`${fieldState.error?.message || ''} ${titleLength}/50文字`}
                         onChange={(e) => {
                           field.onChange(e)
                           // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする

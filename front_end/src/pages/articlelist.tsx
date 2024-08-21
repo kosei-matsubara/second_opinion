@@ -18,7 +18,6 @@ type ArticleProps = {
   title: string
   categories: string
   background: string
-  createdAt: string
   fromToday: string
 }
 

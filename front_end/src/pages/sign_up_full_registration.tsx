@@ -7,7 +7,7 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 
 const SignUpFullRegistration: NextPage = () => {
   const steps = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
-  const [activeStep] = useState(3) // Stepperの初期値を定義する
+  const [activeStep] = useState<number>(3) // Stepperの初期値を定義する
 
   return (
     <Box>

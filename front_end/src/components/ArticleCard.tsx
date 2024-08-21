@@ -4,7 +4,6 @@ type ArticleCardProps = {
   title: string
   categories: string
   background: string
-  createdAt: string
   fromToday: string
 }
 

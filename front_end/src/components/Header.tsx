@@ -1,6 +1,6 @@
-import ArticleIcon from '@mui/icons-material/Article'
 import LoginIcon from '@mui/icons-material/Login'
 import Logout from '@mui/icons-material/Logout'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import MessageIcon from '@mui/icons-material/Message'
 import PersonIcon from '@mui/icons-material/Person'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
@@ -30,7 +30,7 @@ const Header = () => {
   const open = Boolean(anchorEl) // メニューモーダルの開閉を判定する
 
   // 以下URLにおいてnullをreturnしてHeaderを非表示後、個別画面用のHeaderを表示する
-  const hideHeaderPathnames = ['/current/articles/edit/[id]'] // 相談編集画面
+  const hideHeaderPathnames = ['/current/articles/edit/[id]'] // 保険相談編集画面
   if (hideHeaderPathnames.includes(router.pathname)) return <div></div>
 
   const addNewArticle = () => {
@@ -50,7 +50,7 @@ const Header = () => {
       headers: headers,
     })
       .then((res: AxiosResponse) => {
-        // 相談投稿画面に遷移する
+        // 保険相談投稿画面に遷移する
         router.push('/current/articles/edit/' + res.data.id)
       })
       .catch((e: AxiosError<{ error: string }>) => {
@@ -172,12 +172,20 @@ const Header = () => {
                       <Typography sx={{ fontWeight: 'bold' }}>{user.name} 様</Typography>
                     </Box>
                     <Divider />
-                    <Link href={"/current/articles"}>
+                    <Link href={'/current/articles'}>
                       <MenuItem>
                         <ListItemIcon>
-                          <ArticleIcon fontSize="small" />
+                          <MessageIcon fontSize="small" />
                         </ListItemIcon>
-                        記事の管理
+                        自分の保険相談一覧
+                      </MenuItem>
+                    </Link>
+                    <Link href={'/current/profile'}>
+                      <MenuItem>
+                        <ListItemIcon>
+                          <ManageAccountsIcon fontSize="small" />
+                        </ListItemIcon>
+                        プロフィール管理
                       </MenuItem>
                     </Link>
                     <Link href="/sign_out">
