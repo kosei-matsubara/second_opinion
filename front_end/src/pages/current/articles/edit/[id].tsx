@@ -103,7 +103,7 @@ const CurrentArticlesEdit: NextPage = () => {
   useEffect(() => {
     if (data) {
       reset(article)
-      //  入力中の文字が存在する場合は入力文字数をカウントする
+      //  入力文字が存在する場合は入力文字数をカウントする
       setTitleLength(article.title.length)
       setBackgroundLength(article.background.length)
       setContentLength(article.content.length)
@@ -300,7 +300,7 @@ const CurrentArticlesEdit: NextPage = () => {
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0px 10px',
+                    gap: '0px 20px',
                   }}
                 >
                   <Typography component="p" variant="h6">

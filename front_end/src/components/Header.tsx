@@ -180,7 +180,7 @@ const Header = () => {
                         自分の保険相談一覧
                       </MenuItem>
                     </Link>
-                    <Link href={'/current/profile'}>
+                    <Link href={'/current/profile_edit'}>
                       <MenuItem>
                         <ListItemIcon>
                           <ManageAccountsIcon fontSize="small" />
