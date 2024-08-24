@@ -25,6 +25,7 @@ const translatePathname = (pathname: string): string => {
 const negativeList: string[] = [
   'current',
   'articles',
+  'edit',
   '[id]',
   'edit_completion',
   // 生成URLから除外する階層パスを追加する

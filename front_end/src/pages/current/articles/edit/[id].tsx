@@ -24,7 +24,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState, useMemo } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import useSWR from 'swr'
-import Breadcrumbs from '@/components/Breadcrumbs'
 import { categoryOptions } from '@/components/CategoryOptions'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
@@ -117,7 +116,7 @@ const CurrentArticlesEdit: NextPage = () => {
     isValid ? setPreviewChecked(!previewChecked) : null
   }
 
-  // preview表示を切り替える関数
+  // preview表示に切り替える関数
   const handleClickButtonPreview = () => {
     setPreviewChecked(!previewChecked)
   }
@@ -204,7 +203,6 @@ const CurrentArticlesEdit: NextPage = () => {
           </Container>
         </AppBar>
         <Container maxWidth="md">
-          <Breadcrumbs />
           <Stepper activeStep={activeStep} alternativeLabel sx={{ my: 4 }}>
             {steps.map((label) => (
               <Step key={label}>
@@ -268,9 +266,8 @@ const CurrentArticlesEdit: NextPage = () => {
                         error={fieldState.invalid}
                         helperText={fieldState.error?.message}
                         fullWidth
-                        placeholder="相談カテゴリを入力"
                       >
-                        {/* 外部ファイルからimportしたカテゴリオプションをプルダウンメニューに表示する */}
+                        {/* 外部ファイルからimportしたオプションをプルダウンメニューに表示する */}
                         {Object.entries(categoryOptions).map(([key, label]) => (
                           <MenuItem key={key} value={key}>
                             {label}

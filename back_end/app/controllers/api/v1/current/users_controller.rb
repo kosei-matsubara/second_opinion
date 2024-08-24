@@ -21,35 +21,23 @@ class Api::V1::Current::UsersController < Api::V1::BaseController
     end
 
     def user_params
-      # ユーザー区分で更新項目を制御する
-      case @user.user_division
-      when "policyholder"
-        params.require(:user).permit(
-          :user_division,
-          :name,
-          :sex,
-          :generation,
-          :family_structure,
-          :prefectures
-        )
-      when "insurance_agent"
-        params.require(:user).permit(
-          :user_division,
-          :name,
-          :belong,
-          :address,
-          :self_introduction,
-          :my_strength,
-          :career,
-          :message,
-          :access,
-          :website,
-          :inquiry_opening_time,
-          :inquiry_telephone_number
-        )
-      else
-        # 想定外のユーザー区分の場合はエラーを出力する
-        raise ActionController::BadRequest, "不正なユーザー区分です: #{@user.user_division}"
-      end
+      params.require(:user).permit(
+        :user_division,
+        :name,
+        :sex,
+        :generation,
+        :family_structure,
+        :prefectures,
+        :belong,
+        :address,
+        :self_introduction,
+        :my_strength,
+        :career,
+        :message,
+        :access,
+        :website,
+        :inquiry_opening_time,
+        :inquiry_telephone_number
+      )
     end
 end

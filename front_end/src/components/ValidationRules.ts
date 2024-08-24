@@ -1,5 +1,5 @@
 type ValidationRule = {
-  required: string
+  required?: string
   maxLength?: {
     value: number
     message: string
@@ -27,7 +27,7 @@ export const validationRules: ValidationRules = {
     required: 'パスワードを入力してください',
   },
   name: {
-    required: 'ユーザー名を入力してください',
+    required: '名前を入力してください',
   },
   categories: {
     required: '相談カテゴリは必須入力です',
@@ -51,6 +51,42 @@ export const validationRules: ValidationRules = {
     maxLength: {
       value: 100,
       message: '質問は100文字以内で入力してください',
+    },
+  },
+  self_introduction: {
+    maxLength: {
+      value: 600,
+      message: '自己紹介は600文字以内で入力してください',
+    },
+  },
+  my_strength: {
+    maxLength: {
+      value: 600,
+      message: 'わたしの強みは600文字以内で入力してください',
+    },
+  },
+  career: {
+    maxLength: {
+      value: 400,
+      message: '経歴は400文字以内で入力してください',
+    },
+  },
+  message: {
+    maxLength: {
+      value: 400,
+      message: '相談者へのメッセージは400文字以内で入力してください',
+    },
+  },
+  access: {
+    maxLength: {
+      value: 400,
+      message: 'アクセスは400文字以内で入力してください',
+    },
+  },
+  website: {
+    maxLength: {
+      value: 80,
+      message: '弊社ホームページは80文字以内で入力してください',
     },
   },
 }

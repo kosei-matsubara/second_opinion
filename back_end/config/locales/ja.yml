@@ -4,8 +4,6 @@ ja:
     attributes:
       user:
         name: 名前
-        belong: 所属
-        address: 住所
         self_introduction: 自己紹介
         my_strength: わたしの強み
         career: 経歴

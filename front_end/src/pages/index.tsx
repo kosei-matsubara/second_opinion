@@ -99,6 +99,7 @@ const Index: NextPage = () => {
           <Box
             sx={{
               backgroundColor: 'custom.h2backgroundColor',
+              borderRadius: 1,
               my: 2,
               p: 1,
             }}

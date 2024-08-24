@@ -140,7 +140,7 @@ const SignUp: NextPage = () => {
                 <TextField
                   {...field}
                   type="text"
-                  label="ユーザー名"
+                  label="名前"
                   error={fieldState.invalid}
                   helperText={fieldState.error?.message}
                 />

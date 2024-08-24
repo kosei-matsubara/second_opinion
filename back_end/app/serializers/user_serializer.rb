@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  # プロフィールの更新項目を定義する
+  # プロフィールの表示項目を定義する
   attributes :user_division,
              :name,
              :sex,

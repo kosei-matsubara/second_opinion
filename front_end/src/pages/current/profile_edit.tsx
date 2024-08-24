@@ -1,5 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import HomeIcon from '@mui/icons-material/Home'
 import InfoIcon from '@mui/icons-material/Info'
 import SendIcon from '@mui/icons-material/Send'
 import WarningIcon from '@mui/icons-material/Warning'
@@ -28,7 +29,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import useSWR from 'swr'
 import Breadcrumbs from '@/components/Breadcrumbs'
-import { categoryOptions } from '@/components/CategoryOptions'
+import { prefecturesOptions } from '@/components/PrefecturesOptions'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
 import { validationRules } from '@/components/ValidationRules'
@@ -81,8 +82,10 @@ const CurrentProfileEdit: NextPage = () => {
   const [, setSnackbar] = useSnackbarState()
   const [isFetched, setIsFetched] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [userDivision, setUserDivision] = useState<string>('')
 
   // APIからプロフィールデータを取得する
+  // const { data, error } = useSWR<ProfileProps>(
   const { data, error } = useSWR<ProfileProps>(
     user.isSignedIn ? process.env.NEXT_PUBLIC_API_BASE_URL + '/current/user' : null,
     fetcher,
@@ -149,6 +152,8 @@ const CurrentProfileEdit: NextPage = () => {
   useEffect(() => {
     if (data) {
       reset(Profile)
+      // 初回表示画面制御のためuser_divisionの現在値を取得する
+      setUserDivision(data.user_division)
       //  入力文字が存在する場合は入力文字数をカウントする
       setSelfIntroductionLength(Profile.self_introduction.length)
       setMyStrengthLength(Profile.my_strength.length)
@@ -160,6 +165,10 @@ const CurrentProfileEdit: NextPage = () => {
     }
   }, [data, Profile, reset])
 
+  // `user_division` の値が変更された際に呼ばれるハンドラー
+  const handleUserDivisionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserDivision(event.target.value)
+  }
   const onSubmit: SubmitHandler<ProfileFormData> = (formData) => {
     setIsLoading(true) // PATCHリクエスト送信のためユーザーアクションを不可に制御する
 
@@ -187,7 +196,7 @@ const CurrentProfileEdit: NextPage = () => {
         setSnackbar({
           message: 'プロフィールを変更しました',
           severity: 'success',
-          pathname: '/',
+          pathname: '/current/profile_edit',
         })
       })
       .catch((err: AxiosError<{ error: string }>) => {
@@ -214,16 +223,67 @@ const CurrentProfileEdit: NextPage = () => {
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <Container maxWidth="md">
           <Box>
-            <Box sx={{ mb: 0 }}>
+            <Box sx={{ mt: 4, mb: 2 }}>
               <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold' }}>
                 プロフィール情報を変更する
               </Typography>
             </Box>
-            <FormControl component="fieldset" fullWidth sx={{ mb: 4 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0px 80px',
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0px 20px',
+                }}
+              >
+                <Typography component="p" sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                  名前
+                </Typography>
+                <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+                  必須
+                </Typography>
+              </Box>
+              <Box>
+                {/* 名前入力field */}
+                <Controller
+                  name="name"
+                  control={control}
+                  rules={validationRules.name}
+                  render={({ field, fieldState }) => (
+                    <TextField
+                      {...field}
+                      type="text"
+                      error={fieldState.invalid}
+                      helperText={fieldState.error?.message}
+                      InputProps={{
+                        sx: {
+                          height: '40px',
+                        },
+                      }}
+                      placeholder="名前を入力"
+                    />
+                  )}
+                />
+              </Box>
+            </Box>
+            <Divider sx={{ my: 2 }} />
+            <FormControl component="fieldset" fullWidth>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <FormLabel
                   component="legend"
-                  sx={{ color: '#000000', fontSize: '20px', fontWeight: 'bold' }}
+                  sx={{
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    '&.MuiFormLabel-root': {
+                      color: '#000000',
+                    },
+                  }}
                 >
                   利用者区分
                 </FormLabel>
@@ -233,10 +293,15 @@ const CurrentProfileEdit: NextPage = () => {
                   render={({ field }) => (
                     <RadioGroup
                       {...field}
+                      value={field.value} // react-hook-formのfield.valueを定義する
+                      onChange={(event) => {
+                        field.onChange(event) // form入力値をPATCHリクエスト時に使用するためreact-hook-formのonChangeを実行する
+                        handleUserDivisionChange(event) // 表示画面を切り替える関数を実行する
+                      }}
                       row
                       sx={{
                         position: 'absolute',
-                        left: '30%',
+                        left: '20%',
                       }}
                     >
                       <FormControlLabel value="" control={<Radio />} label="選択しない" />
@@ -246,54 +311,483 @@ const CurrentProfileEdit: NextPage = () => {
                   )}
                 />
               </Box>
-              <Box
-                sx={{
-                  backgroundColor: '#EEFFFF	',
-                  mb: 0,
-                  p: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
-                <Typography component="p" variant="body2">
-                  属性をご入力いただく事で保険のプロからより回答な正確が得やすくなります。
-                </Typography>
-              </Box>
-              <Divider sx={{ my: 2 }} />
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <FormLabel
-                  component="legend"
-                  sx={{ color: '#000000', fontSize: '20px', fontWeight: 'bold' }}
-                >
-                  性別
-                </FormLabel>
-                <Controller
-                  name="sex"
-                  control={control}
-                  render={({ field }) => (
-                    <RadioGroup
-                      {...field}
-                      row
+              {/* 保険契約者向けの表示 */}
+              {userDivision === 'policyholder' && (
+                <div>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <FormLabel
+                      component="legend"
                       sx={{
-                        position: 'absolute',
-                        left: '30%',
+                        fontSize: '20px',
+                        fontWeight: 'bold',
+                        '&.MuiFormLabel-root': {
+                          color: '#000000',
+                        },
                       }}
                     >
-                      <FormControlLabel value="" control={<Radio />} label="選択しない" />
-                      <FormControlLabel value="male" control={<Radio />} label="男性" />
-                      <FormControlLabel value="female" control={<Radio />} label="女性" />
-                    </RadioGroup>
-                  )}
-                />
-              </Box>
+                      性別
+                    </FormLabel>
+                    <Controller
+                      name="sex"
+                      control={control}
+                      render={({ field }) => (
+                        <RadioGroup
+                          {...field}
+                          row
+                          sx={{
+                            position: 'absolute',
+                            left: '20%',
+                          }}
+                        >
+                          <FormControlLabel value="" control={<Radio />} label="選択しない" />
+                          <FormControlLabel value="male" control={<Radio />} label="男性" />
+                          <FormControlLabel value="female" control={<Radio />} label="女性" />
+                        </RadioGroup>
+                      )}
+                    />
+                  </Box>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <FormLabel
+                      component="legend"
+                      sx={{
+                        color: '#000000',
+                        fontSize: '20px',
+                        fontWeight: 'bold',
+                        '&.MuiFormLabel-root': {
+                          color: '#000000',
+                        },
+                      }}
+                    >
+                      年代
+                    </FormLabel>
+                    <Controller
+                      name="generation"
+                      control={control}
+                      render={({ field }) => (
+                        <RadioGroup
+                          {...field}
+                          row
+                          sx={{
+                            position: 'absolute',
+                            left: '20%',
+                          }}
+                        >
+                          <FormControlLabel value="" control={<Radio />} label="選択しない" />
+                          <FormControlLabel value="teens" control={<Radio />} label="10代" />
+                          <FormControlLabel value="twenties" control={<Radio />} label="20代" />
+                          <FormControlLabel value="thirties" control={<Radio />} label="30代" />
+                          <FormControlLabel value="forties" control={<Radio />} label="40代" />
+                          <FormControlLabel value="fifties" control={<Radio />} label="50代" />
+                          <FormControlLabel value="sixties_and_above" control={<Radio />} label="60代以降" />
+                        </RadioGroup>
+                      )}
+                    />
+                  </Box>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <FormLabel
+                      component="legend"
+                      sx={{
+                        color: '#000000',
+                        fontSize: '20px',
+                        fontWeight: 'bold',
+                        '&.MuiFormLabel-root': {
+                          color: '#000000',
+                        },
+                      }}
+                    >
+                      家族構成
+                    </FormLabel>
+                    <Controller
+                      name="family_structure"
+                      control={control}
+                      render={({ field }) => (
+                        <RadioGroup
+                          {...field}
+                          row
+                          sx={{
+                            position: 'absolute',
+                            left: '20%',
+                          }}
+                        >
+                          <FormControlLabel value="" control={<Radio />} label="選択しない" />
+                          <FormControlLabel value="single" control={<Radio />} label="独身" />
+                          <FormControlLabel value="couple" control={<Radio />} label="夫婦" />
+                          <FormControlLabel value="couple_with_children" control={<Radio />} label="夫婦＋子供" />
+                        </RadioGroup>
+                      )}
+                    />
+                  </Box>
+                  <Divider sx={{ my: 2 }} />
+                  <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                    <FormLabel
+                      component="legend"
+                      sx={{
+                        color: '#000000',
+                        fontSize: '20px',
+                        fontWeight: 'bold',
+                        '&.MuiFormLabel-root': {
+                          color: '#000000',
+                        },
+                      }}
+                    >
+                      都道府県
+                    </FormLabel>
+                    <Controller
+                      name="prefectures"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          select
+                          value={field.value}
+                          sx={{
+                            position: 'absolute',
+                            left: '20%',
+                            width: '130px',
+                          }}
+                          InputProps={{
+                            sx: {
+                              height: '40px',
+                            },
+                          }}
+                          SelectProps={{
+                            MenuProps: {
+                              PaperProps: {
+                                sx: {
+                                  maxHeight: '400px',
+                                },
+                              },
+                            },
+                          }}
+                        >
+                          {/* 外部ファイルからimportしたオプションをプルダウンメニューに表示する */}
+                          {Object.entries(prefecturesOptions).map(([key, label]) => (
+                            <MenuItem key={key} value={key}>
+                              {label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      )}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: '#EEFFFF	',
+                      mb: 2,
+                      p: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
+                    <Typography component="p" variant="body2">
+                      属性をご入力いただく事で保険のプロからより正確な保険相談に対する回答が得やすくなります。
+                    </Typography>
+                  </Box>
+                </div>
+              )}
+              {/* 保険営業者向けの表示 */}
+              {userDivision === 'insurance_agent' && (
+                <div>
+                  <Box
+                    sx={{
+                      backgroundColor: 'custom.h2backgroundColor',
+                      borderRadius: 1,
+                      my: 4,
+                      p: 1,
+                    }}
+                  >
+                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                      人物紹介
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0px 20px',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Typography component="p" sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                        所属
+                      </Typography>
+                    </Box>
+                    <Box>
+                      {/* 所属入力field */}
+                      <Controller
+                        name="belong"
+                        control={control}
+                        render={({ field }) => (
+                          <TextField
+                            {...field}
+                            sx={{ width: '400px' }}
+                            type="text"
+                            InputProps={{
+                              sx: {
+                                height: '40px',
+                              },
+                            }}
+                            placeholder="所属を入力"
+                          />
+                        )}
+                      />
+                    </Box>
+                  </Box>
+                  <Divider sx={{ my: 2 }} />
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0px 20px',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Typography component="p" sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                        住所
+                      </Typography>
+                    </Box>
+                    <Box>
+                      {/* 住所入力field */}
+                      <Controller
+                        name="address"
+                        control={control}
+                        render={({ field }) => (
+                          <TextField
+                            {...field}
+                            sx={{ width: '400px' }}
+                            type="text"
+                            InputProps={{
+                              sx: {
+                                height: '40px',
+                              },
+                            }}
+                            placeholder="住所を入力"
+                          />
+                        )}
+                      />
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: 'custom.h2backgroundColor',
+                      borderRadius: 1,
+                      my: 4,
+                      p: 1,
+                    }}
+                  >
+                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                      自己紹介
+                    </Typography>
+                  </Box>
+                  <Box>
+                    {/* 自己紹介の入力field */}
+                    <Controller
+                      name="self_introduction"
+                      control={control}
+                      rules={validationRules.self_introduction}
+                      render={({ field, fieldState }) => (
+                        <TextField
+                          {...field}
+                          type="text"
+                          error={fieldState.invalid}
+                          // validationエラーを出力していない場合は入力文字数を表示する
+                          helperText={`${fieldState.error?.message || ''} ${selfIntroductionLength}/600文字`}
+                          onChange={(e) => {
+                            field.onChange(e)
+                            // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                            setSelfIntroductionLength(e.target.value.length)
+                          }}
+                          multiline
+                          rows={10}
+                          fullWidth
+                          placeholder="自己紹介を入力"
+                        />
+                      )}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: 'custom.h2backgroundColor',
+                      borderRadius: 1,
+                      my: 4,
+                      p: 1,
+                    }}
+                  >
+                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                      わたしの強み
+                    </Typography>
+                  </Box>
+                  <Box>
+                    {/* わたしの強みの入力field */}
+                    <Controller
+                      name="my_strength"
+                      control={control}
+                      rules={validationRules.my_strength}
+                      render={({ field, fieldState }) => (
+                        <TextField
+                          {...field}
+                          type="text"
+                          error={fieldState.invalid}
+                          // validationエラーを出力していない場合は入力文字数を表示する
+                          helperText={`${fieldState.error?.message || ''} ${myStrengthLength}/600文字`}
+                          onChange={(e) => {
+                            field.onChange(e)
+                            // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                            setMyStrengthLength(e.target.value.length)
+                          }}
+                          multiline
+                          rows={10}
+                          fullWidth
+                          placeholder="わたしの強みを入力"
+                        />
+                      )}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: 'custom.h2backgroundColor',
+                      borderRadius: 1,
+                      my: 4,
+                      p: 1,
+                    }}
+                  >
+                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                      経歴
+                    </Typography>
+                  </Box>
+                  <Box>
+                    {/* 経歴の入力field */}
+                    <Controller
+                      name="career"
+                      control={control}
+                      rules={validationRules.career}
+                      render={({ field, fieldState }) => (
+                        <TextField
+                          {...field}
+                          type="text"
+                          error={fieldState.invalid}
+                          // validationエラーを出力していない場合は入力文字数を表示する
+                          helperText={`${fieldState.error?.message || ''} ${careerLength}/400文字`}
+                          onChange={(e) => {
+                            field.onChange(e)
+                            // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                            setCareerLength(e.target.value.length)
+                          }}
+                          multiline
+                          rows={7}
+                          fullWidth
+                          placeholder="経歴を入力"
+                        />
+                      )}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: 'custom.h2backgroundColor',
+                      borderRadius: 1,
+                      my: 4,
+                      p: 1,
+                    }}
+                  >
+                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                    相談者へのメッセージ
+                    </Typography>
+                  </Box>
+                  <Box>
+                    {/* 相談者へのメッセージの入力field */}
+                    <Controller
+                      name="message"
+                      control={control}
+                      rules={validationRules.message}
+                      render={({ field, fieldState }) => (
+                        <TextField
+                          {...field}
+                          type="text"
+                          error={fieldState.invalid}
+                          // validationエラーを出力していない場合は入力文字数を表示する
+                          helperText={`${fieldState.error?.message || ''} ${messageLength}/400文字`}
+                          onChange={(e) => {
+                            field.onChange(e)
+                            // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                            setMessageLength(e.target.value.length)
+                          }}
+                          multiline
+                          rows={7}
+                          fullWidth
+                          placeholder="相談者へのメッセージを入力"
+                        />
+                      )}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: 'custom.h2backgroundColor',
+                      borderRadius: 1,
+                      my: 4,
+                      p: 1,
+                    }}
+                  >
+                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                      アクセス
+                    </Typography>
+                  </Box>
+                  <Box>
+                    {/* アクセスの入力field */}
+                    <Controller
+                      name="access"
+                      control={control}
+                      rules={validationRules.access}
+                      render={({ field, fieldState }) => (
+                        <TextField
+                          {...field}
+                          type="text"
+                          error={fieldState.invalid}
+                          // validationエラーを出力していない場合は入力文字数を表示する
+                          helperText={`${fieldState.error?.message || ''} ${accessLength}/400文字`}
+                          onChange={(e) => {
+                            field.onChange(e)
+                            // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                            setAccessLength(e.target.value.length)
+                          }}
+                          multiline
+                          rows={7}
+                          fullWidth
+                          placeholder="アクセスを入力"
+                        />
+                      )}
+                    />
+                  </Box>
+                </div>
+              )}
               <Divider sx={{ my: 2 }} />
-              <Box sx={{ mb: 0, py: 0 }}>
+              <Box sx={{ mb: 2, py: 2 }}>
                 <Typography component="p" variant="body2">
                   利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意してプロフィールを変更」ボタンを押してください。
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Box
+                sx={{
+                  mb: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '20px 0px',
+                }}
+              >
                 <LoadingButton
                   type="submit"
                   loading={isLoading} // Click時にユーザー入力を停止する
@@ -310,6 +804,24 @@ const CurrentProfileEdit: NextPage = () => {
                   <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} />
                   同意してプロフィールを変更
                 </LoadingButton>
+                <Link href="/">
+                  <Button
+                    variant="text"
+                    sx={{
+                      width: 280,
+                      boxShadow: 'none',
+                      border: '0.5px solid #000000',
+                      borderRadius: 1,
+                      color: '#000000',
+                      textTransform: 'none',
+                      fontSize: { xs: 12, sm: 16 },
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    <HomeIcon fontSize="small" sx={{ mr: 0.5 }} />
+                    トップページへ戻る
+                  </Button>
+                </Link>
               </Box>
             </FormControl>
           </Box>

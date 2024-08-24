@@ -11,7 +11,7 @@ const CurrentUserFetch = () => {
       return
     }
 
-    // localStorage に認証情報が保存されているかを見て、ログインユーザー情報のデータフェッチを行うか否かを判断します。
+    // localStorageに認証情報の有無を判断する
     if (localStorage.getItem('access-token')) {
       const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/user'
       axios
