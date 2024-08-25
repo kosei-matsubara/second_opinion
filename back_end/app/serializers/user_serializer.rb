@@ -16,4 +16,9 @@ class UserSerializer < ActiveModel::Serializer
              :website,
              :inquiry_opening_time,
              :inquiry_telephone_number
+
+  # ステータスを日本語変換する
+  # def status
+  #   object.status_i18n
+  # end
 end

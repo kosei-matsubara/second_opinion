@@ -15,6 +15,8 @@ ja:
         title: タイトル
         background: 背景
         content: 質問
+      answer:
+        content: 回答
   enums:
     user:
       user_division:

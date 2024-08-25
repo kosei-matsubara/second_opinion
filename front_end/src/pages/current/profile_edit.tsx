@@ -1,9 +1,6 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import HomeIcon from '@mui/icons-material/Home'
 import InfoIcon from '@mui/icons-material/Info'
-import SendIcon from '@mui/icons-material/Send'
-import WarningIcon from '@mui/icons-material/Warning'
 import { LoadingButton } from '@mui/lab'
 import {
   Box,
@@ -13,7 +10,6 @@ import {
   FormLabel,
   RadioGroup,
   Radio,
-  Select,
   MenuItem,
   TextField,
   Button,
@@ -24,14 +20,12 @@ import axios, { AxiosError } from 'axios'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useEffect, useState, useMemo } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import useSWR from 'swr'
-import Breadcrumbs from '@/components/Breadcrumbs'
-import { prefecturesOptions } from '@/components/PrefecturesOptions'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
+import { prefecturesOptions } from '@/components/PrefecturesOptions'
 import { validationRules } from '@/components/ValidationRules'
 import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
 import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
@@ -56,28 +50,10 @@ type ProfileProps = {
   inquiry_telephone_number: string
 }
 
-type ProfileFormData = {
-  user_division: string
-  name: string
-  sex: string
-  generation: string
-  family_structure: string
-  prefectures: string
-  belong: string
-  address: string
-  self_introduction: string
-  my_strength: string
-  career: string
-  message: string
-  access: string
-  website: string
-  inquiry_opening_time: string
-  inquiry_telephone_number: string
-}
+type ProfileFormData = ProfileProps
 
 const CurrentProfileEdit: NextPage = () => {
   useRequireSignedIn()
-  const router = useRouter()
   const [user] = useUserState()
   const [, setSnackbar] = useSnackbarState()
   const [isFetched, setIsFetched] = useState<boolean>(false)
@@ -85,7 +61,6 @@ const CurrentProfileEdit: NextPage = () => {
   const [userDivision, setUserDivision] = useState<string>('')
 
   // APIからプロフィールデータを取得する
-  // const { data, error } = useSWR<ProfileProps>(
   const { data, error } = useSWR<ProfileProps>(
     user.isSignedIn ? process.env.NEXT_PUBLIC_API_BASE_URL + '/current/user' : null,
     fetcher,
@@ -135,7 +110,7 @@ const CurrentProfileEdit: NextPage = () => {
   }, [data])
 
   // useFormフックを呼び出しユーザー操作に応じてformの状態と動作を管理する
-  const { handleSubmit, control, reset, trigger, watch } = useForm<ProfileFormData>({
+  const { handleSubmit, control, reset } = useForm<ProfileFormData>({
     defaultValues: Profile,
   })
 
@@ -529,8 +504,8 @@ const CurrentProfileEdit: NextPage = () => {
                         render={({ field }) => (
                           <TextField
                             {...field}
-                            sx={{ width: '400px' }}
                             type="text"
+                            sx={{ width: '400px' }}
                             InputProps={{
                               sx: {
                                 height: '40px',
@@ -568,8 +543,8 @@ const CurrentProfileEdit: NextPage = () => {
                         render={({ field }) => (
                           <TextField
                             {...field}
-                            sx={{ width: '400px' }}
                             type="text"
+                            sx={{ width: '400px' }}
                             InputProps={{
                               sx: {
                                 height: '40px',
@@ -770,6 +745,122 @@ const CurrentProfileEdit: NextPage = () => {
                         />
                       )}
                     />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: 'custom.h2backgroundColor',
+                      borderRadius: 1,
+                      my: 4,
+                      p: 1,
+                    }}
+                  >
+                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                      弊社ホームページ
+                    </Typography>
+                  </Box>
+                  <Box>
+                    {/* 弊社ホームページの入力field */}
+                    <Controller
+                      name="website"
+                      control={control}
+                      rules={validationRules.website}
+                      render={({ field, fieldState }) => (
+                        <TextField
+                          {...field}
+                          type="text"
+                          error={fieldState.invalid}
+                          // validationエラーを出力していない場合は入力文字数を表示する
+                          helperText={`${fieldState.error?.message || ''} ${websiteLength}/80文字`}
+                          onChange={(e) => {
+                            field.onChange(e)
+                            // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                            setWebsiteLength(e.target.value.length)
+                          }}
+                          multiline
+                          rows={2}
+                          fullWidth
+                          placeholder="弊社ホームページを入力"
+                        />
+                      )}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: 'custom.h2backgroundColor',
+                      borderRadius: 1,
+                      my: 4,
+                      p: 1,
+                    }}
+                  >
+                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                      お問い合わせ
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      mb: 4,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0px 20px',
+                    }}
+                  >
+                    {/* お問い合わせ・受付時間の入力field */}
+                    <Typography component="p" sx={{ fontSize: '16px' }}>
+                      受付時間
+                    </Typography>
+                    <Controller
+                      name="inquiry_opening_time"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          type="text"
+                          sx={{ backgroundColor: '#FFFFFF', width: '150px' }}
+                          InputProps={{
+                            sx: {
+                              height: '40px',
+                            },
+                          }}
+                          placeholder="受付時間を入力"
+                        />
+                      )}
+                    />
+                    {/* お問い合わせ・電話番号の入力field */}
+                    <Typography component="p" sx={{ fontSize: '16px' }}>
+                      電話番号
+                    </Typography>
+                    <Controller
+                      name="inquiry_telephone_number"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          type="text"
+                          sx={{ backgroundColor: '#FFFFFF', width: '150px' }}
+                          InputProps={{
+                            sx: {
+                              height: '40px',
+                            },
+                          }}
+                          placeholder="電話番号を入力"
+                        />
+                      )}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      backgroundColor: '#EEFFFF	',
+                      mb: 2,
+                      p: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
+                    <Typography component="p" variant="body2">
+                      プロフィールを充実させる事で保険契約者からの保険相談件数が増加する可能性があります。
+                    </Typography>
                   </Box>
                 </div>
               )}

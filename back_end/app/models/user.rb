@@ -7,9 +7,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
-  # ユーザー削除時（退会時）に保険相談は削除せず、引き続き他のユーザーが閲覧可能にする。
-  # （「articles dependent: :destroy」を定義しない。）
+  # ユーザー削除時（退会時）に保険相談や回答は削除せず、引き続き他のユーザーが閲覧可能にする。
+  # （「dependent: :destroy」を定義しない。）
   has_many :articles
+  has_many :answers
 
   enum :user_division, {
     policyholder: 10,

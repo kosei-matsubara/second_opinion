@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       namespace :current do
         resource :user, only: [:show, :update]
         resources :articles, only: [:index, :show, :create, :update]
+        resources :answers, only: [:index, :create]
       end
 
       resources :users, only: [:index, :show]

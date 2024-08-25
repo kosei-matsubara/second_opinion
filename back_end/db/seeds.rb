@@ -10,10 +10,16 @@ ActiveRecord::Base.transaction do
   end
 
   15.times do |i|
-    Article.create!(categories: "定期保険", title: "テストタイトル1-#{i}", background: "テスト背景1-#{i}", content: "テスト本文1-#{i}", status: :published, user: user1)
-    Article.create!(categories: "定期保険", title: "テストタイトル2-#{i}", background: "テスト背景2-#{i}", content: "テスト本文2-#{i}", status: :published, user: user2)
-    Article.create!(categories: "定期保険", title: "テストタイトル2-#{i}", background: "テスト背景2-#{i}", content: "テスト本文2-#{i}", status: :published, user: user3)
-    Article.create!(categories: "定期保険", title: "テストタイトル2-#{i}", background: "テスト背景2-#{i}", content: "テスト本文2-#{i}", status: :published, user: user4)
-    Article.create!(categories: "定期保険", title: "テストタイトル2-#{i}", background: "テスト背景2-#{i}", content: "テスト本文2-#{i}", status: :published, user: user5)
+    article1 = Article.create!(categories: "定期保険", title: "テストタイトル1-#{i}", background: "テスト背景1-#{i}", content: "テスト本文質問1-#{i}", status: :published, user: user1)
+    Answer.create!(content: "テスト本文回答1-#{i}", article: article1, user_id: user1.id)
+    Answer.create!(content: "テスト本文回答2-#{i}", article: article1, user_id: user2.id)
+    Answer.create!(content: "テスト本文回答3-#{i}", article: article1, user_id: user3.id)
+    Answer.create!(content: "テスト本文回答4-#{i}", article: article1, user_id: user4.id)
+    Answer.create!(content: "テスト本文回答5-#{i}", article: article1, user_id: user5.id)
+    article2 = Article.create!(categories: "定期保険", title: "テストタイトル2-#{i}", background: "テスト背景2-#{i}", content: "テスト本文質問2-#{i}", status: :published, user: user2)
+    Answer.create!(content: "テスト本文回答1-#{i}", article: article2, user_id: user1.id)
+    Article.create!(categories: "定期保険", title: "テストタイトル3-#{i}", background: "テスト背景3-#{i}", content: "テスト本文質問3-#{i}", status: :published, user: user3)
+    Article.create!(categories: "定期保険", title: "テストタイトル4-#{i}", background: "テスト背景4-#{i}", content: "テスト本文質問4-#{i}", status: :published, user: user4)
+    Article.create!(categories: "定期保険", title: "テストタイトル5-#{i}", background: "テスト背景5-#{i}", content: "テスト本文質問5-#{i}", status: :published, user: user5)
   end
 end
