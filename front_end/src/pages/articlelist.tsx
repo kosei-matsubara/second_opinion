@@ -77,7 +77,7 @@ const ArticleList: NextPage = () => {
           >
             {articles.map((article: ArticleProps, i: number) => (
               <Grid key={i} item xs={7} lg={8}>
-                <Link href={'/articles/' + article.id}>
+                <Link href={'/articlelist/' + article.id}>
                   <ArticleCard
                     title={article.title}
                     categories={article.categories}

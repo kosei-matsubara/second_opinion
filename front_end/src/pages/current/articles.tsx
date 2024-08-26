@@ -22,7 +22,12 @@ import { fetcher } from '@/utils'
 
 type ArticleProps = {
   id: number
+  // title: string
+  // status: string
+  categories: string
   title: string
+  background: string
+  content: string
   status: string
 }
 

@@ -17,5 +17,6 @@ class CurrentUserSerializer < ActiveModel::Serializer
              :access,
              :website,
              :inquiry_opening_time,
-             :inquiry_telephone_number
+             :inquiry_telephone_number,
+             :created_at
 end

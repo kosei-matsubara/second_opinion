@@ -15,9 +15,10 @@ class UserSerializer < ActiveModel::Serializer
              :access,
              :website,
              :inquiry_opening_time,
-             :inquiry_telephone_number
+             :inquiry_telephone_number,
+             :created_at
 
-  # ステータスを日本語変換する
+  # ステータスを日本語変換する時に以下定義をする。定義不要なら削除する
   # def status
   #   object.status_i18n
   # end

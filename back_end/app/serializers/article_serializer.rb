@@ -1,5 +1,4 @@
 class ArticleSerializer < ActiveModel::Serializer
-  # 保険相談に表示する項目を定義する
   attributes :id, :categories, :title, :background, :content, :status, :created_at, :from_today
   belongs_to :user, serializer: UserSerializer
 

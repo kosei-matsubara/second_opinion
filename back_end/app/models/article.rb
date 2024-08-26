@@ -1,6 +1,6 @@
 class Article < ApplicationRecord
   belongs_to :user
-  has_many :answer
+  has_many :answers
 
   enum :status, {
     unsaved: 10,
