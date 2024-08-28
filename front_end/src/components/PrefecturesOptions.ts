@@ -1,4 +1,5 @@
 export const prefecturesOptions: { [key: string]: string } = {
+  '': '選択しない',
   '北海道': '北海道',
   '青森県': '青森県',
   '岩手県': '岩手県',

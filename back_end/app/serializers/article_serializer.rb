@@ -1,5 +1,5 @@
 class ArticleSerializer < ActiveModel::Serializer
-  attributes :id, :categories, :title, :background, :content, :status, :created_at, :from_today
+  attributes :id, :categories, :title, :background, :content, :status, :created_at, :from_today, :answers_count
   belongs_to :user, serializer: UserSerializer
 
   # ステータスを日本語変換する
@@ -34,5 +34,10 @@ class ArticleSerializer < ActiveModel::Serializer
     return "#{minutes}分前" if minutes.positive?
 
     "#{seconds}秒前"
+  end
+
+  #保険相談に対する回答件数をカウントする
+  def answers_count
+    object.answers.count
   end
 end

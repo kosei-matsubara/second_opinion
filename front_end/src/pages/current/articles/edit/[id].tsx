@@ -568,8 +568,8 @@ const CurrentArticlesEdit: NextPage = () => {
                       left: '50%',
                       transform: 'translateX(-50%)',
                     }}
-                    onClick={async () => {
-                      await handleBackStep() // Stepのカウントダウン後に画面遷移させるためawaitで処理を制御する
+                    onClick={() => {
+                      handleBackStep()
                       handleClickButtonPreview()
                     }}
                   >

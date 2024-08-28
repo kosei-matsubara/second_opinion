@@ -16,10 +16,7 @@ const SuccessSnackbar = () => {
   }, [snackbar, router])
 
   // 通知バー表示後に閉じる
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return
     }

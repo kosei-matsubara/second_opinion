@@ -270,7 +270,7 @@ const CurrentProfileEdit: NextPage = () => {
                       {...field}
                       value={field.value} // react-hook-formのfield.valueを定義する
                       onChange={(event) => {
-                        field.onChange(event) // form入力値をPATCHリクエスト時に使用するためreact-hook-formのonChangeを実行する
+                        field.onChange(event) // form入力値をPATCHリクエストに使用するためreact-hook-formのonChangeを実行する
                         handleUserDivisionChange(event) // 表示画面を切り替える関数を実行する
                       }}
                       row

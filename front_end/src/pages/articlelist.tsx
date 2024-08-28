@@ -18,6 +18,7 @@ type ArticleProps = {
   title: string
   categories: string
   background: string
+  answersCount: number
   fromToday: string
 }
 
@@ -82,6 +83,7 @@ const ArticleList: NextPage = () => {
                     title={article.title}
                     categories={article.categories}
                     background={article.background}
+                    answersCount={article.answersCount}
                     fromToday={article.fromToday}
                   />
                 </Link>

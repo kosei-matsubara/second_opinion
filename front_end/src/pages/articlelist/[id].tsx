@@ -1,7 +1,10 @@
-import { Box, Container, Typography, Card, Divider, Grid } from '@mui/material'
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
+import WarningIcon from '@mui/icons-material/Warning'
+import { Box, Container, Typography, Divider, Grid, Button } from '@mui/material'
 import camelcaseKeys from 'camelcase-keys'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import AnswerCard from '@/components/AnswerCard'
@@ -19,9 +22,11 @@ type ArticleProps = {
 }
 
 type AnswerProps = {
+  user: {
+    name: string
+  }
   content: string
   createdAt: string
-  updatedAt: string
 }
 
 const ArticleDetail: NextPage = () => {
@@ -43,7 +48,7 @@ const ArticleDetail: NextPage = () => {
 
   const article: ArticleProps = camelcaseKeys(articleData)
   // answersデータが0件の場合はnullを返してエラーを回避する
-  const answers: AnswerProps[] = camelcaseKeys(answersData || [])
+  const answers: AnswerProps[] = answersData?.answers ? camelcaseKeys(answersData.answers) : [];
 
   return (
     <Box>
@@ -96,22 +101,33 @@ const ArticleDetail: NextPage = () => {
               回答タイムライン
             </Typography>
           </Box>
-          {/* answersデータが0件の場合の画面を表示する */}
-          {/* {answers?.length === 0 && ( */}
-          {answers.length === 0 ? (
-            <Typography component="p" variant="body1">
-              回答がまだありません。
-            </Typography>
+          {/* answersデータの取得有無を判定する */}
+          {!answersData ? (
+            <Loading />
+          ) : answersData.answers.length === 0 ? ( // APIリクエストにmetaデータを含むためanswers配列に対して0件判定をする
+            <Box
+              sx={{
+                backgroundColor: '#FFFFCC',
+                p: 2,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
+              <Typography component="p" variant="body2">
+                まだ保険のプロから回答がありません。
+              </Typography>
+            </Box>
           ) : (
             <Grid
-              sx={{ my: 1, display: 'flex', justifyContent: 'center' }}
+              sx={{ display: 'flex', justifyContent: 'center' }}
               container
               spacing={4}
             >
               {answers.map((answer: AnswerProps, i: number) => (
-                <Grid key={i} item xs={7} lg={8}>
+                <Grid key={i} item xs={10} md={11}>
                   <AnswerCard
-                    // name={answerData.name}
+                    userName={answer.user.name}
                     createdAt={answer.createdAt}
                     content={answer.content}
                   />
@@ -119,6 +135,24 @@ const ArticleDetail: NextPage = () => {
               ))}
             </Grid>
           )}
+          <Box sx={{ my: 4, display: 'flex', justifyContent: 'center' }}>
+            <Link href="/">
+              <Button
+                variant="contained"
+                sx={{
+                  width: 250,
+                  boxShadow: 'none',
+                  borderRadius: 1,
+                  textTransform: 'none',
+                  fontSize: { xs: 12, sm: 16 },
+                  fontWeight: 'bold',
+                }}
+              >
+                <QuestionAnswerIcon fontSize="small" sx={{ mr: 1 }} />
+                保険相談に回答する
+              </Button>
+            </Link>
+          </Box>
         </Container>
       </Box>
     </Box>

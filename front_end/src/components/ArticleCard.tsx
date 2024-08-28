@@ -4,6 +4,7 @@ type ArticleCardProps = {
   title: string
   categories: string
   background: string
+  answersCount: number
   fromToday: string
 }
 
@@ -38,7 +39,7 @@ const ArticleCard = (props: ArticleCardProps) => {
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography component="p" variant="body2">
-            保険のプロ回答
+            保険のプロ回答：{props.answersCount}件
           </Typography>
           <Typography component="p" variant="body2">
             相談日：{props.fromToday}
