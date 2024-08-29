@@ -61,8 +61,8 @@ const SignUp: NextPage = () => {
             query: { step: activeStep + 1 },
           })
         })
-        .catch((e: AxiosError<{ error: string }>) => {
-          console.log(e.message)
+        .catch((err: AxiosError<{ error: string }>) => {
+          console.log(err.message)
           setSnackbar({
             message: '不正なユーザー情報です',
             severity: 'error',

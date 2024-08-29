@@ -50,6 +50,14 @@ const ArticleDetail: NextPage = () => {
   // answersデータが0件の場合はnullを返してエラーを回避する
   const answers: AnswerProps[] = answersData?.answers ? camelcaseKeys(answersData.answers) : [];
 
+  // 回答画面に遷移する
+  const handleAnswerClick = () => {
+    router.push({
+      pathname: '/current/answers_edit',
+      query: { articleID: id },
+    })
+  }
+
   return (
     <Box>
       <Head>
@@ -147,6 +155,7 @@ const ArticleDetail: NextPage = () => {
                   fontSize: { xs: 12, sm: 16 },
                   fontWeight: 'bold',
                 }}
+                onClick={handleAnswerClick}
               >
                 <QuestionAnswerIcon fontSize="small" sx={{ mr: 1 }} />
                 保険相談に回答する

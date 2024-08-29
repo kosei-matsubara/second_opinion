@@ -4,6 +4,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import MessageIcon from '@mui/icons-material/Message'
 import PersonIcon from '@mui/icons-material/Person'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { LoadingButton } from '@mui/lab'
 import {
   AppBar,
   Avatar,
@@ -26,6 +27,7 @@ import { useUserState } from '@/hooks/useGlobalState'
 const Header = () => {
   const router = useRouter()
   const [user] = useUserState()
+  const [isLoading, setIsLoading] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null) // メニューモーダルの開閉を判定する
   const open = Boolean(anchorEl) // メニューモーダルの開閉を判定する
 
@@ -34,6 +36,8 @@ const Header = () => {
   if (hideHeaderPathnames.includes(router.pathname)) return <div></div>
 
   const addNewArticle = () => {
+    setIsLoading(true) // POSTリクエスト送信のためユーザーアクションを不可に制御する
+
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles'
 
     // APIリクエストのheaderを定義する
@@ -53,8 +57,11 @@ const Header = () => {
         // 保険相談投稿画面に遷移する
         router.push('/current/articles/edit/' + res.data.id)
       })
-      .catch((e: AxiosError<{ error: string }>) => {
-        console.log(e.message)
+      .catch((err: AxiosError<{ error: string }>) => {
+        console.log(err.message)
+      })
+      .finally(() => {
+        setIsLoading(false) // POSTリクエスト完了後にユーザーアクションを可能に制御する
       })
   }
 
@@ -139,7 +146,8 @@ const Header = () => {
               {/* ユーザー認証済のHeader表示内容 */}
               {user.isSignedIn && (
                 <Box sx={{ display: 'flex' }}>
-                  <Button
+                  <LoadingButton
+                    loading={isLoading} // Click時にユーザー入力を停止する
                     variant="contained"
                     sx={{
                       width: 180,
@@ -155,7 +163,7 @@ const Header = () => {
                   >
                     <MessageIcon fontSize="small" sx={{ mr: 0.5 }} />
                     保険相談を投稿
-                  </Button>
+                  </LoadingButton>
                   <IconButton onClick={handleClick} sx={{ mx: 1 }}>
                     <Avatar>
                       <PersonIcon />

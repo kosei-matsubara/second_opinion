@@ -17,11 +17,13 @@ import {
   Divider,
 } from '@mui/material'
 import axios, { AxiosError } from 'axios'
+import camelcaseKeys from 'camelcase-keys'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState, useMemo } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import snakecaseKeys from 'snakecase-keys'
 import useSWR from 'swr'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
@@ -32,22 +34,22 @@ import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
 import { fetcher } from '@/utils'
 
 type ProfileProps = {
-  user_division: string
+  userDivision: string
   name: string
   sex: string
   generation: string
-  family_structure: string
+  familyStructure: string
   prefectures: string
   belong: string
   address: string
-  self_introduction: string
-  my_strength: string
+  selfIntroduction: string
+  myStrength: string
   career: string
   message: string
   access: string
   website: string
-  inquiry_opening_time: string
-  inquiry_telephone_number: string
+  inquiryOpeningTime: string
+  inquiryTelephoneNumber: string
 }
 
 type ProfileFormData = ProfileProps
@@ -66,48 +68,35 @@ const CurrentProfileEdit: NextPage = () => {
     fetcher,
   )
 
+  const camelCaseProfileData = useMemo(() => {
+    return data ? camelcaseKeys(data) : null
+  }, [data])
+
   const Profile: ProfileProps = useMemo(() => {
     // プロフィールデータが存在しない場合、nullのデータを生成する
-    if (!data) {
+    if (!camelCaseProfileData) {
       return {
-        user_division: '',
+        userDivision: '',
         name: '',
         sex: '',
         generation: '',
-        family_structure: '',
+        familyStructure: '',
         prefectures: '',
         belong: '',
         address: '',
-        self_introduction: '',
-        my_strength: '',
+        selfIntroduction: '',
+        myStrength: '',
         career: '',
         message: '',
         access: '',
         website: '',
-        inquiry_opening_time: '',
-        inquiry_telephone_number: '',
+        inquiryOpeningTime: '',
+        inquiryTelephoneNumber: '',
       }
     }
     // プロフィールデータが存在する場合、存在するデータを定義する
-    return {
-      user_division: data.user_division == null ? '' : data.user_division,
-      name: data.name == null ? '' : data.name,
-      sex: data.sex == null ? '' : data.sex,
-      generation: data.generation == null ? '' : data.generation,
-      family_structure: data.family_structure == null ? '' : data.family_structure,
-      prefectures: data.prefectures == null ? '' : data.prefectures,
-      belong: data.belong == null ? '' : data.belong,
-      address: data.address == null ? '' : data.address,
-      self_introduction: data.self_introduction == null ? '' : data.self_introduction,
-      my_strength: data.my_strength == null ? '' : data.my_strength,
-      career: data.career == null ? '' : data.career,
-      message: data.message == null ? '' : data.message,
-      access: data.access == null ? '' : data.access,
-      website: data.website == null ? '' : data.website,
-      inquiry_opening_time: data.inquiry_opening_time == null ? '' : data.inquiry_opening_time,
-      inquiry_telephone_number: data.inquiry_telephone_number == null ? '' : data.inquiry_telephone_number,
-    }
-  }, [data])
+    return camelCaseProfileData
+  }, [camelCaseProfileData])
 
   // useFormフックを呼び出しユーザー操作に応じてformの状態と動作を管理する
   const { handleSubmit, control, reset } = useForm<ProfileFormData>({
@@ -127,11 +116,11 @@ const CurrentProfileEdit: NextPage = () => {
   useEffect(() => {
     if (data) {
       reset(Profile)
-      // 初回表示画面制御のためuser_divisionの現在値を取得する
-      setUserDivision(data.user_division)
+      // 初回表示画面制御のためuserDivisionの現在値を取得する
+      setUserDivision(Profile.userDivision)
       //  入力文字が存在する場合は入力文字数をカウントする
-      setSelfIntroductionLength(Profile.self_introduction.length)
-      setMyStrengthLength(Profile.my_strength.length)
+      setSelfIntroductionLength(Profile.selfIntroduction.length)
+      setMyStrengthLength(Profile.myStrength.length)
       setCareerLength(Profile.career.length)
       setMessageLength(Profile.message.length)
       setAccessLength(Profile.access.length)
@@ -140,7 +129,10 @@ const CurrentProfileEdit: NextPage = () => {
     }
   }, [data, Profile, reset])
 
-  // `user_division` の値が変更された際に呼ばれるハンドラー
+  if (error) return <Error />
+  if (!data || !isFetched) return <Loading />
+
+  // `userDivision` の値が変更された際に呼ばれるハンドラー
   const handleUserDivisionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserDivision(event.target.value)
   }
@@ -159,7 +151,8 @@ const CurrentProfileEdit: NextPage = () => {
     }
 
     // form入力データをPATCHリクエスト用変数に定義する
-    const patchData = { ...formData }
+    // const patchData = { ...formData }
+    const patchData = snakecaseKeys(formData)
 
     axios({
       method: 'PATCH',
@@ -186,9 +179,6 @@ const CurrentProfileEdit: NextPage = () => {
         setIsLoading(false) // PATCHリクエスト完了後にユーザーアクションを可能に制御する
       })
   }
-
-  if (error) return <Error />
-  if (!data || !isFetched) return <Loading />
 
   return (
     <Box>
@@ -263,7 +253,7 @@ const CurrentProfileEdit: NextPage = () => {
                   利用者区分
                 </FormLabel>
                 <Controller
-                  name="user_division"
+                  name="userDivision"
                   control={control}
                   render={({ field }) => (
                     <RadioGroup
@@ -376,7 +366,7 @@ const CurrentProfileEdit: NextPage = () => {
                       家族構成
                     </FormLabel>
                     <Controller
-                      name="family_structure"
+                      name="familyStructure"
                       control={control}
                       render={({ field }) => (
                         <RadioGroup
@@ -571,9 +561,9 @@ const CurrentProfileEdit: NextPage = () => {
                   <Box>
                     {/* 自己紹介の入力field */}
                     <Controller
-                      name="self_introduction"
+                      name="selfIntroduction"
                       control={control}
-                      rules={validationRules.self_introduction}
+                      rules={validationRules.selfIntroduction}
                       render={({ field, fieldState }) => (
                         <TextField
                           {...field}
@@ -609,9 +599,9 @@ const CurrentProfileEdit: NextPage = () => {
                   <Box>
                     {/* わたしの強みの入力field */}
                     <Controller
-                      name="my_strength"
+                      name="myStrength"
                       control={control}
-                      rules={validationRules.my_strength}
+                      rules={validationRules.myStrength}
                       render={({ field, fieldState }) => (
                         <TextField
                           {...field}
@@ -810,7 +800,7 @@ const CurrentProfileEdit: NextPage = () => {
                       受付時間
                     </Typography>
                     <Controller
-                      name="inquiry_opening_time"
+                      name="inquiryOpeningTime"
                       control={control}
                       render={({ field }) => (
                         <TextField
@@ -831,7 +821,7 @@ const CurrentProfileEdit: NextPage = () => {
                       電話番号
                     </Typography>
                     <Controller
-                      name="inquiry_telephone_number"
+                      name="inquiryTelephoneNumber"
                       control={control}
                       render={({ field }) => (
                         <TextField

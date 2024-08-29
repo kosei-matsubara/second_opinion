@@ -110,6 +110,9 @@ const CurrentArticlesEdit: NextPage = () => {
     }
   }, [data, article, reset])
 
+  if (error) return <Error />
+  if (!data || !isFetched) return <Loading />
+
   // バリデーションチェック後にpreview表示に切り替える関数
   const handleClickButtonValidation = async () => {
     const isValid = await trigger() // バリデーションを実行後にboolean値を返す
@@ -174,9 +177,6 @@ const CurrentArticlesEdit: NextPage = () => {
         setIsLoading(false) // PATCHリクエスト完了後にユーザーアクションを可能に制御する
       })
   }
-
-  if (error) return <Error />
-  if (!data || !isFetched) return <Loading />
 
   return (
     <Box>
@@ -415,7 +415,7 @@ const CurrentArticlesEdit: NextPage = () => {
                   <Controller
                     name="content"
                     control={control}
-                    rules={validationRules.content}
+                    rules={validationRules.articleContent}
                     render={({ field, fieldState }) => (
                       <TextField
                         {...field}

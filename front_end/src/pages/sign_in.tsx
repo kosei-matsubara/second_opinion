@@ -63,8 +63,8 @@ const SignIn: NextPage = () => {
         })
         router.push('/')
       })
-      .catch((e: AxiosError<{ error: string }>) => {
-        console.log(e.message)
+      .catch((err: AxiosError<{ error: string }>) => {
+        console.log(err.message)
         setSnackbar({
           message: '登録ユーザーが見つかりません',
           severity: 'error',

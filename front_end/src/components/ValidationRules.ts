@@ -46,20 +46,20 @@ export const validationRules: ValidationRules = {
       message: '相談の背景は600文字以内で入力してください',
     },
   },
-  content: {
+  articleContent: {
     required: '質問は必須入力です',
     maxLength: {
       value: 100,
       message: '質問は100文字以内で入力してください',
     },
   },
-  self_introduction: {
+  selfIntroduction: {
     maxLength: {
       value: 600,
       message: '自己紹介は600文字以内で入力してください',
     },
   },
-  my_strength: {
+  myStrength: {
     maxLength: {
       value: 600,
       message: 'わたしの強みは600文字以内で入力してください',

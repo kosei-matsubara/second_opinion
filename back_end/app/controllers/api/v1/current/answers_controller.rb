@@ -16,13 +16,6 @@ class Api::V1::Current::AnswersController < Api::V1::BaseController
     render json: answer
   end
 
-  # 不要になるかも
-  # def update
-  #   answer = current_user.answers.find(params[:id])
-  #   answer.update!(answer_params)
-  #   render json: answer
-  # end
-
   private
 
   def answer_params
