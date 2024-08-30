@@ -18,8 +18,15 @@ class UserSerializer < ActiveModel::Serializer
              :inquiry_telephone_number,
              :created_at
 
-  # ステータスを日本語変換する時に以下定義をする。定義不要なら削除する
-  # def status
-  #   object.status_i18n
-  # end
+  def sex
+    object.sex_i18n
+  end
+
+  def generation
+    object.generation_i18n
+  end
+
+  def family_structure
+    object.family_structure_i18n
+  end
 end

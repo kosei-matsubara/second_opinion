@@ -89,4 +89,11 @@ export const validationRules: ValidationRules = {
       message: '弊社ホームページは80文字以内で入力してください',
     },
   },
+  answerContent: {
+    required: '回答は必須入力です',
+    maxLength: {
+      value: 600,
+      message: '回答は600文字以内で入力してください',
+    },
+  },
 }

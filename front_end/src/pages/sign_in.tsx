@@ -35,17 +35,17 @@ const SignIn: NextPage = () => {
     handleSubmit(onSubmit)()
   }
 
-  const onSubmit: SubmitHandler<SignInFormData> = (data) => {
+  const onSubmit: SubmitHandler<SignInFormData> = (formData) => {
     setIsLoading(true) // POSTリクエスト送信のためユーザーアクションを不可に制御する
 
-    const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/sign_in'
+    const postUrl = process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/sign_in'
     // APIリクエストのheaderを定義する
     const headers = { 'Content-Type': 'application/json' }
 
     axios({
       method: 'POST',
-      url: url,
-      data: data,
+      url: postUrl,
+      data: formData,
       headers: headers,
     })
       .then((res: AxiosResponse) => {

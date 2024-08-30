@@ -31,24 +31,30 @@ type AnswerProps = {
 
 const ArticleDetail: NextPage = () => {
   const router = useRouter()
-
-  // URLパラメータからArticleIDを取得する
-  const { id } = router.query
+  const { id } = router.query // URLパラメータからArticleIDを取得する
 
   // Articleデータを取得する
   const articleUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/articles/${id}`
-  const { data: articleData, error: articleError } = useSWR(id ? articleUrl : null, fetcher)
+  const { data: articleData, error: articleError } = useSWR(
+    id ? articleUrl : null,
+    fetcher,
+  )
 
   // ArticleIDに一致するAnswerデータを取得する
   const answerUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/answers?article_id=${id}`
-  const { data: answersData, error: answerError } = useSWR(id ? answerUrl : null, fetcher)
+  const { data: answersData, error: answerError } = useSWR(
+    id ? answerUrl : null,
+    fetcher,
+  )
 
   if (articleError || answerError) return <Error />
   if (!articleData) return <Loading />
 
   const article: ArticleProps = camelcaseKeys(articleData)
   // answersデータが0件の場合はnullを返してエラーを回避する
-  const answers: AnswerProps[] = answersData?.answers ? camelcaseKeys(answersData.answers) : [];
+  const answers: AnswerProps[] = answersData?.answers
+    ? camelcaseKeys(answersData.answers)
+    : []
 
   // 回答画面に遷移する
   const handleAnswerClick = () => {
@@ -66,7 +72,7 @@ const ArticleDetail: NextPage = () => {
       <Box component="main">
         <Container maxWidth="md">
           <Box sx={{ my: 6 }}>
-            <Typography component="h1" variant="h5" sx={{ fontWeight: 'bold' }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
               {article.title}
             </Typography>
             <Typography component="p" variant="body1" sx={{ color: '#AAAAAA' }}>
@@ -105,7 +111,7 @@ const ArticleDetail: NextPage = () => {
           </Box>
           <Divider />
           <Box sx={{ my: 6 }}>
-            <Typography component="h1" variant="h5" sx={{ fontWeight: 'bold' }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
               回答タイムライン
             </Typography>
           </Box>

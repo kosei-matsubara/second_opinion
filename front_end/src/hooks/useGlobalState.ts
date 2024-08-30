@@ -41,8 +41,5 @@ export const useSnackbarState = () => {
   const { data: state, mutate: setState } = useSWR('snackbar', null, {
     fallbackData: fallbackData,
   })
-  return [state, setState] as [
-    snackbarStateType,
-    (value: snackbarStateType) => void,
-  ]
+  return [state, setState] as [snackbarStateType, (value: snackbarStateType) => void]
 }

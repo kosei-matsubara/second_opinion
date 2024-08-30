@@ -37,18 +37,23 @@ const SignUp: NextPage = () => {
     defaultValues: { email: '', password: '', name: '' },
   })
 
-  const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
-    const SignUp = async (data: SignUpFormData) => {
+  const onSubmit: SubmitHandler<SignUpFormData> = (formData) => {
+    const SignUp = async (formData: SignUpFormData) => {
       setIsLoading(true) // POSTリクエスト送信のためユーザーアクションを不可に制御する
 
-      const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/auth'
+      const postUrl = process.env.NEXT_PUBLIC_API_BASE_URL + '/auth'
+
+      // APIリクエストのheaderを定義する
       const headers = { 'Content-Type': 'application/json' }
+
+      // form入力データをPOSTリクエスト用変数に定義する
       const confirmSuccessUrl = process.env.NEXT_PUBLIC_FRONT_BASE_URL + '/sign_in'
+      const postData = { ...formData, confirm_success_url: confirmSuccessUrl }
 
       await axios({
         method: 'POST',
-        url: url,
-        data: { ...data, confirm_success_url: confirmSuccessUrl }, // POSTリクエストに認証成功時のリダイレクト先URLを含める
+        url: postUrl,
+        data: postData,
         headers: headers,
       })
         .then((res: AxiosResponse) => {
@@ -73,7 +78,7 @@ const SignUp: NextPage = () => {
           setIsLoading(false) // POSTリクエスト完了後にユーザーアクションを可能に制御する
         })
     }
-    SignUp(data)
+    SignUp(formData)
   }
 
   return (

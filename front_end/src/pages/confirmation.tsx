@@ -16,11 +16,11 @@ const Confirmation: NextPage = () => {
 
     if (router.query['confirmation_token']) {
       // PATCHリクエストのURLを生成する
-      const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/user/confirmations'
+      const patchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + '/user/confirmations'
 
       axios({
         method: 'PATCH',
-        url: url,
+        url: patchUrl,
         data: router.query,
       })
         .then(() => {

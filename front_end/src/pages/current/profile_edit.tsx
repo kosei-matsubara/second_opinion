@@ -132,7 +132,7 @@ const CurrentProfileEdit: NextPage = () => {
   if (error) return <Error />
   if (!data || !isFetched) return <Loading />
 
-  // `userDivision` の値が変更された際に呼ばれるハンドラー
+  // userDivisionの変更時に再レンダリングする
   const handleUserDivisionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserDivision(event.target.value)
   }
@@ -151,7 +151,6 @@ const CurrentProfileEdit: NextPage = () => {
     }
 
     // form入力データをPATCHリクエスト用変数に定義する
-    // const patchData = { ...formData }
     const patchData = snakecaseKeys(formData)
 
     axios({
@@ -449,7 +448,7 @@ const CurrentProfileEdit: NextPage = () => {
                   >
                     <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
                     <Typography component="p" variant="body2">
-                      属性をご入力いただく事で保険のプロからより正確な保険相談に対する回答が得やすくなります。
+                      属性をご入力いただく事で保険のプロからより正確な保険相談の回答が得やすくなります。
                     </Typography>
                   </Box>
                 </div>
@@ -855,7 +854,7 @@ const CurrentProfileEdit: NextPage = () => {
                 </div>
               )}
               <Divider sx={{ my: 2 }} />
-              <Box sx={{ mb: 2, py: 2 }}>
+              <Box sx={{ mb: 4 }}>
                 <Typography component="p" variant="body2">
                   利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意してプロフィールを変更」ボタンを押してください。
                 </Typography>

@@ -38,7 +38,7 @@ const Header = () => {
   const addNewArticle = () => {
     setIsLoading(true) // POSTリクエスト送信のためユーザーアクションを不可に制御する
 
-    const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles'
+    const postUrl = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles'
 
     // APIリクエストのheaderを定義する
     const headers = {
@@ -50,7 +50,7 @@ const Header = () => {
 
     axios({
       method: 'POST',
-      url: url,
+      url: postUrl,
       headers: headers,
     })
       .then((res: AxiosResponse) => {

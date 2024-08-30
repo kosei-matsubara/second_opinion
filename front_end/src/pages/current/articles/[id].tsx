@@ -25,7 +25,7 @@ import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
 import { styles } from '@/styles'
 import { fetcher } from '@/utils'
 
-type CurrentArticleProps = {
+type ArticleProps = {
   title: string
   content: string
   createdAt: string
@@ -39,14 +39,12 @@ const CurrentArticleDetail: NextPage = () => {
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/'
   const { id } = router.query
 
-  const { data, error } = useSWR(
-    user.isSignedIn && id ? url + id : null,
-    fetcher,
-  )
+  const { data, error } = useSWR(user.isSignedIn && id ? url + id : null, fetcher)
+
   if (error) return <Error />
   if (!data) return <Loading />
 
-  const article: CurrentArticleProps = camelcaseKeys(data)
+  const article: ArticleProps = camelcaseKeys(data)
 
   return (
     <Box

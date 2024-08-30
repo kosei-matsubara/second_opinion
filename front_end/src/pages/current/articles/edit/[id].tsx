@@ -8,6 +8,7 @@ import {
   AppBar,
   Box,
   Container,
+  Divider,
   Stepper,
   Step,
   StepLabel,
@@ -288,9 +289,9 @@ const CurrentArticlesEdit: NextPage = () => {
                 >
                   <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
                   <Typography component="p" variant="body2">
-                    相談カテゴリには、あなたの「詳しく知りたい商品」や「気になる保障内容」を選択する
+                    相談カテゴリには、あなたの「詳しく知りたい商品」や「気になる保障内容」を選択する。
                     <br />
-                    相談カテゴリの選択に悩む場合は、「あなたの悩み」に近いと感じる相談カテゴリを選択する
+                    相談カテゴリの選択に悩む場合は、「あなたの悩み」に近いと感じる相談カテゴリを選択する。
                   </Typography>
                 </Box>
                 <Box
@@ -388,7 +389,7 @@ const CurrentArticlesEdit: NextPage = () => {
                 >
                   <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
                   <Typography component="p" variant="body2">
-                    相談の背景（前提条件）には「自分の健康状態」や「家族構成」などリスクの程度を書く
+                    相談の背景（前提条件）には「自分の健康状態」や「家族構成」などリスクの程度を書く。
                     <br />
                     例:20代社会人になり子供はいませんので今のところ大きなリスクに備える必要はないと感じています。
                   </Typography>
@@ -447,12 +448,13 @@ const CurrentArticlesEdit: NextPage = () => {
                 >
                   <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
                   <Typography component="p" variant="body2">
-                    質問には、あなたの「聞きたいこと」や「希望」を書く
+                    質問には、あなたの「聞きたいこと」や「希望」を書く。
                     <br />
                     例:死亡保険に入る必要はありますか。また入る場合にどのような判断基準で支払われる保険金額を設定すればいいでしょうか。
                   </Typography>
                 </Box>
-                <Box sx={{ borderTop: '0.5px solid #000000', mb: 2, py: 2 }}>
+                <Divider sx={{ mb: 4 }} />
+                <Box sx={{ mb: 4 }}>
                   <Typography component="p" variant="body2">
                     利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意して確認画面へ進む」ボタンを押してください。
                   </Typography>
