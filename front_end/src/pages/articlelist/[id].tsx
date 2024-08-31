@@ -60,7 +60,7 @@ const ArticleDetail: NextPage = () => {
   const handleAnswerClick = () => {
     router.push({
       pathname: '/current/answers_edit',
-      query: { articleID: id },
+      query: { articleId: id },
     })
   }
 

@@ -558,7 +558,7 @@ const CurrentArticlesEdit: NextPage = () => {
                   <Button
                     variant="text"
                     sx={{
-                      width: 150,
+                      width: 250,
                       boxShadow: 'none',
                       border: '0.5px solid #000000',
                       borderRadius: 1,
@@ -583,7 +583,7 @@ const CurrentArticlesEdit: NextPage = () => {
                     loading={isLoading} // Click時にユーザー入力を停止する
                     variant="contained"
                     sx={{
-                      width: 150,
+                      width: 250,
                       boxShadow: 'none',
                       borderRadius: 1,
                       textTransform: 'none',

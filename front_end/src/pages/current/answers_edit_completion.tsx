@@ -1,6 +1,7 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import HomeIcon from '@mui/icons-material/Home'
 import MessageIcon from '@mui/icons-material/Message'
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import WarningIcon from '@mui/icons-material/Warning'
 import {
   Box,
@@ -16,20 +17,20 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const CurrentArticlesEditCompletion: NextPage = () => {
+const CurrentAnswerEditCompletion: NextPage = () => {
   const router = useRouter()
-  const steps = ['相談内容入力', '相談内容確認', '相談投稿完了'] // StepperのStepを定義する
+  const steps = ['回答内容入力', '回答内容確認', '回答投稿完了'] // StepperのStepを定義する
   const activeStep = parseInt(router.query.step as string, 10)
-  const articleId = parseInt(router.query.id as string, 10)
+  const articleId = parseInt(router.query.articleId as string, 10)
 
   return (
     <Box>
       <Head>
-        <title>保険相談投稿完了</title>
+        <title>回答投稿完了</title>
       </Head>
       <Box component="main">
         <Container maxWidth="md">
-          <Stepper activeStep={activeStep} alternativeLabel sx={{ mt: 10, mb: 4 }}>
+          <Stepper activeStep={activeStep} alternativeLabel sx={{ my: 4 }}>
             {steps.map((label) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
@@ -48,12 +49,12 @@ const CurrentArticlesEditCompletion: NextPage = () => {
           >
             <CheckCircleIcon fontSize="medium" sx={{ mr: 1, color: '#005FFF' }} />
             <Typography component="p" variant="body2">
-              相談の投稿が完了しました
+              回答の投稿が完了しました
             </Typography>
           </Box>
           <Box sx={{ my: 2 }}>
             <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold' }}>
-              ご投稿した相談に関する注意書き
+              ご投稿した回答に関する注意書き
             </Typography>
           </Box>
           <Box
@@ -67,7 +68,7 @@ const CurrentArticlesEditCompletion: NextPage = () => {
           >
             <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
             <Typography component="p" variant="body2">
-              回答について<strong>すべての質問に保険のプロから回答がつくとは限りません</strong>ので、何卒ご理解いただきますようお願いいたします。
+              回答について<strong>すべての回答に相談者からお問い合わせがあるとは限りません</strong>ので、何卒ご理解いただきますようお願いいたします。
             </Typography>
           </Box>
           <Box
@@ -75,11 +76,11 @@ const CurrentArticlesEditCompletion: NextPage = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '30px 0px',
+              gap: '20px 0px',
               mb: 4,
             }}
           >
-            <Link href={'/current/articles/' + articleId}>
+            <Link href={'/articlelist/' + articleId}>
               <Button
                 variant="contained"
                 sx={{
@@ -91,8 +92,8 @@ const CurrentArticlesEditCompletion: NextPage = () => {
                   fontWeight: 'bold',
                 }}
               >
-                <MessageIcon fontSize="small" sx={{ mr: 0.5 }} />
-                投稿した相談へ
+                <QuestionAnswerIcon fontSize="small" sx={{ mr: 0.5 }} />
+                投稿した回答へ
               </Button>
             </Link>
             <Link href="/">
@@ -120,4 +121,4 @@ const CurrentArticlesEditCompletion: NextPage = () => {
   )
 }
 
-export default CurrentArticlesEditCompletion
+export default CurrentAnswerEditCompletion

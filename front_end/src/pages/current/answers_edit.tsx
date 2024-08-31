@@ -26,7 +26,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState, useMemo } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import useSWR from 'swr'
-import { categoryOptions } from '@/components/CategoryOptions'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
 import { validationRules } from '@/components/ValidationRules'
@@ -64,7 +63,7 @@ const CurrentAnswerEdit: NextPage = () => {
   const [previewChecked, setPreviewChecked] = useState<boolean>(false)
   const steps = ['回答内容入力', '回答内容確認', '回答投稿完了'] // StepperのStepを定義する
   const [activeStep, setActiveStep] = useState<number>(1) // Stepperの初期値を定義する
-  const articleId = parseInt(router.query.articleID as string, 10)
+  const articleId = parseInt(router.query.articleId as string, 10)
 
   // Articleデータを取得する
   const articleUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/articles/${articleId}`
@@ -119,8 +118,7 @@ const CurrentAnswerEdit: NextPage = () => {
     }
 
     // form入力データをPOSTリクエスト用変数に定義する
-    const articleID = parseInt(router.query.articleID as string, 10)
-    const postData = { ...formData, article_id: articleID }
+    const postData = { ...formData, article_id: articleId }
 
     axios({
       method: 'POST',
@@ -131,8 +129,8 @@ const CurrentAnswerEdit: NextPage = () => {
       .then(() => {
         // 回答投稿完了画面に遷移する
         router.push({
-          pathname: '/',
-          // query: { step: activeStep + 1 },
+          pathname: '/current/answers_edit_completion',
+          query: { articleId: articleId, step: activeStep + 1 },
         })
       })
       .catch((err: AxiosError<{ error: string }>) => {
@@ -242,100 +240,187 @@ const CurrentAnswerEdit: NextPage = () => {
             </Typography>
           </Box>
           <Divider sx={{ mb: 6 }} />
-          <Box>
-            <Box sx={{ mb: 2 }}>
-              <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
-                保険相談に回答する
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0px 10px',
-              }}
-            >
-              <Typography component="p" variant="h6">
-                回答
-              </Typography>
-              <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
-                必須
-              </Typography>
-              <Typography component="p" variant="body1">
-                （600文字以内）
-              </Typography>
-            </Box>
-            <Box sx={{ mb: 2 }}>
-              {/* 相談の背景入力field */}
-              <Controller
-                name="content"
-                control={control}
-                rules={validationRules.answerContent}
-                render={({ field, fieldState }) => (
-                  <TextField
-                    {...field}
-                    type="text"
-                    error={fieldState.invalid}
-                    // validationエラーを出力していない場合は入力文字数を表示する
-                    helperText={`${fieldState.error?.message || ''} ${contentLength}/600文字`}
-                    onChange={(e) => {
-                      field.onChange(e)
-                      // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
-                      setContentLength(e.target.value.length)
-                    }}
-                    multiline
-                    rows={10}
-                    fullWidth
-                    placeholder="回答を入力"
-                  />
-                )}
-              />
-            </Box>
-            <Box
-              sx={{
-                backgroundColor: '#EEFFFF	',
-                mb: 6,
-                p: 2,
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
-              <Typography component="p" variant="body2">
-                保険相談者のプロフィール情報の性別・年代・家族構成に即した回答をすると相談者からお問い合わせが増加する可能性があります。
-              </Typography>
-            </Box>
-            <Divider sx={{ mb: 4 }} />
-            <Box sx={{ mb: 4 }}>
-              <Typography component="p" variant="body2">
-                利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意して確認画面へ進む」ボタンを押してください。
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                mb: 4,
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <LoadingButton
-                type="submit"
-                loading={isLoading} // Click時にユーザー入力を停止する
-                variant="contained"
+          {/* 入力画面を表示する */}
+          {!previewChecked && (
+            <Box>
+              <Box sx={{ mb: 2 }}>
+                <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
+                  保険相談に回答する
+                </Typography>
+              </Box>
+              <Box
                 sx={{
-                  width: 250,
-                  boxShadow: 'none',
-                  borderRadius: 1,
-                  textTransform: 'none',
-                  fontSize: { xs: 12, sm: 16 },
-                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0px 10px',
                 }}
               >
-                <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} />
-                同意して確認画面に進む
-              </LoadingButton>
+                <Typography component="p" variant="h6">
+                  回答
+                </Typography>
+                <Typography component="p" variant="body1" sx={{ color: '#FF0000' }}>
+                  必須
+                </Typography>
+                <Typography component="p" variant="body1">
+                  （600文字以内）
+                </Typography>
+              </Box>
+              <Box sx={{ mb: 2 }}>
+                {/* 相談の背景入力field */}
+                <Controller
+                  name="content"
+                  control={control}
+                  rules={validationRules.answerContent}
+                  render={({ field, fieldState }) => (
+                    <TextField
+                      {...field}
+                      type="text"
+                      error={fieldState.invalid}
+                      // validationエラーを出力していない場合は入力文字数を表示する
+                      helperText={`${fieldState.error?.message || ''} ${contentLength}/600文字`}
+                      onChange={(e) => {
+                        field.onChange(e)
+                        // field更新情報から入力文字データを保持しているtarget.valueを抽出して入力文字数をカウントする
+                        setContentLength(e.target.value.length)
+                      }}
+                      multiline
+                      rows={10}
+                      fullWidth
+                      placeholder="回答を入力"
+                    />
+                  )}
+                />
+              </Box>
+              <Box
+                sx={{
+                  backgroundColor: '#EEFFFF	',
+                  mb: 6,
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <InfoIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
+                <Typography component="p" variant="body2">
+                  保険相談者のプロフィール情報の性別・年代・家族構成に即した回答をすると相談者からお問い合わせが増加する可能性があります。
+                </Typography>
+              </Box>
+              <Divider sx={{ mb: 4 }} />
+              <Box sx={{ mb: 4 }}>
+                <Typography component="p" variant="body2">
+                  利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意して確認画面へ進む」ボタンを押してください。
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  mb: 4,
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: 250,
+                    boxShadow: 'none',
+                    borderRadius: 1,
+                    textTransform: 'none',
+                    fontSize: { xs: 12, sm: 16 },
+                    fontWeight: 'bold',
+                  }}
+                  onClick={async () => {
+                    await handleClickButtonValidation() // Validationが正常実行後に画面遷移させるためawaitで処理を制御する
+                    handleNextStep()
+                  }}
+                >
+                  <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} />
+                  同意して確認画面に進む
+                </Button>
+              </Box>
             </Box>
-          </Box>
+          )}
+          {/* 入力確認画面を表示する */}
+          {previewChecked && (
+            <Box>
+              <Box sx={{ my: 2 }}>
+                <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
+                  回答を確認する
+                </Typography>
+              </Box>
+              <Box>
+                <Typography component="p" variant="h6">
+                  【回答】
+                </Typography>
+              </Box>
+              <Box sx={{ mb: 6 }}>
+                <Typography component="p" variant="body1">
+                  {watch('content')}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  backgroundColor: '#FFFFCC',
+                  mb: 4,
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
+                <Typography component="p" variant="body2">
+                  ・<strong>回答後の修正や削除はできません</strong>のでご注意ください。
+                  <br />
+                  ・入力内容に間違いがないことをお確かめのうえ「回答する」ボタンを押してください。
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  mb: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '20px 0px',
+                }}
+              >
+                <Button
+                  variant="text"
+                  sx={{
+                    width: 250,
+                    boxShadow: 'none',
+                    border: '0.5px solid #000000',
+                    borderRadius: 1,
+                    textTransform: 'none',
+                    fontSize: { xs: 12, sm: 16 },
+                    fontWeight: 'bold',
+                    color: '#000000',
+                  }}
+                  onClick={() => {
+                    handleBackStep()
+                    handleClickButtonPreview()
+                  }}
+                >
+                  <ArrowBackIcon fontSize="small" sx={{ mr: 1 }} />
+                  修正する
+                </Button>
+                <LoadingButton
+                  type="submit"
+                  loading={isLoading} // Click時にユーザー入力を停止する
+                  variant="contained"
+                  sx={{
+                    width: 250,
+                    boxShadow: 'none',
+                    borderRadius: 1,
+                    textTransform: 'none',
+                    fontSize: { xs: 12, sm: 16 },
+                    fontWeight: 'bold',
+                  }}
+                >
+                  回答する
+                  <SendIcon fontSize="small" sx={{ ml: 1 }} />
+                </LoadingButton>
+              </Box>
+            </Box>
+          )}
         </Container>
       </Box>
     </Box>
