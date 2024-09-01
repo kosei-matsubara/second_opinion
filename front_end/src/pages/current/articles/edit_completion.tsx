@@ -16,9 +16,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const CurrentArticlesEditCompletion: NextPage = () => {
+const CurrentArticleEditCompletion: NextPage = () => {
   const router = useRouter()
-  const steps = ['相談内容入力', '相談内容確認', '相談投稿完了'] // StepperのStepを定義する
+  const steps: string[] = ['相談内容入力', '相談内容確認', '相談投稿完了'] // StepperのStepを定義する
   const activeStep = parseInt(router.query.step as string, 10)
   const articleId = parseInt(router.query.id as string, 10)
 
@@ -30,7 +30,7 @@ const CurrentArticlesEditCompletion: NextPage = () => {
       <Box component="main">
         <Container maxWidth="md">
           <Stepper activeStep={activeStep} alternativeLabel sx={{ mt: 10, mb: 4 }}>
-            {steps.map((label) => (
+            {steps.map((label: string) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
@@ -75,7 +75,7 @@ const CurrentArticlesEditCompletion: NextPage = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '30px 0px',
+              gap: '20px 0px',
               mb: 4,
             }}
           >
@@ -120,4 +120,4 @@ const CurrentArticlesEditCompletion: NextPage = () => {
   )
 }
 
-export default CurrentArticlesEditCompletion
+export default CurrentArticleEditCompletion

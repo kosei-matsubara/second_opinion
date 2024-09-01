@@ -22,6 +22,12 @@ type ArticleProps = {
   fromToday: string
 }
 
+type MetaProps = {
+  totalCount: number
+  totalPages: number
+  currentPage: number
+}
+
 const ArticleList: NextPage = () => {
   // ルーターからページ番号を取得し、APIのURLを生成する
   const router = useRouter()
@@ -32,8 +38,8 @@ const ArticleList: NextPage = () => {
   if (error) return <Error />
   if (!data) return <Loading />
 
-  const articles = camelcaseKeys(data.articles)
-  const meta = camelcaseKeys(data.meta)
+  const articles: ArticleProps[] = camelcaseKeys(data.articles)
+  const meta: MetaProps = camelcaseKeys(data.meta)
 
   // ページネーションの変更ハンドラー
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {

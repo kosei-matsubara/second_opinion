@@ -48,15 +48,15 @@ type ArticleFormData = {
   content: string
 }
 
-const CurrentArticlesEdit: NextPage = () => {
+const CurrentArticleEdit: NextPage = () => {
   useRequireSignedIn()
   const router = useRouter()
   const [user] = useUserState()
-  const [, setSnackbar] = useSnackbarState()
   const [isFetched, setIsFetched] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [previewChecked, setPreviewChecked] = useState<boolean>(false)
-  const steps = ['相談内容入力', '相談内容確認', '相談投稿完了'] // StepperのStepを定義する
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [, setSnackbar] = useSnackbarState()
+  const steps: string[] = ['相談内容入力', '相談内容確認', '相談投稿完了'] // StepperのStepを定義する
   const [activeStep, setActiveStep] = useState<number>(1) // Stepperの初期値を定義する
 
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/'
@@ -123,11 +123,13 @@ const CurrentArticlesEdit: NextPage = () => {
   // preview表示に切り替える関数
   const handleClickButtonPreview = () => {
     setPreviewChecked(!previewChecked)
+    window.scrollTo(0, 0) // 画面トップにスクロールする
   }
 
   // StepperのStepをカウントアップする
   const handleNextStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    window.scrollTo(0, 0) // 画面トップにスクロールする
   }
 
   // StepperのStepをカウントダウンする
@@ -205,7 +207,7 @@ const CurrentArticlesEdit: NextPage = () => {
         </AppBar>
         <Container maxWidth="md">
           <Stepper activeStep={activeStep} alternativeLabel sx={{ my: 4 }}>
-            {steps.map((label) => (
+            {steps.map((label: string) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
@@ -269,7 +271,7 @@ const CurrentArticlesEdit: NextPage = () => {
                         fullWidth
                       >
                         {/* 外部ファイルからimportしたオプションをプルダウンメニューに表示する */}
-                        {Object.entries(categoryOptions).map(([key, label]) => (
+                        {Object.entries(categoryOptions).map(([key, label]: [string, string]) => (
                           <MenuItem key={key} value={key}>
                             {label}
                           </MenuItem>
@@ -608,4 +610,4 @@ const CurrentArticlesEdit: NextPage = () => {
   )
 }
 
-export default CurrentArticlesEdit
+export default CurrentArticleEdit

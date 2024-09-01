@@ -26,8 +26,8 @@ import { useUserState } from '@/hooks/useGlobalState'
 
 const Header = () => {
   const router = useRouter()
-  const [user] = useUserState()
   const [isLoading, setIsLoading] = useState(false)
+  const [user] = useUserState()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null) // メニューモーダルの開閉を判定する
   const open = Boolean(anchorEl) // メニューモーダルの開閉を判定する
 

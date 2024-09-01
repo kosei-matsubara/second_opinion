@@ -57,13 +57,13 @@ type ProfileFormData = ProfileProps
 const CurrentProfileEdit: NextPage = () => {
   useRequireSignedIn()
   const [user] = useUserState()
-  const [, setSnackbar] = useSnackbarState()
+  const [userDivision, setUserDivision] = useState<string>('')
   const [isFetched, setIsFetched] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [userDivision, setUserDivision] = useState<string>('')
+  const [, setSnackbar] = useSnackbarState()
 
   // APIからプロフィールデータを取得する
-  const { data, error } = useSWR<ProfileProps>(
+  const { data, error } = useSWR(
     user.isSignedIn ? process.env.NEXT_PUBLIC_API_BASE_URL + '/current/user' : null,
     fetcher,
   )
@@ -428,7 +428,7 @@ const CurrentProfileEdit: NextPage = () => {
                           }}
                         >
                           {/* 外部ファイルからimportしたオプションをプルダウンメニューに表示する */}
-                          {Object.entries(prefecturesOptions).map(([key, label]) => (
+                          {Object.entries(prefecturesOptions).map(([key, label]: [string, string]) => (
                             <MenuItem key={key} value={key}>
                               {label}
                             </MenuItem>

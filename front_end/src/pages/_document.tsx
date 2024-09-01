@@ -9,7 +9,6 @@ import Document, {
   DocumentInitialProps,
 } from 'next/document'
 import * as React from 'react'
-
 import createEmotionCache from '@/styles/createEmotionCache'
 import theme from '@/styles/theme'
 

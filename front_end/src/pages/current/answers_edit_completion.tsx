@@ -1,6 +1,5 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import HomeIcon from '@mui/icons-material/Home'
-import MessageIcon from '@mui/icons-material/Message'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import WarningIcon from '@mui/icons-material/Warning'
 import {
@@ -19,7 +18,7 @@ import { useRouter } from 'next/router'
 
 const CurrentAnswerEditCompletion: NextPage = () => {
   const router = useRouter()
-  const steps = ['回答内容入力', '回答内容確認', '回答投稿完了'] // StepperのStepを定義する
+  const steps: string[] = ['回答内容入力', '回答内容確認', '回答投稿完了'] // StepperのStepを定義する
   const activeStep = parseInt(router.query.step as string, 10)
   const articleId = parseInt(router.query.articleId as string, 10)
 
@@ -31,7 +30,7 @@ const CurrentAnswerEditCompletion: NextPage = () => {
       <Box component="main">
         <Container maxWidth="md">
           <Stepper activeStep={activeStep} alternativeLabel sx={{ my: 4 }}>
-            {steps.map((label) => (
+            {steps.map((label: string) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>

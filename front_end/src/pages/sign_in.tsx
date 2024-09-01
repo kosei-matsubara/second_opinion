@@ -18,10 +18,10 @@ type SignInFormData = {
 
 const SignIn: NextPage = () => {
   const router = useRouter()
-  const [, setSnackbar] = useSnackbarState()
-  const [isLoading, setIsLoading] = useState(false)
-  const [isGuestLoading, setIsGuestLoading] = useState(false)
+  const [isGuestLoading, setIsGuestLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [user, setUser] = useUserState()
+  const [, setSnackbar] = useSnackbarState()
 
   const { control, setValue, handleSubmit } = useForm<SignInFormData>({
     defaultValues: { email: '', password: '' },

@@ -1,214 +1,168 @@
-import ArticleIcon from '@mui/icons-material/Article'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import SettingsIcon from '@mui/icons-material/Settings'
-import {
-  Avatar,
-  Box,
-  Container,
-  Typography,
-  Card,
-  List,
-  ListItem,
-  ListItemText,
-  Tooltip,
-  IconButton,
-} from '@mui/material'
+import MessageIcon from '@mui/icons-material/Message'
+import WarningIcon from '@mui/icons-material/Warning'
+import { Box, Container, Typography, Divider, Grid, Button } from '@mui/material'
 import camelcaseKeys from 'camelcase-keys'
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
+import AnswerCard from '@/components/AnswerCard'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
-import { useUserState } from '@/hooks/useGlobalState'
-import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
-import { styles } from '@/styles'
 import { fetcher } from '@/utils'
 
 type ArticleProps = {
+  categories: string
   title: string
+  background: string
   content: string
   createdAt: string
-  status: string
+  updatedAt: string
+}
+
+type AnswerProps = {
+  user: {
+    name: string
+  }
+  content: string
+  createdAt: string
 }
 
 const CurrentArticleDetail: NextPage = () => {
-  useRequireSignedIn()
-  const [user] = useUserState()
   const router = useRouter()
-  const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles/'
-  const { id } = router.query
+  const { id } = router.query // URLパラメータからArticleIDを取得する
 
-  const { data, error } = useSWR(user.isSignedIn && id ? url + id : null, fetcher)
+  // Articleデータを取得する
+  const articleUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/articles/${id}`
+  const { data: articleData, error: articleError } = useSWR(
+    id ? articleUrl : null,
+    fetcher,
+  )
 
-  if (error) return <Error />
-  if (!data) return <Loading />
+  // ArticleIDに一致するAnswerデータを取得する
+  const answerUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/answers?article_id=${id}`
+  const { data: answersData, error: answerError } = useSWR(
+    id ? answerUrl : null,
+    fetcher,
+  )
 
-  const article: ArticleProps = camelcaseKeys(data)
+  if (articleError || answerError) return <Error />
+  if (!articleData) return <Loading />
+
+  const article: ArticleProps = camelcaseKeys(articleData)
+  // answersデータが0件の場合はnullを返してエラーを回避する
+  const answers: AnswerProps[] = answersData?.answers
+    ? camelcaseKeys(answersData.answers)
+    : []
 
   return (
-    <Box
-      css={styles.pageMinHeight}
-      sx={{
-        backgroundColor: '#EDF2F7',
-        pb: 6,
-      }}
-    >
-      <Box
-        sx={{
-          display: { xs: 'block', lg: 'none' },
-          backgroundColor: 'white',
-          borderTop: '0.5px solid #acbcc7',
-          height: 56,
-          color: '#6e7b85',
-        }}
-      >
-        <Container
-          maxWidth="sm"
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
-          <Box sx={{ display: 'flex', gap: '0 8px' }}>
-            <SettingsIcon />
-            <Typography component="p" sx={{ mr: 1, fontSize: { xs: 14, sm: 16 } }}>
-              ステータス: {article.status}
+    <Box>
+      <Head>
+        <title>自分の保険相談詳細</title>
+      </Head>
+      <Box component="main">
+        <Container maxWidth="md">
+          <Box sx={{ my: 6 }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
+              {article.title}
+            </Typography>
+            <Typography component="p" variant="body1" sx={{ color: '#AAAAAA' }}>
+              相談日：{article.createdAt}
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', gap: '0 8px' }}>
-            <ArticleIcon />
-            <Typography component="p" sx={{ mr: 1, fontSize: { xs: 14, sm: 16 } }}>
-              公開: {article.createdAt}
+          <Box>
+            <Typography component="p" variant="h6">
+              【相談カテゴリ】
             </Typography>
+          </Box>
+          <Box sx={{ mb: 6 }}>
+            <Typography component="p" variant="body1">
+              {article.categories}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography component="p" variant="h6">
+              【相談の背景】
+            </Typography>
+          </Box>
+          <Box sx={{ mb: 6 }}>
+            <Typography component="p" variant="body1">
+              {article.background}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography component="p" variant="h6">
+              【質問】
+            </Typography>
+          </Box>
+          <Box sx={{ mb: 6 }}>
+            <Typography component="p" variant="body1">
+              {article.content}
+            </Typography>
+          </Box>
+          <Divider />
+          <Box sx={{ my: 6 }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
+              回答タイムライン
+            </Typography>
+          </Box>
+          {/* answersデータの取得有無を判定する */}
+          {!answersData ? (
+            <Loading />
+          ) : answersData.answers.length === 0 ? ( // APIリクエストにmetaデータを含むためanswers配列に対して0件判定をする
+            <Box
+              sx={{
+                backgroundColor: '#FFFFCC',
+                p: 2,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
+              <Typography component="p" variant="body2">
+                まだ保険のプロから回答がありません。
+              </Typography>
+            </Box>
+          ) : (
+            <Grid
+              sx={{ display: 'flex', justifyContent: 'center' }}
+              container
+              spacing={4}
+            >
+              {answers.map((answer: AnswerProps, i: number) => (
+                <Grid key={i} item xs={10} md={11}>
+                  <AnswerCard
+                    userName={answer.user.name}
+                    createdAt={answer.createdAt}
+                    content={answer.content}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          )}
+          <Box sx={{ my: 4, display: 'flex', justifyContent: 'center' }}>
+            <Link href="/current/articles">
+              <Button
+                variant="text"
+                sx={{
+                  width: 280,
+                  boxShadow: 'none',
+                  border: '0.5px solid #000000',
+                  borderRadius: 1,
+                  color: '#000000',
+                  textTransform: 'none',
+                  fontSize: { xs: 12, sm: 16 },
+                  fontWeight: 'bold',
+                }}
+              >
+                <MessageIcon fontSize="small" sx={{ mr: 0.5 }} />
+                自分の保険相談一覧に戻る
+              </Button>
+            </Link>
           </Box>
         </Container>
       </Box>
-      <Container maxWidth="lg">
-        <Box sx={{ pt: 6, pb: 3 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0 8px',
-              m: 'auto',
-            }}
-          >
-            <Box sx={{ width: 40, height: 40 }}>
-              <Link href={'/current/articles'}>
-                <Avatar>
-                  <Tooltip title="記事の管理に戻る">
-                    <IconButton sx={{ backgroundColor: '#DDDDDD' }}>
-                      <ChevronLeftIcon sx={{ color: '#99AAB6' }} />
-                    </IconButton>
-                  </Tooltip>
-                </Avatar>
-              </Link>
-            </Box>
-            <Box sx={{ textAlign: 'center', width: '100%' }}>
-              <Typography
-                component="h2"
-                sx={{
-                  fontSize: { xs: 21, sm: 25 },
-                  fontWeight: 'bold',
-                  lineHeight: '40px',
-                }}
-              >
-                {article.title}
-              </Typography>
-            </Box>
-          </Box>
-          <Typography
-            component="p"
-            align="center"
-            sx={{
-              display: {
-                xs: 'block',
-                lg: 'none',
-              },
-              color: '#6e7b85',
-              mt: '20px',
-            }}
-          >
-            {article.createdAt}に公開
-          </Typography>
-        </Box>
-        <Box sx={{ display: 'flex', gap: '0 24px' }}>
-          <Box sx={{ width: '100%' }}>
-            <Card
-              sx={{
-                boxShadow: 'none',
-                borderRadius: '12px',
-                maxWidth: 840,
-                m: '0 auto',
-              }}
-            >
-              <Box
-                sx={{
-                  padding: { xs: '0 24px 24px 24px', sm: '0 40px 40px 40px' },
-                  marginTop: { xs: '24px', sm: '40px' },
-                }}
-              >
-                {article.content}
-              </Box>
-            </Card>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: 'none', lg: 'block' },
-              width: 300,
-              minWidth: 300,
-            }}
-          >
-            <Card sx={{ boxShadow: 'none', borderRadius: '12px' }}>
-              <List sx={{ color: '#6e7b85' }}>
-                <ListItem divider>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Box sx={{ pr: 1 }}>
-                        <SettingsIcon />
-                      </Box>
-                      <ListItemText primary="ステータス" />
-                    </Box>
-                    <Box>
-                      <ListItemText primary={article.status} />
-                    </Box>
-                  </Box>
-                </ListItem>
-                <ListItem>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Box sx={{ pr: 1 }}>
-                        <ArticleIcon />
-                      </Box>
-                      <ListItemText primary="公開" />
-                    </Box>
-                    <Box>
-                      <ListItemText primary={article.createdAt} />
-                    </Box>
-                  </Box>
-                </ListItem>
-              </List>
-            </Card>
-          </Box>
-        </Box>
-      </Container>
     </Box>
   )
 }

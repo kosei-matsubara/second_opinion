@@ -28,9 +28,9 @@ type SignUpFormData = {
 
 const SignUp: NextPage = () => {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [, setSnackbar] = useSnackbarState()
-  const [isLoading, setIsLoading] = useState(false)
-  const steps = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
+  const steps: string[] = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
   const [activeStep] = useState<number>(1) // Stepperの初期値を定義する
 
   const { handleSubmit, control } = useForm<SignUpFormData>({
@@ -90,7 +90,7 @@ const SignUp: NextPage = () => {
         <Container maxWidth="sm">
           <Breadcrumbs />
           <Stepper activeStep={activeStep} alternativeLabel sx={{ my: 4 }}>
-            {steps.map((label) => (
+            {steps.map((label: string) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>

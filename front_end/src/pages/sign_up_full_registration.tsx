@@ -6,7 +6,7 @@ import { useState } from 'react'
 import Breadcrumbs from '@/components/Breadcrumbs'
 
 const SignUpFullRegistration: NextPage = () => {
-  const steps = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
+  const steps: string[] = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
   const [activeStep] = useState<number>(3) // Stepperの初期値を定義する
 
   return (
@@ -18,7 +18,7 @@ const SignUpFullRegistration: NextPage = () => {
         <Container maxWidth="sm">
           <Breadcrumbs />
           <Stepper activeStep={activeStep} alternativeLabel sx={{ m: 4 }}>
-            {steps.map((label) => (
+            {steps.map((label: string) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>

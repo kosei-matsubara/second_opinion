@@ -8,8 +8,7 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
     total_count = articles.count
 
     # メタ情報に合計件数を含める 課題：合計件数を表示しない場合削除する
-    # render json: articles, meta: { total_count: total_count }, adapter: :json
-    render json: articles, meta: { total_count: total_count }
+    render json: articles, meta: { total_count: total_count }, adapter: :json
   end
 
   def show

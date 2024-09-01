@@ -7,7 +7,7 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 
 const SignUpProvisionalRegistration: NextPage = () => {
   const router = useRouter()
-  const steps = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
+  const steps: string[] = ['会員情報入力', '仮登録完了', '本登録完了'] // StepperのStepを定義する
   const activeStep = parseInt(router.query.step as string, 10)
 
   return (
@@ -19,7 +19,7 @@ const SignUpProvisionalRegistration: NextPage = () => {
         <Container maxWidth="sm">
           <Breadcrumbs />
           <Stepper activeStep={activeStep} alternativeLabel sx={{ m: 4 }}>
-            {steps.map((label) => (
+            {steps.map((label: string) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>

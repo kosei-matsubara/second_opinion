@@ -5,7 +5,6 @@ import SendIcon from '@mui/icons-material/Send'
 import WarningIcon from '@mui/icons-material/Warning'
 import { LoadingButton } from '@mui/lab'
 import {
-  AppBar,
   Box,
   Container,
   Divider,
@@ -16,23 +15,20 @@ import {
   Typography,
   Button,
 } from '@mui/material'
-import MenuItem from '@mui/material/MenuItem'
 import axios, { AxiosError } from 'axios'
 import camelcaseKeys from 'camelcase-keys'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import useSWR from 'swr'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
 import { validationRules } from '@/components/ValidationRules'
-import { useUserState, useSnackbarState } from '@/hooks/useGlobalState'
+import { useSnackbarState } from '@/hooks/useGlobalState'
 import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
 import { fetcher } from '@/utils'
-import { ContactMailOutlined } from '@mui/icons-material'
 
 type ProfileProps = {
   sex: string
@@ -57,11 +53,10 @@ type AnswerFormData = {
 const CurrentAnswerEdit: NextPage = () => {
   useRequireSignedIn()
   const router = useRouter()
-  const [user] = useUserState()
-  const [, setSnackbar] = useSnackbarState()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [previewChecked, setPreviewChecked] = useState<boolean>(false)
-  const steps = ['回答内容入力', '回答内容確認', '回答投稿完了'] // StepperのStepを定義する
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [, setSnackbar] = useSnackbarState()
+  const steps: string[] = ['回答内容入力', '回答内容確認', '回答投稿完了'] // StepperのStepを定義する
   const [activeStep, setActiveStep] = useState<number>(1) // Stepperの初期値を定義する
   const articleId = parseInt(router.query.articleId as string, 10)
 
@@ -92,11 +87,13 @@ const CurrentAnswerEdit: NextPage = () => {
   // preview表示に切り替える関数
   const handleClickButtonPreview = () => {
     setPreviewChecked(!previewChecked)
+    window.scrollTo(0, 0) // 画面トップにスクロールする
   }
 
   // StepperのStepをカウントアップする
   const handleNextStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    window.scrollTo(0, 0) // 画面トップにスクロールする
   }
 
   // StepperのStepをカウントダウンする
@@ -154,7 +151,7 @@ const CurrentAnswerEdit: NextPage = () => {
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <Container maxWidth="md">
           <Stepper activeStep={activeStep} alternativeLabel sx={{ my: 4 }}>
-            {steps.map((label) => (
+            {steps.map((label: string) => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
