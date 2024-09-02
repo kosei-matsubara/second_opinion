@@ -6,12 +6,27 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
-import ArticleCard from '@/components/ArticleCard'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import Error from '@/components/Error'
 import Loading from '@/components/Loading'
+import UserCard from '@/components/UserCard'
 import { styles } from '@/styles'
 import { fetcher } from '@/utils'
+
+type ProfileProps = {
+  id: number
+  name: string
+  belong: string
+  address: string
+  selfIntroduction: string
+  myStrength: string
+  career: string
+  message: string
+  access: string
+  website: string
+  inquiryOpeningTime: string
+  inquiryTelephoneNumber: string
+}
 
 type ArticleProps = {
   id: number
@@ -28,35 +43,35 @@ type MetaProps = {
   currentPage: number
 }
 
-const ArticleList: NextPage = () => {
+const InsuranceAgentList: NextPage = () => {
   // ルーターからページ番号を取得し、APIのURLを生成する
   const router = useRouter()
   const page = 'page' in router.query ? Number(router.query.page) : 1
-  const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/articles/?page=' + page
+  const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/users/?page=' + page
 
   const { data, error } = useSWR(url, fetcher)
   if (error) return <Error />
   if (!data) return <Loading />
 
-  const articles: ArticleProps[] = camelcaseKeys(data.articles)
+  const users: ProfileProps[] = camelcaseKeys(data.users)
   const meta: MetaProps = camelcaseKeys(data.meta)
 
   // ページネーションの変更ハンドラー
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    router.push('/articlelist?page=' + value)
+    router.push('/insuranceagentlist?page=' + value)
   }
 
   return (
     <Box>
       <Head>
-        <title>みんなの保険の相談一覧</title>
+        <title>保険のプロ一覧</title>
       </Head>
       <Box component="main" css={styles.pageMinHeight}>
         <Container maxWidth="lg">
           <Breadcrumbs />
           <Box sx={{ borderBottom: '0.5px solid #000000', p: 2 }}>
             <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold' }}>
-              みんなの保険相談一覧
+              保険のプロ一覧
             </Typography>
           </Box>
           <Box sx={{ borderBottom: '0.5px solid #000000', p: 2 }}>
@@ -82,15 +97,13 @@ const ArticleList: NextPage = () => {
             container
             spacing={4}
           >
-            {articles.map((article: ArticleProps, i: number) => (
+            {users.map((user: ProfileProps, i: number) => (
               <Grid key={i} item xs={7} lg={8}>
-                <Link href={'/articlelist/' + article.id}>
-                  <ArticleCard
-                    title={article.title}
-                    categories={article.categories}
-                    background={article.background}
-                    answersCount={article.answersCount}
-                    fromToday={article.fromToday}
+                <Link href={'/insuranceagentlist/' + user.id}>
+                  <UserCard
+                    name={user.name}
+                    belong={user.belong}
+                    message={user.message}
                   />
                 </Link>
               </Grid>
@@ -109,4 +122,4 @@ const ArticleList: NextPage = () => {
   )
 }
 
-export default ArticleList
+export default InsuranceAgentList

@@ -23,10 +23,13 @@ import { useRequireSignedIn } from '@/hooks/useRequireSignedIn'
 import { styles } from '@/styles'
 import { fetcher } from '@/utils'
 
-type ArticleProps = {
+type AnswerProps = {
   id: number
-  categories: string
-  title: string
+  content: string
+  article: {
+    id: number
+    categories: string
+  }
 }
 
 type MetaProps = {
@@ -40,31 +43,31 @@ const omitText = (text: string, maxLength: number, ellipsis: string = '...'): st
   text
 }
 
-const CurrentArticles: NextPage = () => {
+const CurrentAnswers: NextPage = () => {
   useRequireSignedIn()
   const [user] = useUserState()
-  const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/articles'
+  const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/current/answers'
   const { data, error } = useSWR(user.isSignedIn ? url : null, fetcher)
 
   if (error) return <Error />
   if (!data) return <Loading />
 
-  const articles: ArticleProps[] = camelcaseKeys(data.articles)
+  const answers: AnswerProps[] = camelcaseKeys(data.answers)
   const meta: MetaProps = camelcaseKeys(data.meta)
 
   return (
     <Box>
       <Head>
-        <title>自分の保険相談一覧</title>
+        <title>自分の回答一覧</title>
       </Head>
       <Box component="main" css={styles.pageMinHeight}>
         <Container maxWidth="md">
           <Box sx={{ mt: 4, mb: 2 }}>
             <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold' }}>
-              自分の保険相談一覧
+              自分の回答一覧
             </Typography>
           </Box>
-          {data.articles.length === 0 ? ( // APIリクエストにmetaデータを含むためarticles配列に対して0件判定をする
+          {data.answers.length === 0 ? ( // APIリクエストにmetaデータを含むためanswers配列に対して0件判定をする
             <Box
               sx={{
                 backgroundColor: '#FFFFCC',
@@ -75,7 +78,7 @@ const CurrentArticles: NextPage = () => {
             >
               <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
               <Typography component="p" variant="body2">
-                自分の保険相談がありません。
+                自分の回答がありません。
               </Typography>
             </Box>
           ) : (
@@ -85,7 +88,7 @@ const CurrentArticles: NextPage = () => {
                   {meta.totalCount}件見つかりました
                 </Typography>
               </Box>
-              {articles.map((article: ArticleProps, i: number) => (
+              {answers.map((answer: AnswerProps, i: number) => (
                 <>
                   <Box
                     key={i}
@@ -103,7 +106,7 @@ const CurrentArticles: NextPage = () => {
                           fontWeight: 'bold',
                         }}
                       >
-                        {article.categories}
+                        {answer.article.categories}
                       </Typography>
                     </Box>
                     <Box sx={{ width: 610 }}>
@@ -114,13 +117,13 @@ const CurrentArticles: NextPage = () => {
                           fontWeight: 'bold',
                         }}
                       >
-                        {omitText(article.title, 30)}
+                        {omitText(answer.content, 30)}
                       </Typography>
                     </Box>
                     <Box>
-                      <Link href={'/current/articles/' + article.id}>
+                      <Link href={'/current/articles/' + answer.article.id}>
                         <Avatar>
-                          <Tooltip title="保険相談を表示" arrow>
+                          <Tooltip title="回答を表示" arrow>
                             <IconButton sx={{ backgroundColor: '#F1F5FA' }}>
                               <ChevronRightIcon sx={{ color: '#99AAB6' }} />
                             </IconButton>
@@ -166,4 +169,4 @@ const CurrentArticles: NextPage = () => {
   )
 }
 
-export default CurrentArticles
+export default CurrentAnswers

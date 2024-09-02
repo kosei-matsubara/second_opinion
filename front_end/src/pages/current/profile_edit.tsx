@@ -95,7 +95,24 @@ const CurrentProfileEdit: NextPage = () => {
       }
     }
     // プロフィールデータが存在する場合、存在するデータを定義する
-    return camelCaseProfileData
+    return{
+      userDivision: camelCaseProfileData.userDivision == null ? '' : camelCaseProfileData.userDivision,
+      name: camelCaseProfileData.name == null ? '' : camelCaseProfileData.name,
+      sex: camelCaseProfileData.sex == null ? '' : camelCaseProfileData.sex,
+      generation: camelCaseProfileData.generation == null ? '' : camelCaseProfileData.generation,
+      familyStructure: camelCaseProfileData.familyStructure == null ? '' : camelCaseProfileData.familyStructure,
+      prefectures: camelCaseProfileData.prefectures == null ? '' : camelCaseProfileData.prefectures,
+      belong: camelCaseProfileData.belong == null ? '' : camelCaseProfileData.belong,
+      address: camelCaseProfileData.address == null ? '' : camelCaseProfileData.address,
+      selfIntroduction: camelCaseProfileData.selfIntroduction == null ? '' : camelCaseProfileData.selfIntroduction,
+      myStrength: camelCaseProfileData.myStrength == null ? '' : camelCaseProfileData.myStrength,
+      career: camelCaseProfileData.career == null ? '' : camelCaseProfileData.career,
+      message: camelCaseProfileData.message == null ? '' : camelCaseProfileData.message,
+      access: camelCaseProfileData.access == null ? '' : camelCaseProfileData.access,
+      website: camelCaseProfileData.website == null ? '' : camelCaseProfileData.website,
+      inquiryOpeningTime: camelCaseProfileData.inquiryOpeningTime == null ? '' : camelCaseProfileData.inquiryOpeningTime,
+      inquiryTelephoneNumber: camelCaseProfileData.inquiryTelephoneNumber == null ? '' : camelCaseProfileData.inquiryTelephoneNumber,
+    }
   }, [camelCaseProfileData])
 
   // useFormフックを呼び出しユーザー操作に応じてformの状態と動作を管理する
@@ -277,7 +294,7 @@ const CurrentProfileEdit: NextPage = () => {
               </Box>
               {/* 保険契約者向けの表示 */}
               {userDivision === 'policyholder' && (
-                <div>
+                <Box>
                   <Divider sx={{ my: 2 }} />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <FormLabel
@@ -451,11 +468,11 @@ const CurrentProfileEdit: NextPage = () => {
                       属性をご入力いただく事で保険のプロからより正確な保険相談の回答が得やすくなります。
                     </Typography>
                   </Box>
-                </div>
+                </Box>
               )}
               {/* 保険営業者向けの表示 */}
               {userDivision === 'insurance_agent' && (
-                <div>
+                <Box>
                   <Box
                     sx={{
                       backgroundColor: 'custom.h2backgroundColor',
@@ -851,7 +868,7 @@ const CurrentProfileEdit: NextPage = () => {
                       プロフィールを充実させる事で保険契約者からの保険相談件数が増加する可能性があります。
                     </Typography>
                   </Box>
-                </div>
+                </Box>
               )}
               <Divider sx={{ my: 2 }} />
               <Box sx={{ mb: 4 }}>

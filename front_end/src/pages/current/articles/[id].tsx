@@ -107,7 +107,7 @@ const CurrentArticleDetail: NextPage = () => {
               回答タイムライン
             </Typography>
           </Box>
-          {/* answersデータの取得有無を判定する */}
+          {/* データフェッチ前の件数判定によるnudefineエラー回避のため、answersデータの取得有無を判定する */}
           {!answersData ? (
             <Loading />
           ) : answersData.answers.length === 0 ? ( // APIリクエストにmetaデータを含むためanswers配列に対して0件判定をする

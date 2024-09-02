@@ -4,6 +4,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import MessageIcon from '@mui/icons-material/Message'
 import PersonIcon from '@mui/icons-material/Person'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import { LoadingButton } from '@mui/lab'
 import {
   AppBar,
@@ -98,7 +99,7 @@ const Header = () => {
             </Link>
           </Box>
           {user.isFetched && (
-            <div>
+            <Box>
               {/* ユーザー未認証のHeader表示内容 */}
               {!user.isSignedIn && (
                 <Box sx={{ display: 'flex' }}>
@@ -188,6 +189,14 @@ const Header = () => {
                         自分の保険相談一覧
                       </MenuItem>
                     </Link>
+                    <Link href={'/current/answers'}>
+                      <MenuItem>
+                        <ListItemIcon>
+                          <QuestionAnswerIcon fontSize="small" />
+                        </ListItemIcon>
+                        自分の回答一覧
+                      </MenuItem>
+                    </Link>
                     <Link href={'/current/profile_edit'}>
                       <MenuItem>
                         <ListItemIcon>
@@ -207,7 +216,7 @@ const Header = () => {
                   </Menu>
                 </Box>
               )}
-            </div>
+            </Box>
           )}
         </Box>
       </Container>
