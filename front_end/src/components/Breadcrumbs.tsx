@@ -7,6 +7,7 @@ import React from 'react'
 const pathToJapanese: { [key: string]: string } = {
   'home': 'ホーム',
   'articlelist': 'みんなの保険相談一覧',
+  'insuranceagentlist': '保険のプロ一覧',
   'edit': '保険相談',
   'sign_out': 'サインアウト',
   'sign_up': '会員情報入力',

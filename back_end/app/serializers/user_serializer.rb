@@ -1,6 +1,8 @@
 class UserSerializer < ActiveModel::Serializer
   # プロフィールの表示項目を定義する
-  attributes :user_division,
+  attributes :id,
+             :email,
+             :user_division,
              :name,
              :sex,
              :generation,

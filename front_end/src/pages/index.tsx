@@ -54,7 +54,7 @@ const Index: NextPage = () => {
                 gap: '0px 20px',
               }}
             >
-              <Link href="/#">
+              <Link href="/insuranceagentlist">
                 <Button
                   variant="text"
                   sx={{

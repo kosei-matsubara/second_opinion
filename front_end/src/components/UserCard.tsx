@@ -1,19 +1,14 @@
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
-import { Box, Card, CardContent, Typography } from '@mui/material'
+import ArticleIcon from '@mui/icons-material/Article'
+import { Box, Button, Card, CardContent, Typography } from '@mui/material'
+import Link from 'next/link'
 
 type UserCardProps = {
   id: number
   name: string
   belong: string
   address: string
-  selfIntroduction: string
-  myStrength: string
-  career: string
   message: string
-  access: string
-  website: string
-  inquiryOpeningTime: string
-  inquiryTelephoneNumber: string
 }
 
 // テキストが指定長以上の場合はテキスト末尾を省略する
@@ -27,22 +22,46 @@ const UserCard = (props: UserCardProps) => {
   return (
     <Card>
       <CardContent>
-        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
-          <AccountBoxIcon fontSize="large" sx={{ mr: 1, color: '#005FFF' }} />
-          <Typography component="h3" sx={{ fontSize: 16, fontWeight: 'bold' }}>
-            {omitText(props.name, 20)}
-          </Typography>
-          <Typography component="h2" variant="h6">
-            {props.categories}
-          </Typography>
+        <Box sx={{ display: 'flex', gap: '0px 10px' }}>
+          <AccountBoxIcon sx={{ color: '#CCCCCC', height: '150px', width: '150px' }} />
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px 0px' }}>
+            <Typography component="p" variant="h5">
+              {props.name}
+            </Typography>
+            <Typography component="p" variant="h6">
+              {props.belong}
+            </Typography>
+            <Typography component="p" variant="body1">
+              {props.address}
+            </Typography>
+          </Box>
         </Box>
-        <Typography component="p" variant="body1" sx={{ mb: 2 }}>
-          {omitText(props.belong, 200)}
+        <Typography component="p" variant="body1">
+          {omitText(props.message, 200)}
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography component="p" variant="body2">
-            相談日：{props.message}
-          </Typography>
+        <Box
+          sx={{
+            mt: 2,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Link href={'/insuranceagentlist/' + props.id}>
+            <Button
+              variant="contained"
+              sx={{
+                width: 180,
+                boxShadow: 'none',
+                borderRadius: 1,
+                textTransform: 'none',
+                fontSize: { xs: 12, sm: 16 },
+                fontWeight: 'bold',
+              }}
+            >
+              <ArticleIcon fontSize="small" sx={{ mr: 0.5 }} />
+              詳細を見る
+            </Button>
+          </Link>
         </Box>
       </CardContent>
     </Card>

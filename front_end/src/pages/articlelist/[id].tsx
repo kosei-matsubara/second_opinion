@@ -4,7 +4,6 @@ import { Box, Container, Typography, Divider, Grid, Button } from '@mui/material
 import camelcaseKeys from 'camelcase-keys'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import AnswerCard from '@/components/AnswerCard'
@@ -33,7 +32,6 @@ const ArticleDetail: NextPage = () => {
   const router = useRouter()
   const { id } = router.query // URLパラメータからArticleIDを取得する
 
-  // Articleデータを取得する
   const articleUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/articles/${id}`
   const { data: articleData, error: articleError } = useSWR(
     id ? articleUrl : null,
@@ -150,23 +148,21 @@ const ArticleDetail: NextPage = () => {
             </Grid>
           )}
           <Box sx={{ my: 4, display: 'flex', justifyContent: 'center' }}>
-            <Link href="/">
-              <Button
-                variant="contained"
-                sx={{
-                  width: 250,
-                  boxShadow: 'none',
-                  borderRadius: 1,
-                  textTransform: 'none',
-                  fontSize: { xs: 12, sm: 16 },
-                  fontWeight: 'bold',
-                }}
-                onClick={handleAnswerClick}
-              >
-                <QuestionAnswerIcon fontSize="small" sx={{ mr: 1 }} />
-                保険相談に回答する
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              sx={{
+                width: 250,
+                boxShadow: 'none',
+                borderRadius: 1,
+                textTransform: 'none',
+                fontSize: { xs: 12, sm: 16 },
+                fontWeight: 'bold',
+              }}
+              onClick={handleAnswerClick}
+            >
+              <QuestionAnswerIcon fontSize="small" sx={{ mr: 1 }} />
+              保険相談に回答する
+            </Button>
           </Box>
         </Container>
       </Box>

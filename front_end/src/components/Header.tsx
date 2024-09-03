@@ -113,7 +113,7 @@ const Header = () => {
                         borderRadius: 1,
                         m: 1,
                         textTransform: 'none',
-                        fontSize: 16,
+                        fontSize: { xs: 12, sm: 16 },
                         fontWeight: 'bold',
                         color: '#FFFFFF',
                       }}
@@ -133,7 +133,7 @@ const Header = () => {
                         borderRadius: 1,
                         m: 1,
                         textTransform: 'none',
-                        fontSize: 16,
+                        fontSize: { xs: 12, sm: 16 },
                         fontWeight: 'bold',
                         color: '#000000',
                       }}
@@ -157,7 +157,7 @@ const Header = () => {
                       borderRadius: 1,
                       m: 1,
                       textTransform: 'none',
-                      fontSize: 16,
+                      fontSize: { xs: 12, sm: 16 },
                       fontWeight: 'bold',
                     }}
                     onClick={addNewArticle}

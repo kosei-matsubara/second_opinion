@@ -20,7 +20,7 @@ import camelcaseKeys from 'camelcase-keys'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import useSWR from 'swr'
 import Error from '@/components/Error'
@@ -53,6 +53,7 @@ type AnswerFormData = {
 const CurrentAnswerEdit: NextPage = () => {
   useRequireSignedIn()
   const router = useRouter()
+  const [isFetched, setIsFetched] = useState<boolean>(false)
   const [previewChecked, setPreviewChecked] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [, setSnackbar] = useSnackbarState()
@@ -72,8 +73,15 @@ const CurrentAnswerEdit: NextPage = () => {
   // 文字数カウントのためStateを定義する
   const [contentLength, setContentLength] = useState<number>(0)
 
+  // isFetched(false)の間は、<Loading>コンポーネントを画面表示する
+  useEffect(() => {
+    if (data) {
+      setIsFetched(true) // データフェッチ終了後、trueに更新する
+    }
+  }, [data])
+
   if (error) return <Error />
-  if (!data) return <Loading />
+  if (!data || !isFetched) return <Loading />
 
   const profile: ProfileProps = camelcaseKeys(data.user)
   const article: ArticleProps = camelcaseKeys(data)

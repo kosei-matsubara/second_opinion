@@ -18,23 +18,8 @@ type ProfileProps = {
   name: string
   belong: string
   address: string
-  selfIntroduction: string
-  myStrength: string
-  career: string
   message: string
   access: string
-  website: string
-  inquiryOpeningTime: string
-  inquiryTelephoneNumber: string
-}
-
-type ArticleProps = {
-  id: number
-  title: string
-  categories: string
-  background: string
-  answersCount: number
-  fromToday: string
 }
 
 type MetaProps = {
@@ -99,13 +84,13 @@ const InsuranceAgentList: NextPage = () => {
           >
             {users.map((user: ProfileProps, i: number) => (
               <Grid key={i} item xs={7} lg={8}>
-                <Link href={'/insuranceagentlist/' + user.id}>
-                  <UserCard
-                    name={user.name}
-                    belong={user.belong}
-                    message={user.message}
-                  />
-                </Link>
+                <UserCard
+                  id={user.id}
+                  name={user.name}
+                  belong={user.belong}
+                  address={user.address}
+                  message={user.message}
+                />
               </Grid>
             ))}
           </Grid>
