@@ -6,7 +6,6 @@ import React from 'react'
 // パス名と日本語の対応表
 const pathToJapanese: { [key: string]: string } = {
   'home': 'ホーム',
-  'articlelist': 'みんなの保険相談一覧',
   'insuranceagentlist': '保険のプロ一覧',
   'edit': '保険相談',
   'sign_out': 'サインアウト',

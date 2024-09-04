@@ -5,7 +5,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
     subject { get(api_v1_articles_path(params)) }
 
     before do
-      create_list(:article, 25, status: :published)
+      create_list(:article, 2, status: :published)
       create_list(:article, 8, status: :draft)
     end
 

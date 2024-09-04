@@ -1,3 +1,5 @@
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import LoginIcon from '@mui/icons-material/Login'
 import Logout from '@mui/icons-material/Logout'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
@@ -181,6 +183,22 @@ const Header = () => {
                       <Typography sx={{ fontWeight: 'bold' }}>{user.name} 様</Typography>
                     </Box>
                     <Divider />
+                    <Link href={'/'}>
+                      <MenuItem>
+                        <ListItemIcon>
+                          <LibraryBooksIcon fontSize="small" />
+                        </ListItemIcon>
+                        みんなの保険相談
+                      </MenuItem>
+                    </Link>
+                    <Link href={'/insuranceagentlist'}>
+                      <MenuItem>
+                        <ListItemIcon>
+                          <PeopleAltIcon fontSize="small" />
+                        </ListItemIcon>
+                        保険のプロ一覧
+                      </MenuItem>
+                    </Link>
                     <Link href={'/current/articles'}>
                       <MenuItem>
                         <ListItemIcon>

@@ -33,10 +33,9 @@ const SuccessSnackbar = () => {
           open={open}
           autoHideDuration={2000}
           onClose={handleClose}
-          // 表示画面やScrollToTopなどの表示と重複させないため、snackbarの表示位置を左下にする
           anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
+            vertical: 'top',
+            horizontal: 'center',
           }}
         >
           <Alert

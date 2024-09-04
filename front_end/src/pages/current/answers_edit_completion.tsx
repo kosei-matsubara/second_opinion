@@ -79,7 +79,7 @@ const CurrentAnswerEditCompletion: NextPage = () => {
               mb: 4,
             }}
           >
-            <Link href={'/articlelist/' + articleId}>
+            <Link href={'/' + articleId}>
               <Button
                 variant="contained"
                 sx={{
