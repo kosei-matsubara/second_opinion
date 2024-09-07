@@ -456,7 +456,7 @@ const CurrentProfileEdit: NextPage = () => {
                   </Box>
                   <Box
                     sx={{
-                      backgroundColor: '#EEFFFF	',
+                      backgroundColor: '#EEFFFF',
                       mb: 2,
                       p: 2,
                       display: 'flex',
