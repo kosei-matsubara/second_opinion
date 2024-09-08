@@ -7,7 +7,7 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
     # 合計件数を取得する
     total_count = articles.count
 
-    # メタ情報に合計件数を含める 課題：合計件数を表示しない場合削除する
+    # メタ情報に合計件数を含める
     render json: articles, meta: { total_count: total_count }, adapter: :json
   end
 
