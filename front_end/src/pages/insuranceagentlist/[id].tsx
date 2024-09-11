@@ -63,7 +63,9 @@ const UserDetail: NextPage = () => {
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', gap: '0px 10px' }}>
-              <AccountBoxIcon sx={{ color: '#CCCCCC', height: '150px', width: '150px' }}/>
+              <AccountBoxIcon
+                sx={{ color: '#CCCCCC', height: '150px', width: '150px' }}
+              />
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px 0px' }}>
                 <Typography component="p" variant="body1">
                   {user.name}

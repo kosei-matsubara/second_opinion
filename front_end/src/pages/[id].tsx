@@ -40,10 +40,7 @@ const ArticleDetail: NextPage = () => {
 
   // ArticleIDに一致するAnswerデータを取得する
   const answerUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/answers?article_id=${id}`
-  const { data: answersData, error: answerError } = useSWR(
-    id ? answerUrl : null,
-    fetcher,
-  )
+  const { data: answersData, error: answerError } = useSWR(id ? answerUrl : null, fetcher)
 
   if (articleError || answerError) return <Error />
   if (!articleData) return <Loading />

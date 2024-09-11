@@ -10,9 +10,9 @@ type ArticleCardProps = {
 
 // テキストが指定長以上の場合はテキスト末尾を省略する
 const omitText = (text: string, maxLength: number, ellipsis: string = '...'): string => {
-  return text.length >= maxLength ?
-  text.slice(0, maxLength - ellipsis.length) + ellipsis :
-  text
+  return text.length >= maxLength
+    ? text.slice(0, maxLength - ellipsis.length) + ellipsis
+    : text
 }
 
 const ArticleCard = (props: ArticleCardProps) => {

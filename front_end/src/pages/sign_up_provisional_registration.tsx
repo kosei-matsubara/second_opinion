@@ -35,7 +35,9 @@ const SignUpProvisionalRegistration: NextPage = () => {
               指定のメールアドレスに、本登録用のメールを送信しました。
               <br />
               {/* 通常のWebサービスはURL有効期限を24時間以内などに定義するがテストなどの都合でURL有効期限を延伸している */}
-              メールに記載された<strong>URLを2週間以内にクリックして登録を完了</strong>してください。
+              メールに記載された
+              <strong>URLを2週間以内にクリックして登録を完了</strong>
+              してください。
             </Typography>
           </Box>
           <Box

@@ -67,7 +67,9 @@ const CurrentArticleEditCompletion: NextPage = () => {
           >
             <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
             <Typography component="p" variant="body2">
-              回答について<strong>すべての質問に保険のプロから回答がつくとは限りません</strong>ので、何卒ご理解いただきますようお願いいたします。
+              回答について
+              <strong>すべての質問に保険のプロから回答がつくとは限りません</strong>
+              ので、何卒ご理解いただきますようお願いいたします。
             </Typography>
           </Box>
           <Box

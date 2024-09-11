@@ -15,7 +15,7 @@
       "import/order": [2, { "alphabetize": { "order": "asc" } }],
       "import/no-unresolved": "off",
       "prettier/prettier": [
-        "error",
+        "warn",
         {
           "trailingComma": "all",
           "endOfLine": "lf",

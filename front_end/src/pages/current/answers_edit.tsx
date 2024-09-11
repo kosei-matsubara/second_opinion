@@ -313,7 +313,7 @@ const CurrentAnswerEdit: NextPage = () => {
               <Divider sx={{ mb: 4 }} />
               <Box sx={{ mb: 4 }}>
                 <Typography component="p" variant="body2">
-                  利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意して確認画面へ進む」ボタンを押してください。
+                  利用規約・プライバシーの考え方・保険相談ガイドラインをお読みのうえ、「同意して確認画面へ進む」ボタンを押してください。
                 </Typography>
               </Box>
               <Box

@@ -1,11 +1,11 @@
 # --- Build Stage ---
-FROM --platform=linux/x86_64 node:19.4.0 AS builder
+FROM --platform=linux/x86_64 node:20.14.0 AS builder
 
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json before other files
-# Utilize Docker cache to save re-installing dependencies if unchanged
+# Copy package.json and package-lock.json before copying other files
+# Utilize Docker cache to avoid re-installing dependencies if unchanged
 COPY package.json package-lock.json ./
 
 # Install dependencies
@@ -18,13 +18,13 @@ COPY . .
 RUN npm run build
 
 # --- Run Stage ---
-FROM --platform=linux/x86_64 node:19.4.0-alpine
+FROM --platform=linux/x86_64 node:20.14.0-alpine
 
 # Set the working directory
 WORKDIR /app
 
 # Copy the build output from the previous stage
-COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/next.config.mjs ./next.config.mjs
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/.env.production ./.env.production
 COPY --from=builder /app/public ./public

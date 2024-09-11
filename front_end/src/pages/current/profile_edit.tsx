@@ -95,7 +95,7 @@ const CurrentProfileEdit: NextPage = () => {
       }
     }
     // プロフィールデータが存在する場合、存在するデータを定義する
-    return{
+    return {
       userDivision: camelCaseProfileData.userDivision == null ? '' : camelCaseProfileData.userDivision,
       name: camelCaseProfileData.name == null ? '' : camelCaseProfileData.name,
       sex: camelCaseProfileData.sex == null ? '' : camelCaseProfileData.sex,
@@ -445,11 +445,13 @@ const CurrentProfileEdit: NextPage = () => {
                           }}
                         >
                           {/* 外部ファイルからimportしたオプションをプルダウンメニューに表示する */}
-                          {Object.entries(prefecturesOptions).map(([key, label]: [string, string]) => (
-                            <MenuItem key={key} value={key}>
-                              {label}
-                            </MenuItem>
-                          ))}
+                          {Object.entries(prefecturesOptions).map(
+                            ([key, label]: [string, string]) => (
+                              <MenuItem key={key} value={key}>
+                                {label}
+                              </MenuItem>
+                            ),
+                          )}
                         </TextField>
                       )}
                     />
@@ -481,7 +483,11 @@ const CurrentProfileEdit: NextPage = () => {
                       p: 1,
                     }}
                   >
-                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                    <Typography
+                      component="h2"
+                      variant="h6"
+                      sx={{ color: 'custom.h2color' }}
+                    >
                       人物紹介
                     </Typography>
                   </Box>
@@ -498,7 +504,10 @@ const CurrentProfileEdit: NextPage = () => {
                         alignItems: 'center',
                       }}
                     >
-                      <Typography component="p" sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                      <Typography
+                        component="p"
+                        sx={{ fontSize: '20px', fontWeight: 'bold' }}
+                      >
                         所属
                       </Typography>
                     </Box>
@@ -537,7 +546,10 @@ const CurrentProfileEdit: NextPage = () => {
                         alignItems: 'center',
                       }}
                     >
-                      <Typography component="p" sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                      <Typography
+                        component="p"
+                        sx={{ fontSize: '20px', fontWeight: 'bold' }}
+                      >
                         住所
                       </Typography>
                     </Box>
@@ -570,7 +582,11 @@ const CurrentProfileEdit: NextPage = () => {
                       p: 1,
                     }}
                   >
-                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                    <Typography
+                      component="h2"
+                      variant="h6"
+                      sx={{ color: 'custom.h2color' }}
+                    >
                       自己紹介
                     </Typography>
                   </Box>
@@ -608,7 +624,11 @@ const CurrentProfileEdit: NextPage = () => {
                       p: 1,
                     }}
                   >
-                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                    <Typography
+                      component="h2"
+                      variant="h6"
+                      sx={{ color: 'custom.h2color' }}
+                    >
                       わたしの強み
                     </Typography>
                   </Box>
@@ -646,7 +666,11 @@ const CurrentProfileEdit: NextPage = () => {
                       p: 1,
                     }}
                   >
-                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                    <Typography
+                      component="h2"
+                      variant="h6"
+                      sx={{ color: 'custom.h2color' }}
+                    >
                       経歴
                     </Typography>
                   </Box>
@@ -684,8 +708,12 @@ const CurrentProfileEdit: NextPage = () => {
                       p: 1,
                     }}
                   >
-                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
-                    相談者へのメッセージ
+                    <Typography
+                      component="h2"
+                      variant="h6"
+                      sx={{ color: 'custom.h2color' }}
+                    >
+                      相談者へのメッセージ
                     </Typography>
                   </Box>
                   <Box>
@@ -722,7 +750,11 @@ const CurrentProfileEdit: NextPage = () => {
                       p: 1,
                     }}
                   >
-                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                    <Typography
+                      component="h2"
+                      variant="h6"
+                      sx={{ color: 'custom.h2color' }}
+                    >
                       アクセス
                     </Typography>
                   </Box>
@@ -760,7 +792,11 @@ const CurrentProfileEdit: NextPage = () => {
                       p: 1,
                     }}
                   >
-                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                    <Typography
+                      component="h2"
+                      variant="h6"
+                      sx={{ color: 'custom.h2color' }}
+                    >
                       弊社ホームページ
                     </Typography>
                   </Box>
@@ -798,7 +834,11 @@ const CurrentProfileEdit: NextPage = () => {
                       p: 1,
                     }}
                   >
-                    <Typography component="h2" variant="h6" sx={{ color: 'custom.h2color' }}>
+                    <Typography
+                      component="h2"
+                      variant="h6"
+                      sx={{ color: 'custom.h2color' }}
+                    >
                       お問い合わせ
                     </Typography>
                   </Box>
@@ -873,7 +913,7 @@ const CurrentProfileEdit: NextPage = () => {
               <Divider sx={{ my: 2 }} />
               <Box sx={{ mb: 4 }}>
                 <Typography component="p" variant="body2">
-                  利用規約・プライバシーの考え方・ 保険相談ガイドラインをお読みのうえ、「同意してプロフィールを変更」ボタンを押してください。
+                  利用規約・プライバシーの考え方・保険相談ガイドラインをお読みのうえ、「同意してプロフィールを変更」ボタンを押してください。
                 </Typography>
               </Box>
               <Box

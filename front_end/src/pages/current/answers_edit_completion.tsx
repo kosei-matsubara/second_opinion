@@ -67,7 +67,9 @@ const CurrentAnswerEditCompletion: NextPage = () => {
           >
             <WarningIcon fontSize="large" sx={{ mr: 1, color: '#FF9900' }} />
             <Typography component="p" variant="body2">
-              回答について<strong>すべての回答に相談者からお問い合わせがあるとは限りません</strong>ので、何卒ご理解いただきますようお願いいたします。
+              回答について
+              <strong>すべての回答に相談者からお問い合わせがあるとは限りません</strong>
+              ので、何卒ご理解いただきますようお願いいたします。
             </Typography>
           </Box>
           <Box
