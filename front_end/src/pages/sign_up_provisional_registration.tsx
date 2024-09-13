@@ -53,7 +53,7 @@ const SignUpProvisionalRegistration: NextPage = () => {
             <Typography component="p" variant="body2">
               メールが届かない場合以下の原因が考えられます。
               <br />
-              ・ドメイン指定で「@second_opinion.com」を解除していない。
+              ・ドメイン指定で「@gmail.com」を解除していない。
               <br />
               ・迷惑メールやゴミ箱に入っている。
               <br />

@@ -38,7 +38,7 @@ const CurrentArticleEditCompletion: NextPage = () => {
           </Stepper>
           <Box
             sx={{
-              backgroundColor: '#EEFFFF	',
+              backgroundColor: '#EEFFFF',
               mb: 6,
               p: 2,
               display: 'flex',

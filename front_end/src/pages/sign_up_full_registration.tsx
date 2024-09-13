@@ -36,7 +36,7 @@ const SignUpFullRegistration: NextPage = () => {
           </Box>
           <Box
             sx={{
-              backgroundColor: '#EEFFFF	',
+              backgroundColor: '#EEFFFF',
               mb: 4,
               p: 2,
               display: 'flex',

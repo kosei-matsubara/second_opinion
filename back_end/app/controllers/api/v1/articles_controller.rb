@@ -7,7 +7,7 @@ class Api::V1::ArticlesController < Api::V1::BaseController
                       .order(created_at: :desc)
                       .page(params[:page] || 1)
                       .per(10)
-                      .includes(:user)
+                      .includes(:user, :answers)
 
     # メタ情報にページネーション情報と取得レコード合計件数を含める
     render json: articles, meta: pagination(articles), adapter: :json

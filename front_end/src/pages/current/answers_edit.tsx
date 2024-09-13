@@ -298,7 +298,7 @@ const CurrentAnswerEdit: NextPage = () => {
               </Box>
               <Box
                 sx={{
-                  backgroundColor: '#EEFFFF	',
+                  backgroundColor: '#EEFFFF',
                   mb: 6,
                   p: 2,
                   display: 'flex',
