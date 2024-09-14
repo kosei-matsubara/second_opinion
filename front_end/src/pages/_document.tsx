@@ -23,7 +23,8 @@ export default class MyDocument extends Document {
             content="保険ポータルサイト。無料保険相談・保険営業者検索でお悩み解決。「インターネットを通じて保険をもっと身近に、もっと便利に。」"
           />
           <meta name="theme-color" content={theme.palette.primary.main} />
-          <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+          {/* <link rel="icon" href="/favicon.ico" type="image/x-icon" /> */}
+          <link rel="icon" href="/logo.jpg" type="image/jpeg" />
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
