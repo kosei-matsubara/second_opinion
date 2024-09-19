@@ -33,7 +33,7 @@ RSpec.describe Article, type: :model do
       end
     end
 
-    context "ステータスが公開済みかつ、本文が空の時" do
+    context "ステータスが公開済かつ、本文が未入力の時" do
       let(:content) { "" }
 
       it "エラーメッセージが返る" do
