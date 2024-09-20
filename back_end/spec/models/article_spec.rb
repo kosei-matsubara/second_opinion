@@ -42,7 +42,7 @@ RSpec.describe Article, type: :model do
       end
     end
 
-    context "ステータスが未保存かつ、すでに同一ユーザーが未保存ステータスの記事を所有していた時" do
+    context "ステータスが未保存かつ、すでに同一ユーザーが未保存ステータスの記事を所有していたケース" do
       let(:status) { :unsaved }
       before { create(:article, status: :unsaved, user:) }
 
