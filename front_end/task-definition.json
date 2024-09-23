@@ -1,0 +1,50 @@
+{
+  "family": "second-opinion-task-definition-frontend",
+  "containerDefinitions": [
+      {
+          "name": "next",
+          "image": "590184050229.dkr.ecr.ap-northeast-1.amazonaws.com/second-opinion-next:latest",
+          "cpu": 0,
+          "portMappings": [
+              {
+                  "name": "next-80-tcp",
+                  "containerPort": 80,
+                  "hostPort": 80,
+                  "protocol": "tcp",
+                  "appProtocol": "http"
+              }
+          ],
+          "essential": true,
+          "environment": [],
+          "environmentFiles": [],
+          "mountPoints": [],
+          "volumesFrom": [],
+          "ulimits": [],
+          "logConfiguration": {
+              "logDriver": "awslogs",
+              "options": {
+                  "awslogs-group": "/ecs/second-opinion-task-definition-frontend",
+                  "mode": "non-blocking",
+                  "awslogs-create-group": "true",
+                  "max-buffer-size": "25m",
+                  "awslogs-region": "ap-northeast-1",
+                  "awslogs-stream-prefix": "ecs"
+              },
+              "secretOptions": []
+          },
+          "systemControls": []
+      }
+  ],
+  "taskRoleArn": "arn:aws:iam::590184050229:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::590184050229:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+      "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512",
+  "runtimePlatform": {
+      "cpuArchitecture": "X86_64",
+      "operatingSystemFamily": "LINUX"
+  }
+}
