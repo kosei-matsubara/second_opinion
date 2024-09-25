@@ -29,7 +29,7 @@ RSpec.describe Article, type: :model do
 
       it "エラーメッセージが返る" do
         expect(subject).to be_falsy
-        expect(article.errors.full_messages).to eq ["タイトルを入力してください"]
+        expect(article.errors.full_messages).to eq ["タイトルを入力して下さい"]
       end
     end
 
