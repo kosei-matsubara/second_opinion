@@ -44,7 +44,7 @@ const Footer = () => {
         </Box>
         <Box>
           <Typography component="p" variant="body2">
-            © hoken-second-opinion.com 2024
+            © second-opinion365.com 2024
           </Typography>
         </Box>
       </Container>
