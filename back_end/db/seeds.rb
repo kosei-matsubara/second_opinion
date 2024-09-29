@@ -102,6 +102,23 @@ ActiveRecord::Base.transaction do
     inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
     inquiry_telephone_number: "03-7629-8975"
   )
+  user8 = User.create!(
+    name: "小林 健太",
+    email: "test106@example.com",
+    password: "password",
+    confirmed_at: Time.current,
+    user_division: "insurance_agent",
+    belong: "フロンティア生命",
+    address: "東京都北区東十条3-14-1 河内ビル1階",
+    self_introduction: "社会人になり一貫して保険営業をしております。営業一筋で培った豊富な商品知識や学生時代に培われた体力で精一杯お客様の日々の生活が安心できるように全力を尽くします。",
+    my_strength: "",
+    career: "1990年フロンティア生命保険相互会社入社",
+    message: "非正規雇用の増加や実力主義が浸透する中、雇用が不安定になりつつあります。また少子高齢化の進行により総人口の減少で我が国における年金や医療などの社会保障は、より一層の不安定化や保障の先細りが懸念されております。その中で増大する不安を解消できるような、安心して日々の暮らしを守れる保険を提案させて頂きます。",
+    access: "赤羽駅から徒歩1分",
+    website: "https://www.frontier-life.co.jp",
+    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
+    inquiry_telephone_number: "03-7629-8975"
+  )
 
 
 
