@@ -136,6 +136,23 @@ ActiveRecord::Base.transaction do
     inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
     inquiry_telephone_number: "03-7629-8975"
   )
+  user10 = User.create!(
+    name: "小野 健太",
+    email: "test106@example.com",
+    password: "password",
+    confirmed_at: Time.current,
+    user_division: "insurance_agent",
+    belong: "太陽生命",
+    address: "東京都港区",
+    self_introduction: "社会人になり一貫して保険営業をしております。営業一筋で培った豊富な商品知識や学生時代に培われた体力で精一杯お客様の日々の生活が安心できるように全力を尽くします。",
+    my_strength: "",
+    career: "1960年太陽生命保険相互会社入社",
+    message: "子供や高齢化したおやの介護などをサポートする保険を提案します",
+    access: "赤羽駅から徒歩1分",
+    website: "https://www.frontier-life.co.jp",
+    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
+    inquiry_telephone_number: "03-7629-8975"
+  )
 
 
 
