@@ -153,6 +153,23 @@ ActiveRecord::Base.transaction do
     inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
     inquiry_telephone_number: "03-7629-8975"
   )
+  user11 = User.create!(
+    name: "小沢健二",
+    email: "test106@example.com",
+    password: "password",
+    confirmed_at: Time.current,
+    user_division: "insurance_agent",
+    belong: "四国生命",
+    address: "徳島県",
+    self_introduction: "",
+    my_strength: "",
+    career: "1960年四国生命保険相互会社入社",
+    message: "",
+    access: "赤羽駅から徒歩1分",
+    website: "https://www.frontier-life.co.jp",
+    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
+    inquiry_telephone_number: "03-7629-8975"
+  )
 
 
 
