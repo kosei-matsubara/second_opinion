@@ -170,6 +170,23 @@ ActiveRecord::Base.transaction do
     inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
     inquiry_telephone_number: "03-7629-8975"
   )
+  user12 = User.create!(
+    name: "田村武",
+    email: "test107@example.com",
+    password: "password",
+    confirmed_at: Time.current,
+    user_division: "insurance_agent",
+    belong: "東北生命",
+    address: "",
+    self_introduction: "",
+    my_strength: "",
+    career: "1960年東北生命保険相互会社入社",
+    message: "",
+    access: "仙台駅から徒歩1分",
+    website: "https://www.tohoku-life.co.jp",
+    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
+    inquiry_telephone_number: "08-7629-8975"
+  )
 
 
 
