@@ -68,127 +68,42 @@ ActiveRecord::Base.transaction do
   )
 
   # 保険営業者データ
-  user6 = User.create!(
-    name: "網谷 里帆",
-    email: "test105@example.com",
-    password: "password",
-    confirmed_at: Time.current,
-    user_division: "insurance_agent",
-    belong: "大地生命",
-    address: "東京都千代田区紀尾井町9-30 紀尾井町松本ビル2F",
-    self_introduction: "私は10年以上にわたって保険業界に携わってきました。ファイナンシャルプランナー資格を活用してお客様の安心と資産形成の両方を強力に支援します。",
-    my_strength: "モットーはすぐ行動する（クイックレスポンス）、チャレンジポジティブで高い志を持ち絶対にあきらめないことです。",
-    career: "2009年大地生命保険相互会社入社",
-    message: "保険は目に見えない、人を信頼して買うのです。お客様から信頼されるパートナーとして日々精進し、お客様と共に成長し続けたいと思います。",
-    access: "東京メトロ「麹町」駅・「永田町」駅より徒歩5分",
-    website: "https://www.dai-chi-life.co.jp",
-    inquiry_opening_time: "平日午前9時30分～午後6時 土日祝日休み",
-    inquiry_telephone_number: "03-6299-0024"
-  )
-  user7 = User.create!(
-    name: "小林 健太",
-    email: "test106@example.com",
-    password: "password",
-    confirmed_at: Time.current,
-    user_division: "insurance_agent",
-    belong: "フロンティア生命",
-    address: "東京都北区東十条3-14-1 河内ビル1階",
-    self_introduction: "社会人になり一貫して保険営業をしております。営業一筋で培った豊富な商品知識や学生時代に培われた体力で精一杯お客様の日々の生活が安心できるように全力を尽くします。",
-    my_strength: "",
-    career: "1990年フロンティア生命保険相互会社入社",
-    message: "非正規雇用の増加や実力主義が浸透する中、雇用が不安定になりつつあります。また少子高齢化の進行により総人口の減少で我が国における年金や医療などの社会保障は、より一層の不安定化や保障の先細りが懸念されております。その中で増大する不安を解消できるような、安心して日々の暮らしを守れる保険を提案させて頂きます。",
-    access: "赤羽駅から徒歩1分",
-    website: "https://www.frontier-life.co.jp",
-    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
-    inquiry_telephone_number: "03-7629-8975"
-  )
-  user8 = User.create!(
-    name: "小島 健太",
-    email: "test106@example.com",
-    password: "password",
-    confirmed_at: Time.current,
-    user_division: "insurance_agent",
-    belong: "明治生命",
-    address: "東京都北区",
-    self_introduction: "社会人になり一貫して保険営業をしております。営業一筋で培った豊富な商品知識や学生時代に培われた体力で精一杯お客様の日々の生活が安心できるように全力を尽くします。",
-    my_strength: "",
-    career: "1960年フロンティア生命保険相互会社入社",
-    message: "子供や高齢化したおやの介護などをサポートする保険を提案します",
-    access: "赤羽駅から徒歩1分",
-    website: "https://www.frontier-life.co.jp",
-    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
-    inquiry_telephone_number: "03-7629-8975"
-  )
-  user9 = User.create!(
-    name: "小野 健太",
-    email: "test106@example.com",
-    password: "password",
-    confirmed_at: Time.current,
-    user_division: "insurance_agent",
-    belong: "大正生命",
-    address: "東京都港区",
-    self_introduction: "社会人になり一貫して保険営業をしております。営業一筋で培った豊富な商品知識や学生時代に培われた体力で精一杯お客様の日々の生活が安心できるように全力を尽くします。",
-    my_strength: "",
-    career: "1960年フロンティア生命保険相互会社入社",
-    message: "子供や高齢化したおやの介護などをサポートする保険を提案します",
-    access: "赤羽駅から徒歩1分",
-    website: "https://www.frontier-life.co.jp",
-    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
-    inquiry_telephone_number: "03-7629-8975"
-  )
-  user10 = User.create!(
-    name: "小野 健太",
-    email: "test106@example.com",
-    password: "password",
-    confirmed_at: Time.current,
-    user_division: "insurance_agent",
-    belong: "太陽生命",
-    address: "東京都港区",
-    self_introduction: "社会人になり一貫して保険営業をしております。営業一筋で培った豊富な商品知識や学生時代に培われた体力で精一杯お客様の日々の生活が安心できるように全力を尽くします。",
-    my_strength: "",
-    career: "1960年太陽生命保険相互会社入社",
-    message: "子供や高齢化したおやの介護などをサポートする保険を提案します",
-    access: "赤羽駅から徒歩1分",
-    website: "https://www.frontier-life.co.jp",
-    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
-    inquiry_telephone_number: "03-7629-8975"
-  )
-  user11 = User.create!(
-    name: "小沢健二",
-    email: "test106@example.com",
-    password: "password",
-    confirmed_at: Time.current,
-    user_division: "insurance_agent",
-    belong: "四国生命",
-    address: "徳島県",
-    self_introduction: "",
-    my_strength: "",
-    career: "1960年四国生命保険相互会社入社",
-    message: "",
-    access: "赤羽駅から徒歩1分",
-    website: "https://www.frontier-life.co.jp",
-    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
-    inquiry_telephone_number: "03-7629-8975"
-  )
-  user12 = User.create!(
-    name: "田村武",
-    email: "test107@example.com",
-    password: "password",
-    confirmed_at: Time.current,
-    user_division: "insurance_agent",
-    belong: "東北生命",
-    address: "",
-    self_introduction: "",
-    my_strength: "",
-    career: "1960年東北生命保険相互会社入社",
-    message: "",
-    access: "仙台駅から徒歩1分",
-    website: "https://www.tohoku-life.co.jp",
-    inquiry_opening_time: "08:00-21:00（土日祝日を除く）",
-    inquiry_telephone_number: "08-7629-8975"
-  )
-
-
+  # user6 = User.create!(
+  #   name: "網谷 里帆",
+  #   email: "test105@example.com",
+  #   password: "password",
+  #   confirmed_at: Time.current,
+  #   user_division: "insurance_agent",
+  #   belong: "大地生命",
+  #   address: "東京都千代田区紀尾井町9-30 紀尾井町松本ビル2F",
+  #   self_introduction: "入社して２カ月間はマナー研修などで社会人として基礎的なおよび営業や保険商品に関する事を学びました。研修期間を終えて６月に京都支社に配属されました。それ以来、現在の部署で担当企業に対してライフサイクルの変更に合わせた商品の提案などの営業活動、および既存のお客さまに対する定期的なアフターフォローを行なっています。配属されて間もない頃は提案内容について試行錯誤したり、提案書やパンフレット作成など目の前にある仕事に慣れるのに必死でした。結果的にはお客様へのご提案書やパンフレットの準備も作業的になってしまっていました。しかし、ある時お客様から「この提案書って僕のためにわざわざ作ってくれているのだよね。ありがとう。」と言っていただき、はっとしました。そこからは、ただ目の前のことに忙殺されることなく、お客様の大切な日々の生活のことを思い浮かべて、最適なプランを考えたり、ライフイベントに合わせた情報提供をさせていただき、大切な時間をいただくお客様のお役に立てるように丁寧な準備を心がけるようにしています。",
+  #   my_strength: "社会人になり一貫して保険営業をしております。営業一筋で培った豊富な商品知識や学生時代に培われた体力で精一杯お客様の日々の生活が安心できるように全力を尽くします。",
+  #   career: "2009年大地生命保険相互会社入社",
+  #   message: "非正規雇用の増加や実力主義が浸透する中、雇用が不安定になりつつあります。また少子高齢化の進行により総人口の減少で我が国における年金や医療などの社会保障は、より一層の不安定化や保障の先細りが懸念されております。その中で増大する不安を解消できるような、安心して日々の暮らしを守れる保険を提案させて頂きます。また、保険とは目に見えない商品で多種多様の商品があり、内容も複雑であることが多いです。そのため、提案する側はお客さまのライフサイクルや潜在的なリスクの明確化に努め、明確化したリスクやニーズに対する最適な保障内容を備えた商品を選択する幅広いかつ深い商品知識をもって、お客さまに最適な提案をして大切な日々の生活をお守りしていきます。",
+  #   access: "東京メトロ「麹町」駅・「永田町」駅より徒歩5分",
+  #   website: "https://www.dai-chi-life.co.jp",
+  #   inquiry_opening_time: "平日午前9時30分～午後6時 土日祝日休み",
+  #   inquiry_telephone_number: "03-6299-0024"
+  # )
+  20.times do |i|
+    User.create!(
+      name: "#{%w[山田 佐藤 高橋 鈴木 伊藤 田中 渡辺 中村].sample} #{%w[太郎 花子 健太 真央 美優 裕子 明子].sample}",
+      email: "test#{105 + i}@example.com",
+      password: "password",
+      confirmed_at: Time.current,
+      user_division: "insurance_agent",
+      belong: %w[大地生命保険相互会社 フロンティア生命保険相互会社 未来創造生命保険株式会社 安心の絆生命保険株式会社 新星生命保険株式会社 あんしんライフ保険株式会社 未来保障生命保険株式会社 セーフティ保険株式会社 ライフパートナー生命保険株式会社 光の森生命保険株式会社].sample,
+      # address: "東京都#{%w[千代田区 新宿区 品川区 渋谷区].sample}#{%w[紀尾井町 代々木 芝浦 神宮前].sample}#{rand(1..10)}-#{rand(1..30)} #{%w[ビル タワー センター].sample}#{rand(1..5)}F",
+      # self_introduction: "入社して#{rand(1..5)}ヶ月間はマナー研修や営業、保険商品について学びました。研修終了後、#{%w[京都 大阪 名古屋 東京].sample}支社に配属されました。それ以来、担当企業に対するライフサイクルに応じた商品提案を行い、定期的なアフターフォローも行っています。配属当初は提案内容について試行錯誤しながら、提案書やパンフレットの作成に奮闘していました。あるお客様から『この提案書って僕のために作ってくれているんだね。ありがとう。』と言われ、はっとしました。それ以降は、お客様一人一人の大切な生活を守るために、より丁寧な提案を心がけています。",
+      # my_strength: "保険営業一筋で、商品知識と学生時代から培った体力で全力を尽くします。#{%w[リーダーシップ コミュニケーション 知識の深さ チームワーク].sample}には自信があります。",
+      career: "#{rand(1985..2015)}年#{%w[大地生命保険相互会社 フロンティア生命保険相互会社 未来創造生命保険株式会社 安心の絆生命保険株式会社 新星生命保険株式会社 あんしんライフ保険株式会社 未来保障生命保険株式会社 セーフティ保険株式会社 ライフパートナー生命保険株式会社 光の森生命保険株式会社].sample}入社",
+      # message: "保険とは目に見えない商品であり、提案する側としてお客様のライフサイクルや潜在的なリスクを明確化することが重要です。お客様の不安を取り除き、安心して日々の生活を守るため、最適な保険を提案させていただきます。#{['ライフイベントに合わせた情報提供', '最適な保障内容の提案', '個別のニーズに応じたサポート'].sample}を心がけています。",
+      # access: "#{%w[東京メトロ JR 東急].sample}「#{%w[麹町 永田町 渋谷 恵比寿].sample}」駅より徒歩#{rand(1..10)}分",
+      website: "https://#{%w[dai-chi-life frontier-life mirai-souzou-life ansin-kizuna-life shinsei-life ansin-life mirai-hoshou-life safety-life life-partner hikari-life].sample}.co.jp",
+      inquiry_opening_time: "平日午前#{rand(8..10)}時〜午後#{rand(5..7)}時 土日祝日休み",
+      # inquiry_telephone_number: "03-#{rand(1000..9999)}-#{rand(1000..9999)}"
+    )
+  end
 
   # 15.times do |i|
   #   article1 = Article.create!(categories: "定期保険", title: "テストタイトル1-#{i}", background: "テスト背景1-#{i}", content: "テスト本文質問1-#{i}", status: :published, user: user1)
