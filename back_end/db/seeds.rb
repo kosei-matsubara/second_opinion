@@ -2,27 +2,6 @@ ActiveRecord::Base.transaction do
 
   # 保険契約者データ
   user1 = User.create!(
-    name: "ゲストユーザー",
-    email: "guest@example.com",
-    password: "guestpassword",
-    confirmed_at: Time.current,
-    user_division: "insurance_agent",
-    sex: "female",
-    generation: "thirties",
-    family_structure: "couple_with_children",
-    prefectures: "沖縄県",
-    belong: "テスト昭和生命",
-    address: "テスト東京都豊島区南池袋3-16-4",
-    self_introduction: "テスト自己紹介-3",
-    my_strength: "テストわたしの強み-3",
-    career: "テスト経歴-3",
-    message: "テスト相談者へのメッセージ-3",
-    access: "テストアクセス-3",
-    website: "テストホームページ-3",
-    inquiry_opening_time: "テスト問い合わせ_受付時間-3",
-    inquiry_telephone_number: "テスト問い合わせ_電話番号-3"
-  )
-  user2 = User.create!(
     name: "吉田 英樹",
     email: "test101@example.com",
     password: "password",
@@ -33,7 +12,7 @@ ActiveRecord::Base.transaction do
     family_structure: "single",
     prefectures: "東京都"
   )
-  user3 = User.create!(
+  user2 = User.create!(
     name: "中村 満",
     email: "test102@example.com",
     password: "password",
@@ -44,7 +23,7 @@ ActiveRecord::Base.transaction do
     family_structure: "couple",
     prefectures: "福島県"
   )
-  user4 = User.create!(
+  user3 = User.create!(
     name: "佐藤 直美",
     email: "test103@example.com",
     password: "password",
@@ -55,7 +34,7 @@ ActiveRecord::Base.transaction do
     family_structure: "couple_with_children",
     prefectures: "和歌山県"
   )
-  user5 = User.create!(
+  user4 = User.create!(
     name: "金ヶ崎 絵美",
     email: "test104@example.com",
     password: "password",
@@ -68,23 +47,12 @@ ActiveRecord::Base.transaction do
   )
 
   # 保険営業者データ
-  # user6 = User.create!(
-  #   name: "網谷 里帆",
-  #   email: "test105@example.com",
-  #   password: "password",
-  #   confirmed_at: Time.current,
-  #   user_division: "insurance_agent",
-  #   belong: "大地生命",
-  #   address: "東京都千代田区紀尾井町9-30 紀尾井町松本ビル2F",
-  #   self_introduction: "入社して２カ月間はマナー研修などで社会人として基礎的なおよび営業や保険商品に関する事を学びました。研修期間を終えて６月に京都支社に配属されました。それ以来、現在の部署で担当企業に対してライフサイクルの変更に合わせた商品の提案などの営業活動、および既存のお客さまに対する定期的なアフターフォローを行なっています。配属されて間もない頃は提案内容について試行錯誤したり、提案書やパンフレット作成など目の前にある仕事に慣れるのに必死でした。結果的にはお客様へのご提案書やパンフレットの準備も作業的になってしまっていました。しかし、ある時お客様から「この提案書って僕のためにわざわざ作ってくれているのだよね。ありがとう。」と言っていただき、はっとしました。そこからは、ただ目の前のことに忙殺されることなく、お客様の大切な日々の生活のことを思い浮かべて、最適なプランを考えたり、ライフイベントに合わせた情報提供をさせていただき、大切な時間をいただくお客様のお役に立てるように丁寧な準備を心がけるようにしています。",
-  #   my_strength: "社会人になり一貫して保険営業をしております。営業一筋で培った豊富な商品知識や学生時代に培われた体力で精一杯お客様の日々の生活が安心できるように全力を尽くします。",
-  #   career: "2009年大地生命保険相互会社入社",
-  #   message: "非正規雇用の増加や実力主義が浸透する中、雇用が不安定になりつつあります。また少子高齢化の進行により総人口の減少で我が国における年金や医療などの社会保障は、より一層の不安定化や保障の先細りが懸念されております。その中で増大する不安を解消できるような、安心して日々の暮らしを守れる保険を提案させて頂きます。また、保険とは目に見えない商品で多種多様の商品があり、内容も複雑であることが多いです。そのため、提案する側はお客さまのライフサイクルや潜在的なリスクの明確化に努め、明確化したリスクやニーズに対する最適な保障内容を備えた商品を選択する幅広いかつ深い商品知識をもって、お客さまに最適な提案をして大切な日々の生活をお守りしていきます。",
-  #   access: "東京メトロ「麹町」駅・「永田町」駅より徒歩5分",
-  #   website: "https://www.dai-chi-life.co.jp",
-  #   inquiry_opening_time: "平日午前9時30分～午後6時 土日祝日休み",
-  #   inquiry_telephone_number: "03-6299-0024"
-  # )
+  belong_companies = %w[大地生命保険相互会社 フロンティア生命保険相互会社 未来創造生命保険株式会社 安心の絆生命保険株式会社 新星生命保険株式会社 あんしんライフ保険株式会社 未来保障生命保険株式会社 セーフティ保険株式会社 ライフパートナー生命保険株式会社 光の森生命保険株式会社]
+  addresses = %w[千代田区大手町 新宿区代々木 品川区芝浦 渋谷区神宮前 港区浜松町 文京区本郷 台東区浅草 墨田区吾妻橋 江東区有明 目黒区目黒]
+  careers = %w[大地生命保険相互会社 フロンティア生命保険相互会社 未来創造生命保険株式会社 安心の絆生命保険株式会社 新星生命保険株式会社 あんしんライフ保険株式会社 未来保障生命保険株式会社 セーフティ保険株式会社 ライフパートナー生命保険株式会社 光の森生命保険株式会社]
+  accesses = %w[東京メトロ大手町 JR代々木 東京メトロ芝浦 東京メトロ神宮前 東京メトロ浜松町 東京メトロ本郷 東京メトロ浅草 東京メトロ吾妻橋 東京メトロ有明 JR目黒]
+  websites = %w[dai-chi-life frontier-life mirai-souzou-life ansin-kizuna-life shinsei-life ansin-life mirai-hoshou-life safety-life life-partner hikari-life]
+
   20.times do |i|
     User.create!(
       name: "#{%w[山田 佐藤 高橋 鈴木 伊藤 田中 渡辺 中村].sample} #{%w[太郎 花子 健太 真央 美優 裕子 明子].sample}",
@@ -92,16 +60,16 @@ ActiveRecord::Base.transaction do
       password: "password",
       confirmed_at: Time.current,
       user_division: "insurance_agent",
-      belong: %w[大地生命保険相互会社 フロンティア生命保険相互会社 未来創造生命保険株式会社 安心の絆生命保険株式会社 新星生命保険株式会社 あんしんライフ保険株式会社 未来保障生命保険株式会社 セーフティ保険株式会社 ライフパートナー生命保険株式会社 光の森生命保険株式会社].sample,
-      # address: "東京都#{%w[千代田区 新宿区 品川区 渋谷区].sample}#{%w[紀尾井町 代々木 芝浦 神宮前].sample}#{rand(1..10)}-#{rand(1..30)} #{%w[ビル タワー センター].sample}#{rand(1..5)}F",
-      # self_introduction: "入社して#{rand(1..5)}ヶ月間はマナー研修や営業、保険商品について学びました。研修終了後、#{%w[京都 大阪 名古屋 東京].sample}支社に配属されました。それ以来、担当企業に対するライフサイクルに応じた商品提案を行い、定期的なアフターフォローも行っています。配属当初は提案内容について試行錯誤しながら、提案書やパンフレットの作成に奮闘していました。あるお客様から『この提案書って僕のために作ってくれているんだね。ありがとう。』と言われ、はっとしました。それ以降は、お客様一人一人の大切な生活を守るために、より丁寧な提案を心がけています。",
-      # my_strength: "保険営業一筋で、商品知識と学生時代から培った体力で全力を尽くします。#{%w[リーダーシップ コミュニケーション 知識の深さ チームワーク].sample}には自信があります。",
-      career: "#{rand(1985..2015)}年#{%w[大地生命保険相互会社 フロンティア生命保険相互会社 未来創造生命保険株式会社 安心の絆生命保険株式会社 新星生命保険株式会社 あんしんライフ保険株式会社 未来保障生命保険株式会社 セーフティ保険株式会社 ライフパートナー生命保険株式会社 光の森生命保険株式会社].sample}入社",
-      # message: "保険とは目に見えない商品であり、提案する側としてお客様のライフサイクルや潜在的なリスクを明確化することが重要です。お客様の不安を取り除き、安心して日々の生活を守るため、最適な保険を提案させていただきます。#{['ライフイベントに合わせた情報提供', '最適な保障内容の提案', '個別のニーズに応じたサポート'].sample}を心がけています。",
-      # access: "#{%w[東京メトロ JR 東急].sample}「#{%w[麹町 永田町 渋谷 恵比寿].sample}」駅より徒歩#{rand(1..10)}分",
-      website: "https://#{%w[dai-chi-life frontier-life mirai-souzou-life ansin-kizuna-life shinsei-life ansin-life mirai-hoshou-life safety-life life-partner hikari-life].sample}.co.jp",
+      belong: belong_companies[i % belong_companies.length],
+      address: "東京都#{addresses[i % addresses.length]}#{rand(1..10)}-#{rand(1..30)} #{%w[ビル タワー センター].sample}#{rand(1..30)}F",
+      self_introduction: "入社して#{rand(1..5)}ヶ月間はマナー研修や営業、保険商品について学びました。研修終了後、#{%w[京都 大阪 名古屋 東京].sample}支社に配属されました。それ以来、担当企業や一般のお客様に対するライフサイクルに応じた商品提案を行い、既存のお客様に対して定期的なアフターフォローも行っています。配属当初は提案内容について試行錯誤しながら、提案書やパンフレットの作成に奮闘していました。結果的にはお客様へのご提案書やパンフレットの準備も作業的になってしまっていました。しかし、あるお客様から『この提案書って僕のために作ってくれているんだね。ありがとう。』と言われ、はっとしました。それ以降は、ただ目の前のことに忙殺されることなく、お客様の大切な日々の生活のことを思い浮かべて、最適な#{%w[生涯設計プラン あんしんの100年計画 みらいのしあわせ計画].sample}を考えたり、ライフイベントに合わせた情報提供をさせていただき、大切な時間をいただくお客様のお役に立てるように丁寧な準備を心がけるようにしています。",
+      my_strength: "社会人になり一貫して保険営業をしております。保険営業一筋で、商品知識と学生時代における#{%w[ラグビー フルマラソン テニス].sample}で培った体力で全力を尽くします。#{%w[レスポンスの速さ コミュニケーション 商品知識の深さ].sample}には自信があります。",
+      career: "#{rand(1985..2015)}年#{careers[i % careers.length]}入社",
+      message: "#{%w[非正規雇用の増加や実力主義が浸透する中 数十年に渡る日本経済低迷の中 物価高や円安の進行による経済的な悪影響によって].sample}、雇用が不安定になりつつあります。また、#{%w[医療の高度化による医療費の増加や後期高齢者医療制度の該当者が急激に増加する2025年問題 少子高齢化の進行による総人口の減少 異常気象や大規模災害の度重なる発生による災害対策や安全保障政策の転換などにより財政赤字の拡大].sample}で我が国における年金や医療などの社会保障は、より一層の不安定化や保障の先細りが懸念されております。その中で増大する不安を解消できるような、安心して日々の暮らしを守れる#{%w[家族の未来計画 生涯設計プラン あんしんの100年計画 みらいのしあわせ計画 一生涯あんしん計画 終身安心プラン].sample}を提案させて頂きます。また、保険とは目に見えない商品で多種多様の商品があり、内容も複雑であることが多いです。そのため、提案する側はお客様のライフサイクルや潜在的なリスクの明確化に努め、明確化したリスクやニーズに対する最適な保障内容を備えた商品を選択する幅広いかつ深い商品知識をもって、お客様に最適な提案をして大切な日々の生活をお守りしていきます。",
+      access: "#{accesses[i % accesses.length]}駅より徒歩#{rand(1..10)}分",
+      website: "https://#{websites[i % websites.length]}.co.jp",
       inquiry_opening_time: "平日午前#{rand(8..10)}時〜午後#{rand(5..7)}時 土日祝日休み",
-      # inquiry_telephone_number: "03-#{rand(1000..9999)}-#{rand(1000..9999)}"
+      inquiry_telephone_number: "03-#{rand(1000..9999)}-#{rand(1000..9999)}"
     )
   end
 

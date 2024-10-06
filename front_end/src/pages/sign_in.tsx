@@ -30,8 +30,8 @@ const SignIn: NextPage = () => {
   // ゲストログインを実行する
   const handleGuestLogin = () => {
     setIsGuestLoading(true) // POSTリクエスト送信のためユーザーアクションを不可に制御する
-    setValue('email', 'guest@example.com') // ゲストユーザーのemailアドレスを自動入力する
-    setValue('password', 'guestpassword') // ゲストユーザーのpasswordを自動入力する
+    setValue('email', 'test105@example.com') // ゲストユーザーのemailアドレスを自動入力する
+    setValue('password', 'password') // ゲストユーザーのpasswordを自動入力する
     handleSubmit(onSubmit)()
   }
 
