@@ -54,8 +54,9 @@ ActiveRecord::Base.transaction do
   websites = %w[dai-chi-life frontier-life mirai-souzou-life ansin-kizuna-life shinsei-life ansin-life mirai-hoshou-life safety-life life-partner hikari-life]
 
   insurance_agents = []
+
   60.times do |i|
-    User.create!(
+    agent = User.create!(
       name: "#{%w[山田 佐藤 高橋 鈴木 伊藤 田中 渡辺 中村].sample} #{%w[太郎 花子 健太 真央 美優 裕子 明子].sample}",
       email: "test#{105 + i}@example.com",
       password: "password",
@@ -89,26 +90,22 @@ ActiveRecord::Base.transaction do
       user_id: user1.id
     )
 
-    Answer.create!(
-      content: "死亡保険の保険金額についてですが、特にご両親が高齢であり、持病をお持ちの状況であれば、将来的な介護や医療費なども考慮した金額設定が望ましいです。一般的に、年収の5〜10倍の金額が推奨されますが、ご自身の年収や資産など経済状況を踏まえて検討されると良いでしょう。もし、1000万円がご自身にとって大きすぎると感じられる場合、月々の支払い保険料を抑えるため保障内容の見直しも視野に入れて、一度ライフプランナーと相談されることをお勧めします。",
-      article_id: article1.id,
-      user_id: insurance_agents[agent_index % insurance_agents.length].id
-    )
-    agent_index += 1
+    answers_content = [
+      "死亡保険の保険金額についてですが、特にご両親が高齢であり、持病をお持ちの状況であれば、将来的な介護や医療費なども考慮した金額設定が望ましいです。一般的に、年収の5〜10倍の金額が推奨されますが、ご自身の年収や資産など経済状況を踏まえて検討されると良いでしょう。もし、1000万円がご自身にとって大きすぎると感じられる場合、月々の支払い保険料を抑えるため保障内容の見直しも視野に入れて、一度ライフプランナーと相談されることをお勧めします。",
+      "保険金額の設定に関しては、お客様のご状況に応じて柔軟に考えることが重要です。特に、将来的な親御様の介護負担や医療費を考慮するのであれば、ご兄弟を負担割合をご相談されるなど必要な保障額を慎重に設定すべきです。1000万円の設定がご自身にとって重荷に感じられる場合は、保険金額を少し抑えたうえで、必要に応じて他の保障プランを検討することも選択肢に入ります。ライフプランナーとのご相談で、最適なバランスを見つけてください。",
+      "保険金額をどの程度にするかについては、将来的なライフイベントやご家族の経済状況を考慮しながら決定することが大切です。例えば、ご両親の介護や医療がご両親の資産やご両親自身の保険でカバーできる場合はご自身の御負担を軽減できるかもしれません。1000万円という金額が適切かどうかは、他の支出とのバランスも考慮する必要があります。ご不安であれば、少額の保障を選びつつも、将来的なニーズに応じて見直すことができるプランを検討されてみてはいかがでしょうか。"
+    ]
 
-    Answer.create!(
-      content: "保険金額の設定に関しては、お客様のご状況に応じて柔軟に考えることが重要です。特に、将来的な親御様の介護負担や医療費を考慮するのであれば、ご兄弟を負担割合をご相談されるなど必要な保障額を慎重に設定すべきです。1000万円の設定がご自身にとって重荷に感じられる場合は、保険金額を少し抑えたうえで、必要に応じて他の保障プランを検討することも選択肢に入ります。ライフプランナーとのご相談で、最適なバランスを見つけてください。",
-      article_id: article1.id,
-      user_id: insurance_agents[agent_index % insurance_agents.length].id
-    )
-    agent_index += 1
-
-    Answer.create!(
-      content: "保険金額をどの程度にするかについては、将来的なライフイベントやご家族の経済状況を考慮しながら決定することが大切です。例えば、ご両親の介護や医療がご両親の資産やご両親自身の保険でカバーできる場合はご自身の御負担を軽減できるかもしれません。1000万円という金額が適切かどうかは、他の支出とのバランスも考慮する必要があります。ご不安であれば、少額の保障を選びつつも、将来的なニーズに応じて見直すことができるプランを検討されてみてはいかがでしょうか。",
-      article_id: article1.id,
-      user_id: insurance_agents[agent_index % insurance_agents.length].id
-    )
-    agent_index += 1
+    ActiveRecord::Base.transaction do
+      answers_content.each do |content|
+        Answer.create!(
+          content: content,
+          article_id: article1.id,
+          user_id: insurance_agents[agent_index % insurance_agents.length].id
+        )
+        agent_index += 1
+      end
+    end
 
     article2 = Article.create!(
       categories: "終身保険",
@@ -119,20 +116,6 @@ ActiveRecord::Base.transaction do
       user_id: user2.id
     )
 
-    Answer.create!(
-      content: "終身保険から定期保険などに切り替えは可能です。",
-      article_id: article2.id,
-      user_id: insurance_agents[agent_index % insurance_agents.length].id
-    )
-    agent_index += 1
-
-    Answer.create!(
-      content: "切り替えは可能ですが一般的に高齢になるほど見直しで保障が縮小する傾向になります",
-      article_id: article2.id,
-      user_id: insurance_agents[agent_index % insurance_agents.length].id
-    )
-    agent_index += 1
-
     article3 = Article.create!(
       categories: "養老保険",
       title: "養老保険の満期時の運用について",
@@ -141,6 +124,23 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user3.id
     )
+
+    answers_content = [
+      "養老保険の満期時の運用についてご相談ですね。養老保険は満期時に保険金が戻ってくるという特徴があり、資産運用の一環として有効です。特に長期的な貯蓄や資産形成に有利な点がありますが、途中で解約する際には解約返戻金が受け取れる場合があります。解約返戻金は、解約のタイミングによっては元本を下回ることもあるため、現在の経済状況や将来の資金需要を総合的に考慮して判断されることをお勧めします。また、養老保険の保障内容を他の保険に変更する場合、保障の切り替え条件や保険料の変動についても確認する必要があります。保険会社に具体的なシミュレーションを依頼し、将来の資金ニーズに最適なプランを見つけてください。",
+      "途中解約を検討されているとのことですが、養老保険は長期の資産運用として非常に有効です。特に、教育費用や老後の備えとして積立てを続けることで、満期時にまとまった金額を受け取ることができます。ただし、解約する際のデメリットとして、解約返戻金が加入期間によっては少額になることがあるため注意が必要です。解約を検討される際には、現在の資金状況と将来の支出をよく計算し、ライフプラン全体を見直すことをお勧めします。保険の見直しにあたっては、ライフプランナーにご相談いただくと良いでしょう。",
+    ]
+
+    ActiveRecord::Base.transaction do
+      answers_content.each do |content|
+        Answer.create!(
+          content: content,
+          article_id: article3.id,
+          user_id: insurance_agents[agent_index % insurance_agents.length].id
+        )
+        agent_index += 1
+      end
+    end
+
     article4 = Article.create!(
       categories: "医療保険",
       title: "医療保険の保障内容の見直しと適切な選択について",
@@ -149,6 +149,14 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user4.id
     )
+
+    Answer.create!(
+      content: "医療保険の見直しを行う際には、公的医療保障と民間保険のバランスが重要です。日本には高額療養費制度があり、治療費の負担が一定額を超えると国が補助してくれるため、それを前提に保険を選ぶことができます。加えて、差額ベッド代や手術費用などの自己負担分を民間保険で補う形が効率的です。保険料を抑えたい場合は、不要な特約を外し、必要な部分だけに特化したシンプルなプランに変更することをお勧めします。長期入院や特定疾病に備える特約を組み込むことで、将来の負担軽減を図ることができます。",
+      article_id: article4.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
     article5 = Article.create!(
       categories: "先進医療保険",
       title: "先進医療保険の必要性と選び方について",
@@ -157,6 +165,14 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user1.id
     )
+
+    Answer.create!(
+      content: "先進医療保険は、最先端の医療技術が必要な場合に非常に重要です。従来の保険ではカバーできない高額な治療費が発生することが多く、がん治療や再生医療などが対象となることが多いです。特に、放射線治療や免疫療法など、最先端の治療法に関しては自己負担額が数百万円以上になることもあるため、加入を検討する価値があります。保険選びの際は、治療対象が幅広くカバーされているか、また治療費の上限設定にも注意が必要です。",
+      article_id: article5.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
     article6 = Article.create!(
       categories: "女性特定治療保険",
       title: "女性特定治療保険の選び方と適用範囲について",
@@ -165,6 +181,21 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user2.id
     )
+
+    Answer.create!(
+      content: "女性特有の病気に備えるためには、早期発見と治療が重要です。女性特定治療保険では、治療後のアフターケアや通院費用をカバーする特約が付加されているものを選ぶことをお勧めします。特に乳がんなどの早期発見がカギとなる疾病に関しては、定期的な検診費用もサポートされるプランが安心です。保険加入時には、治療だけでなく、その後のリハビリやフォローアップの保障内容も確認しましょう。",
+      article_id: article6.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
+    Answer.create!(
+      content: "女性特定治療保険のメリットは、女性特有の病気に関して手厚い保障を提供する点です。例えば、乳がんや子宮がんの手術費用や放射線治療費はもちろん、術後のケアや定期検査もカバーされることが多いです。また、最近では、精神的なサポートを提供する保険も増えており、疾病によるストレスケアに対応したプランも検討されてみてはいかがでしょうか。",
+      article_id: article6.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
     article7 = Article.create!(
       categories: "特定損傷保険",
       title: "特定損傷保険の保障内容と加入の必要性について",
@@ -173,6 +204,21 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user3.id
     )
+
+    Answer.create!(
+      content: "特定損傷保険は、特にアクティブなライフスタイルを送る方にとって重要な保障です。山登り、スキー、サイクリングなどのリスクの高い活動に従事している場合、骨折や脱臼など、損傷に対して手厚い保障を提供します。この保険の強みは、手術や入院費だけでなく、通院費やリハビリテーション費用もカバーできることです。アクティブな生活を送りたい方には、損傷の度合いに応じた保障を備えたプランを選ぶことが大切です。",
+      article_id: article7.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
+    Answer.create!(
+      content: "アウトドア活動やスポーツの趣味を持つ方にとって、特定損傷保険は非常に有効です。例えば、スノーボードや登山中の事故で骨折した場合、治療費用だけでなく、入院中の生活費や通院交通費もカバーされることが多くあります。また、怪我の程度によっては後遺症が残る可能性もあるため、後遺障害補償が含まれているプランを選ぶと、安心して趣味を楽しむことができます。",
+      article_id: article7.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
     article8 = Article.create!(
       categories: "3大疾病",
       title: "3大疾病保険の必要性と保障内容について",
@@ -189,6 +235,14 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user1.id
     )
+
+    Answer.create!(
+      content: "介護・身体障害保険を選ぶ際には、特にリハビリや介護施設への入居にかかる費用をしっかりカバーできる保障内容が重要です。保険の特約として、訪問看護やデイサービスなど在宅介護のサポートが含まれるものを選ぶと、将来的にご両親が介護を受ける際に柔軟な選択が可能です。また、保険の加入タイミングとしては、健康状態が良好なうちに早めに加入することで、保険料を抑えることができます。",
+      article_id: article9.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
     article10 = Article.create!(
       categories: "認知症保険",
       title: "認知症保険の必要性や加入メリットなどについて",
@@ -197,6 +251,28 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user2.id
     )
+
+    Answer.create!(
+      content: "認知症保険は、認知症の進行に伴う高額な介護費用や施設入居費用に備えるための重要な保険です。特に、認知症の進行により24時間体制の介護が必要になるケースでは、在宅介護だけではなく、専門施設への入居が必要になる場合があります。そのため、認知症保険には一時金給付や、月々の定額給付があるタイプの保険が最適です。加入のメリットとしては、経済的な負担を軽減し、家族の負担を和らげることができます。",
+      article_id: article10.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
+    Answer.create!(
+      content: "認知症保険を選ぶ際のポイントは、認知症の早期発見や初期症状に対しても保険金が給付されるかどうかです。また、認知症が進行し、重度の介護が必要になった場合の保障額が十分であることも確認が必要です。認知症は誰にでも起こり得る病気であり、家族の負担を軽減するために保険加入は非常に有効です。早期に対応できる保険を選ぶことが、将来的な不安を和らげる手助けになります。",
+      article_id: article10.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
+    Answer.create!(
+      content: "認知症保険の大きなメリットは、認知症の進行具合に応じた段階的な給付が受けられることです。特に、重度の介護が必要な場合、専門施設の利用や24時間体制のケアが必要になることがあり、これに対して備えることが可能です。また、保険料を抑えるためには、認知症リスクが低いうちに加入することが推奨されます。ご家族全体の介護負担を軽減するためにも、適切な保険プランを早期に選ぶことが重要です。",
+      article_id: article10.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
     article11 = Article.create!(
       categories: "就業不能保険",
       title: "就業不能保険の必要性と保障内容について",
@@ -205,6 +281,21 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user3.id
     )
+
+    Answer.create!(
+      content: "就業不能保険を選ぶ際のポイントは、保障開始までの待機期間と補償期間です。待機期間が短いと、就業不能になった際にすぐに保険金が支給されます。また、補償期間が長ければ長いほど、長期間の就業不能状態でも安心して生活を続けることができます。特に、住宅ローンを抱えている方は、ローンの返済を考慮して十分な補償額と期間を設定することが重要です。",
+      article_id: article11.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
+    Answer.create!(
+      content: "病気や怪我による就業不能に備えるため、就業不能保険は非常に有効です。特に、短期の就業不能だけでなく、長期的な就業不能をカバーできるプランを選ぶことで、安心して生活を送ることができます。保障内容としては、収入補償だけでなく、リハビリ費用や生活支援金などが含まれるプランもありますので、ご自身のライフスタイルや家族構成に合わせたプラン選びを行うことをお勧めします。",
+      article_id: article11.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
     article12 = Article.create!(
       categories: "個人年金保険",
       title: "個人年金保険の選び方と将来への備えについて",
@@ -213,6 +304,21 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user4.id
     )
+
+    Answer.create!(
+      content: "個人年金保険を選ぶ際には、積立期間や受取方法の柔軟性を重視することがポイントです。例えば、分割受取や一時金受取の選択肢がある保険プランは、将来的なライフイベントに応じて対応しやすくなります。また、積立期間中の経済状況の変化に対応できるよう、保険料の払込方法や金額変更ができるプランも検討に値します。今後の生活スタイルに合わせた柔軟なプラン選びを心がけましょう。",
+      article_id: article12.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
+    Answer.create!(
+      content: "積立型の個人年金保険では、保障機能も備わっている場合があります。死亡保障や高度障害保障が付加されているプランでは、万が一の際にも家族の生活を支えることができます。特に、住宅ローンやお子様の教育資金が必要な場合には、こういった保障機能を持つ個人年金保険を選ぶことで、老後だけでなく、予期せぬリスクにも対応可能です。総合的にライフプランを考慮した上で最適なプランを選んでください。",
+      article_id: article12.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
     article13 = Article.create!(
       categories: "こども学資保険",
       title: "こども学資保険の選び方と保障内容について",
@@ -221,5 +327,27 @@ ActiveRecord::Base.transaction do
       status: :published,
       user_id: user1.id
     )
+
+    Answer.create!(
+      content: "こども学資保険を選ぶ際の重要なポイントとして、教育費の上昇を見越した積立金額の設定が挙げられます。特に私立学校や大学への進学を考えている場合、一般的には月々1万円から3万円程度の積立が目安となります。加えて、保険会社によっては返戻率が異なるため、学資保険選びの際は必ず複数のプランを比較検討しましょう。また、保障内容も重要です。子供が病気や事故で入院した際の保障が含まれているプランは、将来的な安心材料となります。",
+      article_id: article13.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
+    Answer.create!(
+      content: "学資保険には大きく分けて、満期保険金が確実に支払われる『貯蓄型』と、万が一の際に家族を支える『保障型』があります。教育費用の準備として貯蓄型を選ぶ場合は、返戻率が高い商品を選ぶことがポイントです。特に、加入時期が早ければ早いほど返戻率が高くなる傾向があるため、お子様が小さいうちからの加入をお勧めします。また、保障型では親御さんの万が一の際にも子供の教育資金を確保できるため、家庭状況に合わせて選択することが大切です。",
+      article_id: article13.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
+    Answer.create!(
+      content: "こども学資保険を選ぶ際には、教育資金以外のライフイベントにも柔軟に対応できるプランを選ぶことが重要です。例えば、大学以外にも留学や専門学校進学など、子供の将来の選択肢が広がった場合にも対応できるよう、使途を限定しないプランを検討すると良いでしょう。さらに、契約者が支払不能になった際の免除特約や、満期時に受け取る保険金を一括ではなく分割で受け取れるプランも考慮に入れると、無理なく計画的な準備が可能です。",
+      article_id: article13.id,
+      user_id: insurance_agents[agent_index % insurance_agents.length].id
+    )
+    agent_index += 1
+
   end
 end
