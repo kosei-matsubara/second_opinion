@@ -1,4 +1,4 @@
-import MessageIcon from '@mui/icons-material/Message'
+import HomeIcon from '@mui/icons-material/Home'
 import WarningIcon from '@mui/icons-material/Warning'
 import { Box, Container, Typography, Divider, Grid, Button } from '@mui/material'
 import camelcaseKeys from 'camelcase-keys'
@@ -142,7 +142,7 @@ const CurrentArticleDetail: NextPage = () => {
             </Grid>
           )}
           <Box sx={{ my: 4, display: 'flex', justifyContent: 'center' }}>
-            <Link href="/current/articles">
+            <Link href="/">
               <Button
                 variant="text"
                 sx={{
@@ -156,8 +156,8 @@ const CurrentArticleDetail: NextPage = () => {
                   fontWeight: 'bold',
                 }}
               >
-                <MessageIcon fontSize="small" sx={{ mr: 0.5 }} />
-                自分の保険相談一覧に戻る
+                <HomeIcon fontSize="small" sx={{ mr: 0.5 }} />
+                トップページへ戻る
               </Button>
             </Link>
           </Box>
