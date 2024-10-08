@@ -12,8 +12,9 @@ const SignOut: NextPage = () => {
   const [, setUser] = useUserState()
 
   useEffect(() => {
-    // localStorageのクリアとサインインデータの初期化を行う
+    // localStorageをクリアする
     localStorage.clear()
+    // サインインデータを初期化する
     setUser({
       id: 0,
       name: '',
