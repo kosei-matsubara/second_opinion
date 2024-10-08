@@ -5,7 +5,7 @@ import { styles } from '@/styles'
 const Loading = () => {
   return (
     <Box
-      css={styles.pageMinHeight} // LoadingのImageを表示中、画面内にFooterを表示しないようMinHeightを定義する
+      css={styles.pageMinHeight} // LoadingのImageを表示中、画面にFooterを表示しないようMinHeightを定義する
       sx={{
         display: 'flex',
         justifyContent: 'center',
