@@ -55,7 +55,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
       context "articles レコードのステータスが公開中の時" do
         let(:status) { :published }
 
-        it "正常にレコードを取得できる" do
+        it "正常にレコードを取得する" do
           subject
           res = JSON.parse(response.body)
           expect(res.keys).to eq ["id", "title", "content", "status", "created_at", "from_today", "user"]
