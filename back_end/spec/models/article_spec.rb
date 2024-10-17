@@ -29,7 +29,7 @@ RSpec.describe Article, type: :model do
 
       it "エラーメッセージが返る" do
         expect(subject).to be_falsy
-        expect(article.errors.full_messages).to eq ["タイトルを入力して下さい"]
+        expect(article.errors.full_messages).to eq ["タイトルを入力してください"]
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe Article, type: :model do
       end
     end
 
-    context "ステータスが未保存かつ、すでに同一ユーザーが未保存ステータスの記事を所有していたケース" do
+    context "ステータスが未保存かつ、すでに同一ユーザーが未保存ステータスの記事を所有ケース" do
       let(:status) { :unsaved }
       before { create(:article, status: :unsaved, user:) }
 
