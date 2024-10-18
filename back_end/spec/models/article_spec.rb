@@ -18,7 +18,7 @@ RSpec.describe Article, type: :model do
     let(:status) { :published }
     let(:user) { create(:user) }
 
-    context "全ての値が正常な時" do
+    context "全ての値が正常ケース" do
       it "検証が通る" do
         expect(subject).to be_truthy
       end
