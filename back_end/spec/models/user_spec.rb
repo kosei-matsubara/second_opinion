@@ -8,5 +8,10 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid
       expect(user).to be_confirmed
     end
+
+    it "認証済みの user レコードを正常に新規作成できる2" do
+      expect(user).to be_valid
+      expect(user).to be_confirmed
+    end
   end
 end
