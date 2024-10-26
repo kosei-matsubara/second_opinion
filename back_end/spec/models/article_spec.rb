@@ -4,7 +4,7 @@ RSpec.describe Article, type: :model do
   context "factoryのデフォルト設定に従った時" do
     subject { create(:article) }
 
-    it "正常にレコードを新規作成できる" do
+    it "正常にレコードを新規作成する" do
       expect { subject }.to change { Article.count }.by(1)
     end
   end
@@ -19,7 +19,7 @@ RSpec.describe Article, type: :model do
     let(:user) { create(:user) }
 
     context "全ての値が正常ケース" do
-      it "検証が通る" do
+      it "検証結果が正常修了する" do
         expect(subject).to be_truthy
       end
     end
