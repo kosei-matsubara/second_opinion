@@ -29,7 +29,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
     context "page を params で送信した時" do
       let(:params) { { page: 2 } }
 
-      it "該当ページ目のレコード10件取得できる" do
+      it "該当ページにおいてレコード10件取得できる" do
         subject
         res = JSON.parse(response.body)
         expect(res.keys).to eq ["articles", "meta"]
