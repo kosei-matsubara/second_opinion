@@ -24,7 +24,7 @@ RSpec.describe Article, type: :model do
       end
     end
 
-    context "ステータスが公開済みかつ、タイトルが空の時" do
+    context "ステータスが公開済みかつ、タイトルがNullの時" do
       let(:title) { "" }
 
       it "エラーメッセージが返る" do
@@ -46,7 +46,7 @@ RSpec.describe Article, type: :model do
       let(:status) { :unsaved }
       before { create(:article, status: :unsaved, user:) }
 
-      it "例外が発生する" do
+      it "例外エラーが発生する" do
         expect { subject }.to raise_error(StandardError)
       end
     end
