@@ -11,14 +11,10 @@ AllCops:
     - 'bin/*'
     - 'config/initializers/**/*'
     - 'db/**/*'
-    - '.git/**/*'
     - 'lib/tasks/**/*'
     - 'log/**/*'
-    # - 'node_modules/**/*'
-    # - 'openapi/**/*'
     - 'public/**/*'
     - 'storage/**/*'
-    - 'test/*'
     - 'terraform/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
@@ -34,6 +30,7 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Max: 20
 
+# コメントにASCII文字以外の使用を許容するためfalseを設定する
 Style/AsciiComments:
   Enabled: false
 
