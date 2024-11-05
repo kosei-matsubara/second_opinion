@@ -1,7 +1,7 @@
 namespace :db do
   desc "Truncate tables"
   task truncate_tables: :environment do
-    tables = ['answers', 'articles', 'users']  # トランケートするテーブルを指定する
+    tables = ["answers", "articles", "users"]  # トランケートするテーブルを指定する
 
     # MySQLは外部キー起因でトランケートが失敗するため一時的に外部キーを無効にする
     ActiveRecord::Base.connection.execute("SET FOREIGN_KEY_CHECKS = 0;")
