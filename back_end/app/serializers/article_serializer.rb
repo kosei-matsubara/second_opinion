@@ -36,7 +36,7 @@ class ArticleSerializer < ActiveModel::Serializer
     "#{seconds}秒前"
   end
 
-  #保険相談に対する回答件数をカウントする
+  # 保険相談に対する回答件数をカウントする
   def answers_count
     object.answers.count
   end

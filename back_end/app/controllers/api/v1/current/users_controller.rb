@@ -1,6 +1,6 @@
 class Api::V1::Current::UsersController < Api::V1::BaseController
   before_action :authenticate_user!
-  before_action :set_user, only: [:update]  # プロフィールの更新前データを取得する
+  before_action :set_user, only: [:update] # プロフィールの更新前データを取得する
 
   def show
     # serializerを定義してユーザーテーブルからの取得項目を制御する
