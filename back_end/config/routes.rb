@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   namespace :api do
@@ -22,5 +21,4 @@ Rails.application.routes.draw do
       resources :answers, only: [:index]
     end
   end
-
 end
