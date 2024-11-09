@@ -1,5 +1,4 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-
   def index
     # article_idが指定されている場合はscopeを適用する
     answers = params[:article_id] ? Answer.by_article(params[:article_id]) : Answer.all
