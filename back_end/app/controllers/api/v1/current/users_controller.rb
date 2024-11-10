@@ -14,29 +14,29 @@ class Api::V1::Current::UsersController < Api::V1::BaseController
 
   private
 
-    def set_user
-      # サインインユーザーのデータを取得する
-      @user = current_user
-    end
+  def set_user
+    # サインインユーザーのデータを取得する
+    @user = current_user
+  end
 
-    def user_params
-      params.require(:user).permit(
-        :user_division,
-        :name,
-        :sex,
-        :generation,
-        :family_structure,
-        :prefectures,
-        :belong,
-        :address,
-        :self_introduction,
-        :my_strength,
-        :career,
-        :message,
-        :access,
-        :website,
-        :inquiry_opening_time,
-        :inquiry_telephone_number
-      )
-    end
+  def user_params
+    params.require(:user).permit(
+      :user_division,
+      :name,
+      :sex,
+      :generation,
+      :family_structure,
+      :prefectures,
+      :belong,
+      :address,
+      :self_introduction,
+      :my_strength,
+      :career,
+      :message,
+      :access,
+      :website,
+      :inquiry_opening_time,
+      :inquiry_telephone_number
+    )
+  end
 end

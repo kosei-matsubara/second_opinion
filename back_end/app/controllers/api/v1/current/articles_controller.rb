@@ -8,7 +8,7 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
     total_count = articles.count
 
     # メタ情報に合計件数を含める
-    render json: articles, meta: { total_count: total_count }, adapter: :json
+    render json: articles, meta: { total_count: total_count, }, adapter: :json
   end
 
   def show
@@ -31,7 +31,7 @@ class Api::V1::Current::ArticlesController < Api::V1::BaseController
 
   private
 
-    def article_params
-      params.require(:article).permit(:categories, :title, :background, :content, :status)
-    end
+  def article_params
+    params.require(:article).permit(:categories, :title, :background, :content, :status)
+  end
 end

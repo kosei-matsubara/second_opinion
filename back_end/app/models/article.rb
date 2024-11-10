@@ -21,10 +21,10 @@ class Article < ApplicationRecord
 
   private
 
-    # 未保存の相談が複数存在しないことを確認する
-    def verify_only_one_unsaved_status_is_allowed
-      if unsaved? && user.articles.unsaved.present?
-        raise StandardError, "未保存の相談は複数保有できません"
-      end
+  # 未保存の相談が複数存在しないことを確認する
+  def verify_only_one_unsaved_status_is_allowed
+    if unsaved? && user.articles.unsaved.present?
+      raise StandardError, "未保存の相談は複数保有できません"
     end
+  end
 end
