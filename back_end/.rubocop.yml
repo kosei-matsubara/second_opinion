@@ -55,3 +55,6 @@ Style/HashTransformKeys:
 # trueかfalseを設定しないと警告を出力するためtrueを設定する
 Style/HashTransformValues:
   Enabled: true
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
