@@ -65,3 +65,9 @@ Style/SymbolArray:
 
 Style/TrailingCommaInHashLiteral:
   Enabled: false
+
+# テーブルデータ削除は不要のためfalseを設定する
+Rails/HasManyOrHasOneDependent:
+  Exclude:
+    - 'app/models/article.rb'
+    - 'app/models/user.rb'

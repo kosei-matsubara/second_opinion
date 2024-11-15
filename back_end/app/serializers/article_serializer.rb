@@ -12,7 +12,7 @@ class ArticleSerializer < ActiveModel::Serializer
     object.created_at.strftime("%Y/%m/%d")
   end
 
-  def from_today # rubocop:disable Metrics/AbcSize
+  def from_today
     now = Time.zone.now
     created_at = object.created_at
 
