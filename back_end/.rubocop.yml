@@ -66,6 +66,11 @@ Style/SymbolArray:
 Style/TrailingCommaInHashLiteral:
   Enabled: false
 
+# 仕様上モデルクラスの継承先をApplicationRecord以外に定義するためExcludeを設定する
+Rails/ApplicationRecord:
+  Exclude:
+    - 'app/models/user.rb'
+
 # テーブルデータ削除は不要のためfalseを設定する
 Rails/HasManyOrHasOneDependent:
   Exclude:
