@@ -45,6 +45,9 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/GuardClause:
+  Enabled: false
+
 # trueかfalseを設定しないと警告を出力するためtrueを設定する
 Style/HashEachMethods:
   Enabled: true
