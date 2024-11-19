@@ -60,6 +60,9 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
+Style/IfUnlessModifier:
+  Enabled: false
+
 Style/NumericPredicate:
   Enabled: false
 
