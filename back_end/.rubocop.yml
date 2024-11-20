@@ -72,6 +72,10 @@ Style/SymbolArray:
 Style/TrailingCommaInHashLiteral:
   Enabled: false
 
+Style/RedundantFetchBlock:
+  Exclude:
+    - 'config/puma.rb' # 拡張性を考慮して冗長性を許容する
+
 # 仕様上モデルクラスの継承先をApplicationRecord以外に定義するためExcludeを設定する
 Rails/ApplicationRecord:
   Exclude:
