@@ -16,7 +16,8 @@ class ArticleSerializer < ActiveModel::Serializer
     now = Time.zone.now
     created_at = object.created_at
 
-    months = ((now.year - created_at.year) * 12) + (now.month - created_at.month) - ((now.day >= created_at.day) ? 0 : 1)
+    # created_at（作成日）とnow（現在日時）の差を月数に変換する
+    months = ((now.year - created_at.year) * 12) + (now.month - created_at.month) - ((now.day >= created_at.day ? 0 : 1))
     years = months.div(12)
 
     return "#{years}年前" if years > 0
