@@ -10,7 +10,8 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
 
     before { create_list(:article, 2, user: other_user) }
 
-    context "ログインユーザーに紐づく articles レコードが存在する時" do
+    # context "ログインユーザーに紐づく articles レコードが存在する時" do　※context の名前を「状態」ではなく「条件」で明示
+    context "when articles exist for the logged-in user" do
       before { create_list(:article, 3, user: current_user) }
 
       it "正常にレコードを取得できる" do
