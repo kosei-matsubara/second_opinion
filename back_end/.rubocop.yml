@@ -85,3 +85,6 @@ Rails/HasManyOrHasOneDependent:
   Exclude:
     - 'app/models/article.rb'
     - 'app/models/user.rb'
+
+RSpec/ContextWording:
+  Enabled: false
