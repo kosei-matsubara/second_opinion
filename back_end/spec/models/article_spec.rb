@@ -44,6 +44,7 @@ RSpec.describe Article, type: :model do
 
     context "ステータスが未保存かつ、すでに同一ユーザーが未保存ステータスの記事を所有ケース" do
       let(:status) { :unsaved }
+      
       before { create(:article, status: :unsaved, user:) }
 
       it "例外エラーが発生する" do

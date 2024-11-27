@@ -86,5 +86,6 @@ Rails/HasManyOrHasOneDependent:
     - 'app/models/article.rb'
     - 'app/models/user.rb'
 
+# Contextを日本語で記載した場合にWordingとなるためfalseを設定する
 RSpec/ContextWording:
   Enabled: false
