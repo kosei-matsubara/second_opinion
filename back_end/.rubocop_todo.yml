@@ -130,7 +130,7 @@ Style/QuotedSymbols:
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: ConsistentQuotesInMultiline.
 # SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
+# Style/StringLiterals: modelを修正する
   EnforcedStyle: double_quotes
 
 # Offense count: 13
