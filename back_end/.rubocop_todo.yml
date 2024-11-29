@@ -9,6 +9,7 @@
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowInHeredoc.
+# 課題：テストケース追加後に改めて規約見直しをする
 Layout/TrailingWhitespace:
   Exclude:
     - 'spec/models/article_spec.rb'
