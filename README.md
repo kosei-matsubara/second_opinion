@@ -52,11 +52,14 @@ https://second-opinion365.com/
 - Next.js（14.2.4）
 - Node.js（20.14.0）
 - npm（10.7.0）
+**※API通信でバックエンドとの非同期通信によってフロントエンドとバックエンドを完全に分離**
+
 
 ### バックエンド
 - Ruby（3.2.3）
 - Ruby on Rails（7.0.8.4）
 - MySQL（8.0.37）
+**※RESTful APIによってフロントエンドとの疎結合な構成を実現**
 
 ### インフラ
 - AWS(VPC/EC2/RDS/ALB/ACM/Route53/ECS)
