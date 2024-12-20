@@ -80,12 +80,5 @@ RSpec.describe "Api::V1::Articles", type: :request do
         expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
-    # context "article_id に対応する articles レコードが存在しない時" do
-    #   let(:article_id) { 10_000_000_000 }
-
-    #   it "ActiveRecord::RecordNotFound エラーが返る" do
-    #     expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
-    #   end
-    # end
   end
 end
