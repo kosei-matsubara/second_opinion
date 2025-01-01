@@ -33,8 +33,9 @@ RSpec.describe Article, type: :model do
       end
     end
 
-    context "ステータスが公開済かつ、本文が未入力の時" do
+    context "ステータスが公開済かつ、質問が未入力の時" do
       let(:content) { "" }
+      let(:background) { "" }
 
       it "エラーメッセージが返る" do
         expect(subject).to be_falsy
