@@ -5,6 +5,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
     subject { get(api_v1_articles_path(params)) }
 
     before do
+      # 公開済みの記事2件、下書きの記事8件を作成
       create_list(:article, 2, status: :published)
       create_list(:article, 8, status: :draft)
     end
@@ -15,13 +16,18 @@ RSpec.describe "Api::V1::Articles", type: :request do
       it "1ページ目のレコード10件取得する" do
         subject
         res = JSON.parse(response.body)
+
+        # レスポンスキーの検証
         expect(res.keys).to eq ["articles", "meta"]
+
         expect(res["articles"].length).to eq 10
         expect(res["articles"][0].keys).to eq ["id", "categories", "title", "background", "content", "status", "created_at", "from_today", "user"]
         expect(res["articles"][0]["user"].keys).to eq ["name"]
+
         expect(res["meta"].keys).to eq ["current_page", "total_pages"]
         expect(res["meta"]["current_page"]).to eq 1
         expect(res["meta"]["total_pages"]).to eq 3
+
         expect(response).to have_http_status(:ok)
       end
     end
@@ -32,13 +38,18 @@ RSpec.describe "Api::V1::Articles", type: :request do
       it "該当ページにおいてレコード10件取得できる" do
         subject
         res = JSON.parse(response.body)
+
+        # レスポンスキーの検証
         expect(res.keys).to eq ["articles", "meta"]
+
         expect(res["articles"].length).to eq 10
         expect(res["articles"][0].keys).to eq ["id", "categories", "title", "background", "content", "status", "created_at", "from_today", "user"]
         expect(res["articles"][0]["user"].keys).to eq ["name"]
+
         expect(res["meta"].keys).to eq ["current_page", "total_pages"]
         expect(res["meta"]["current_page"]).to eq 2
         expect(res["meta"]["total_pages"]).to eq 3
+
         expect(response).to have_http_status(:ok)
       end
     end
@@ -58,8 +69,10 @@ RSpec.describe "Api::V1::Articles", type: :request do
         it "正常にレコードを取得する" do
           subject
           res = JSON.parse(response.body)
+
           expect(res.keys).to eq ["id", "title", "content", "status", "created_at", "from_today", "user"]
           expect(res["user"].keys).to eq ["name"]
+
           expect(response).to have_http_status(:ok)
         end
       end
