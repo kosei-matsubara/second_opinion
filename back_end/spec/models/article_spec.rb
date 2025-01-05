@@ -45,12 +45,20 @@ RSpec.describe Article, type: :model do
 
     context "ステータスが未保存かつ、すでに同一ユーザーが未保存ステータスの記事を所有ケース" do
       let(:status) { :unsaved }
-      
+
       before { create(:article, status: :unsaved, user:) }
 
       it "例外エラーが発生する" do
         expect { subject }.to raise_error(StandardError)
       end
     end
+
+    # context "タイトルの文字数上限の確認" do
+    #   let(:content) { "a" * 50 } # コンテンツは50文字
+
+    #   it "エラーメッセージが返る" do
+    #     expect( subject ).to be_valid
+    #   end
+    # end
   end
 end
