@@ -7,7 +7,7 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
     let(:current_user) { create(:user) }
     let(:headers) { current_user.create_new_auth_token }
 
-    context "ヘッダー情報が正常に送られた時" do
+    context "ヘッダー情報が正常に送られた場合" do
       it "正常にレコードを取得できる" do
         subject
         res = JSON.parse(response.body)
@@ -18,7 +18,7 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
       end
     end
 
-    context "ヘッダー情報が空のままリクエストが送信された時" do
+    context "ヘッダー情報が空のままリクエストが送信された場合" do
       let(:headers) { nil }
 
       it "unauthorized エラーが返る" do

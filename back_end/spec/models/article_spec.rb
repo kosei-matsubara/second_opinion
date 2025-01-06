@@ -18,13 +18,13 @@ RSpec.describe Article, type: :model do
     let(:status) { :published }
     let(:user) { create(:user) }
 
-    context "全ての値が正常ケース" do
+    context "全ての値が正常である場合" do
       it "検証結果が正常修了する" do
         expect(subject).to be_truthy
       end
     end
 
-    context "ステータスが公開済みかつ、タイトルがNullの時" do
+    context "ステータスが公開済みかつ、タイトルがNullの場合" do
       let(:title) { "" }
 
       it "エラーメッセージが返る" do
@@ -33,7 +33,7 @@ RSpec.describe Article, type: :model do
       end
     end
 
-    context "ステータスが公開済かつ、質問が未入力の時" do
+    context "ステータスが公開済かつ、質問が未入力の場合" do
       let(:content) { "" }
       let(:background) { "" }
 
@@ -43,7 +43,7 @@ RSpec.describe Article, type: :model do
       end
     end
 
-    context "ステータスが未保存かつ、すでに同一ユーザーが未保存ステータスの記事を所有ケース" do
+    context "ステータスが未保存かつ、すでに同一ユーザーが未保存ステータスの保険相談レコードを保持の場合" do
       let(:status) { :unsaved }
 
       before { create(:article, status: :unsaved, user:) }

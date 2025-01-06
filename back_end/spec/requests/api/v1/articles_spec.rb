@@ -5,12 +5,12 @@ RSpec.describe "Api::V1::Articles", type: :request do
     subject { get(api_v1_articles_path(params)) }
 
     before do
-      # 公開済みの記事2件、下書きの記事8件を作成
+      # 公開済みの保険相談2件、下書きの保険相談8件を作成
       create_list(:article, 2, status: :published)
       create_list(:article, 8, status: :draft)
     end
 
-    context "page を params で送信しない時" do
+    context "page を params で送信しない場合" do
       let(:params) { nil }
 
       it "1ページ目のレコード10件取得する" do
@@ -32,7 +32,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
       end
     end
 
-    context "page を params で送信した時" do
+    context "page を params で送信した場合" do
       let(:params) { { page: 2 } }
 
       it "該当ページにおいてレコード10件取得できる" do
@@ -60,10 +60,10 @@ RSpec.describe "Api::V1::Articles", type: :request do
 
     let(:article) { create(:article, status:) }
 
-    context "article_id に対応する articles レコードが存在する時" do
+    context "article_id に対応する articles レコードが存在する場合" do
       let(:article_id) { article.id }
 
-      context "articles レコードのステータスが公開中の時" do
+      context "articles レコードのステータスが公開中の場合" do
         let(:status) { :published }
 
         it "正常にレコードを取得する" do
@@ -77,7 +77,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
         end
       end
 
-      context "articles レコードのステータスが下書きの時" do
+      context "articles レコードのステータスが下書きの場合" do
         let(:status) { :draft }
 
         it "ActiveRecord::RecordNotFound エラーが返る" do
@@ -86,7 +86,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
       end
     end
 
-    context "article_id に対応する「articles」レコードが存在しない時" do
+    context "article_id に対応する「articles」レコードが存在しない場合" do
       let(:article_id) { 10_000_000_000 }
 
       it "ActiveRecord::RecordNotFound エラーが返る" do

@@ -23,7 +23,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       end
     end
 
-    context "ログインユーザーに紐づく articles レコードが存在しない時" do
+    context "ログインユーザーに紐づく articles レコードが存在しない場合" do
       it "空の配列が返る" do
         subject
         res = JSON.parse(response.body)
@@ -39,7 +39,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
     let(:headers) { current_user.create_new_auth_token }
     let(:current_user) { create(:user) }
 
-    context ":id がログインユーザーに紐づく articles レコードの id である時" do
+    context ":id がログインユーザーに紐づく articles レコードの id である場合" do
       let(:current_user_article) { create(:article, user: current_user) }
       let(:id) { current_user_article.id }
 
@@ -52,7 +52,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       end
     end
 
-    context ":id がログインユーザーに紐づく articles レコードの id ではない時" do
+    context ":id がログインユーザーに紐づく articles レコードの id ではない場合" do
       let(:other_user_article) { create(:article) }
       let(:id) { other_user_article.id }
 
@@ -68,8 +68,8 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
     let(:headers) { current_user.create_new_auth_token }
     let(:current_user) { create(:user) }
 
-    context "ログインユーザーに紐づく未保存ステータスの記事が0件の時" do
-      it "未保存ステータスの記事が新規作成される" do
+    context "ログインユーザーに紐づく未保存ステータスの保険相談が0件の場合" do
+      it "未保存ステータスの保険相談が新規作成される" do
         expect { subject }.to change { current_user.articles.count }.by(1)
         expect(current_user.articles.last).to be_unsaved
         res = JSON.parse(response.body)
@@ -79,10 +79,10 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       end
     end
 
-    context "ログインユーザーに紐づく未保存ステータスの記事が1件の時" do
+    context "ログインユーザーに紐づく未保存ステータスの保険相談が1件の場合" do
       before { create(:article, user: current_user, status: :unsaved) }
 
-      it "未保存ステータスの記事が新規作成される" do
+      it "未保存ステータスの保険相談が新規作成される" do
         expect { subject }.not_to change { current_user.articles.count }
         res = JSON.parse(response.body)
         expect(res.keys).to eq ["id", "title", "content", "status", "created_at", "from_today", "user"]
@@ -100,7 +100,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
     let(:other_user) { create(:user) }
     let(:params) { { "article": { "title": "テストタイトル2", "content": "テスト本文2", "status": "published" } } }
 
-    context ":id がログインユーザーに紐づく articles レコードの id である時" do
+    context ":id がログインユーザーに紐づく articles レコードの id である場合" do
       let(:current_user_article) { create(:article, title: "テストタイトル1", content: "テスト本文1", status: :draft, user: current_user) }
       let(:id) { current_user_article.id }
 
@@ -115,7 +115,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       end
     end
 
-    context ":id がログインユーザーに紐づく articles レコードの id ではない時" do
+    context ":id がログインユーザーに紐づく articles レコードの id ではない場合" do
       let(:other_user_article) { create(:article, user: other_user) }
       let(:id) { other_user_article.id }
 
