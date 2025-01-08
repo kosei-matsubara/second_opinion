@@ -81,6 +81,18 @@ RSpec.describe User, type: :model do
 
   describe "validateをテストする" do
     context "factoryのデフォルト設定の場合" do
+      let(:user) { create(:user) }
+
+      it "nameが存在する場合、データが有効である" do
+        expect(user).to be_valid
+      end
+
+      it "nameが存在しない場合、データが無効である" do
+        # user.update(name: nil) # データベースに保存されたレコードを更新
+
+        # expect(user).to_not be_valid
+        # expect(user.errors[:name]).to include("を入力してください")
+      end
     end
   end
 end
