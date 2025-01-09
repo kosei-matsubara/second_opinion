@@ -88,10 +88,10 @@ RSpec.describe User, type: :model do
       end
 
       it "nameが存在しない場合、データが無効である" do
-        # user.update(name: nil) # データベースに保存されたレコードを更新
+        user.update(name: nil)
 
-        # expect(user).to_not be_valid
-        # expect(user.errors[:name]).to include("を入力してください")
+        expect(user).to_not be_valid
+        expect(user.errors[:name]).to include("を入力してください")
       end
     end
   end
