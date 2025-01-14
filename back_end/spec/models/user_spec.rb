@@ -97,7 +97,7 @@ RSpec.describe User, type: :model do
       it "self_introductionが600文字以内の場合、データが有効である" do
         user.self_introduction = "a" * 600
 
-        expect(user).to  be_valid
+        expect(user).to be_valid
       end
 
       it "self_introductionが601文字以上の場合、データが無効である" do
@@ -105,6 +105,19 @@ RSpec.describe User, type: :model do
 
         expect(user).to_not be_valid
         expect(user.errors[:self_introduction]).to include("は600文字以内で入力してください")
+      end
+
+      it "my_strengthが600文字以内の場合、データが有効である" do
+        user.my_strength = "a" * 600
+
+        expect(user).to be_valid
+      end
+
+      it "my_strengthが601文字以上の場合、データが無効である" do
+        user.my_strength = "a" * 601
+
+        expect(user).to_not be_valid
+        expect(user.errors[:my_strength]).to include("は600文字以内で入力してください")
       end
     end
   end
