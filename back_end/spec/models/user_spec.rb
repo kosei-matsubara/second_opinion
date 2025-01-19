@@ -169,6 +169,25 @@ RSpec.describe User, type: :model do
         expect(user).to_not be_valid
         expect(user.errors[:message]).to include("は400文字以内で入力してください")
       end
+
+      it "accessが未入力の場合、データが有効である" do
+        user.access = ""
+
+        expect(user).to be_valid
+      end
+
+      it "accessが400文字以内の場合、データが有効である" do
+        user.access = "a" * 400
+
+        expect(user).to be_valid
+      end
+
+      it "accessが401文字以上の場合、データが無効である" do
+        user.access = "a" * 401
+
+        expect(user).to_not be_valid
+        expect(user.errors[:access]).to include("は400文字以内で入力してください")
+      end
     end
   end
 end
