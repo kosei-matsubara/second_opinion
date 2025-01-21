@@ -188,6 +188,25 @@ RSpec.describe User, type: :model do
         expect(user).to_not be_valid
         expect(user.errors[:access]).to include("は400文字以内で入力してください")
       end
+
+      it "websiteが未入力の場合、データが有効である" do
+        user.website = ""
+
+        expect(user).to be_valid
+      end
+
+      it "websiteが80文字以内の場合、データが有効である" do
+        user.website = "a" * 80
+
+        expect(user).to be_valid
+      end
+
+      it "websiteが81文字以上の場合、データが無効である" do
+        user.website = "a" * 81
+
+        expect(user).to_not be_valid
+        expect(user.errors[:website]).to include("は80文字以内で入力してください")
+      end
     end
   end
 end
