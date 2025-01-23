@@ -10,6 +10,11 @@ RSpec.describe User, type: :model do
         expect(user).to be_confirmed
       end
 
+      it "トークンが無効の場合は確認がエラーとなる" do
+        user = create(:user, confirmation_token: "invalid_token")
+        expect(user.confirm).to be_falsey
+      end
+
       it "認証済userレコードを作成できない場合はエラーとなる" do
         expect(user).to be_valid
         expect(user).to be_confirmed
@@ -208,5 +213,25 @@ RSpec.describe User, type: :model do
         expect(user.errors[:website]).to include("は80文字以内で入力してください")
       end
     end
+  end
+
+  describe "modelの関連付けをテストする" do
+    # context "article" do
+    #   it "ユーザー削除時に関連するarticlesが削除されない" do
+    #     user = create(:user)
+    #     create(:article, user: user)
+
+    #     expect { user.destroy }.to_not change { Article.count }
+    #   end
+    # end
+
+    # context "article" do
+    #   it "ユーザー削除時に関連するanswersが削除されない" do
+    #     user = create(:user)
+    #     create(:answer, user: user)
+
+    #     expect { user.destroy }.to_not change { Answer.count }
+    #   end
+    # end
   end
 end
