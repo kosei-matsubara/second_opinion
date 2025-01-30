@@ -14,7 +14,7 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
         expect(res.keys).to eq ["id", "name", "email"]
         expect(response).to have_http_status(:ok)
         # リダイレクトのURLのテストコードを追加
-        # expect(response).to redirect_to "/"
+        expect(response).to redirect_to "/"
       end
     end
 
