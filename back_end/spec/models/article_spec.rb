@@ -12,8 +12,9 @@ RSpec.describe Article, type: :model do
   describe "Validations" do
     subject { article.valid? }
 
-    let(:article) { build(:article, title:, content:, status:, user:) }
+    let(:article) { build(:article, title:, background:, content:, status:, user:) }
     let(:title) { Faker::Lorem.sentence }
+    let(:background) { Faker::Lorem.paragraph }
     let(:content) { Faker::Lorem.paragraph }
     let(:status) { :published }
     let(:user) { create(:user) }
@@ -39,7 +40,7 @@ RSpec.describe Article, type: :model do
 
       it "エラーメッセージが返る" do
         expect(subject).to be_falsy
-        expect(article.errors.full_messages).to eq ["本文を入力してください"]
+        expect(article.errors.full_messages).to include("背景を入力してください", "本文を入力してください")
       end
     end
 
@@ -49,16 +50,18 @@ RSpec.describe Article, type: :model do
       before { create(:article, status: :unsaved, user:) }
 
       it "例外エラーが発生する" do
-        expect { subject }.to raise_error(StandardError)
+        expect { subject }.to raise_error(StandardError, "未保存の相談は複数保有できません")
       end
     end
+  end
 
-    # context "タイトルの文字数上限の確認" do
-    #   let(:content) { "a" * 50 } # コンテンツは50文字
+  describe "Scopes" do
+    let!(:published_article) { create(:article, status: :published) }
+    let!(:draft_article) { create(:article, status: :draft) }
 
-    #   it "エラーメッセージが返る" do
-    #     expect( subject ).to be_valid
-    #   end
-    # end
+    it "公開された記事のみ取得できる" do
+      expect(Article.published).to include(published_article)
+      expect(Article.published).not_to include(draft_article)
+    end
   end
 end
