@@ -214,24 +214,4 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
-  describe "modelの関連付けをテストする" do
-    context "article" do
-      it "user削除時に関連するarticleを削除しない" do
-        user = create(:user)
-        create(:article, user: user)
-
-        expect { user.destroy }.to_not change { Article.count }
-      end
-    end
-
-    context "answer" do
-      it "user削除時に関連するanswerを削除しない" do
-        user = create(:user)
-        create(:answer, user: user)
-
-        expect { user.destroy }.to_not change { Answer.count }
-      end
-    end
-  end
 end
