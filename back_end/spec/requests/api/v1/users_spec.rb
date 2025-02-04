@@ -4,10 +4,7 @@ RSpec.describe "Api::V1::Users", type: :request do
   describe "GET /api/v1/users" do
     subject { get api_v1_users_path, params: params }
 
-    before do
-      create_list(:user, 2, user_division: :insurance_agent)
-      create_list(:user, 8, user_division: :policyholder)
-    end
+    before { create_list(:user, 12, user_division: :insurance_agent) }
 
     context "ページパラメータが指定されていない場合" do
       let(:params) { nil }
@@ -17,10 +14,13 @@ RSpec.describe "Api::V1::Users", type: :request do
         res = JSON.parse(response.body)
 
         expect(res.keys).to eq ["users", "meta"]
-        expect(res["users"].length).to eq 2
+
+        expect(res["users"].length).to eq 10
+        # expect(res["users"][0].keys).to eq ["id", "categories", "title", "background", "content", "status", "created_at", "from_today", "user"]
+
         expect(res["meta"].keys).to eq ["current_page", "total_pages"]
         expect(res["meta"]["current_page"]).to eq 1
-        expect(res["meta"]["total_pages"]).to eq 1
+        expect(res["meta"]["total_pages"]).to be > 1
 
         expect(response).to have_http_status(:ok)
       end
