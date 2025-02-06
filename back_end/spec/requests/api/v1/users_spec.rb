@@ -4,7 +4,9 @@ RSpec.describe "Api::V1::Users", type: :request do
   describe "GET /api/v1/users" do
     subject { get api_v1_users_path, params: params }
 
-    before { create_list(:user, 12, user_division: :insurance_agent) }
+    before do
+      create_list(:user, 12, user_division: :insurance_agent)
+      create_list(:user, 5, user_division: :policyholder)
 
     context "ページパラメータが指定されていない場合" do
       let(:params) { nil }
