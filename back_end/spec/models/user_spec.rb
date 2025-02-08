@@ -20,6 +20,17 @@ RSpec.describe User, type: :model do
         expect(user).to be_confirmed
       end
     end
+
+    context "emailが無効な形式の場合" do
+      let(:user) { create(:user) }
+
+      it "emailが無効な形式の場合エラーとなる" do
+        user.email = "invalid_email"
+
+        expect(user).to_not be_valid
+        expect(user.errors[:email]).to include("は有効ではありません")
+      end
+    end
   end
 
   describe "enumをテストする" do
