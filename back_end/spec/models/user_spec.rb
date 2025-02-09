@@ -19,16 +19,19 @@ RSpec.describe User, type: :model do
         expect(user).to be_valid
         expect(user).to be_confirmed
       end
-    end
-
-    context "emailが無効な形式の場合" do
-      let(:user) { create(:user) }
 
       it "emailが無効な形式の場合エラーとなる" do
         user.email = "invalid_email"
 
         expect(user).to_not be_valid
         expect(user.errors[:email]).to include("は有効ではありません")
+      end
+
+      it "passwordが6文字未満の場合エラーとなる" do
+        user.password = "12345"
+
+        expect(user).to_not be_valid
+        expect(user.errors[:password]).to include("は6文字以上で入力してください")
       end
     end
   end
