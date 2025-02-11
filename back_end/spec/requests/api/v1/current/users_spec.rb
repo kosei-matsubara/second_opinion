@@ -11,7 +11,27 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
       it "正常にレコードを取得できる" do
         subject
         res = JSON.parse(response.body)
-        expect(res.keys).to eq ["id", "name", "email", "user_division", "sex", "generation", "family_structure", "prefectures", "belong", "address", "self_introduction", "my_strength", "career", "message", "access", "website", "inquiry_opening_time", "inquiry_telephone_number"]
+        expect(res.keys).to eq [
+          "id",
+          "name",
+          "email",
+          "user_division",
+          "sex",
+          "generation",
+          "family_structure",
+          "prefectures",
+          "belong",
+          "address",
+          "self_introduction",
+          "my_strength",
+          "career",
+          "message",
+          "access",
+          "website",
+          "inquiry_opening_time",
+          "inquiry_telephone_number"
+        ]
+
         expect(response).to have_http_status(:ok)
       end
     end
@@ -37,7 +57,14 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
       {
         user: {
           name: "更新ユーザー",
-          self_introduction: "自己紹介更新", my_strength: "強み更新", career: "経歴更新", message: "メッセージ更新", access: "アクセス更新", website: "https://example.com", inquiry_opening_time: "9:00-18:00", inquiry_telephone_number: "123-456-7890"
+          self_introduction: "自己紹介更新",
+          my_strength: "強み更新",
+          career: "経歴更新",
+          message: "メッセージ更新",
+          access: "アクセス更新",
+          website: "https://example.com",
+          inquiry_opening_time: "9:00-18:00",
+          inquiry_telephone_number: "123-456-7890"
         }
       }
     end
@@ -54,7 +81,20 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
         expect { subject }.to change { current_user.reload.inquiry_opening_time }.to("9:00-18:00")
         expect { subject }.to change { current_user.reload.inquiry_telephone_number }.to("123-456-7890")
         res = JSON.parse(response.body)
-        expect(res.keys).to eq ["id", "name", "email", "self_introduction", "my_strength", "career", "message", "access", "website", "inquiry_opening_time", "inquiry_telephone_number"]
+        expect(res.keys).to eq [
+          "id",
+          "name",
+          "email",
+          "self_introduction",
+          "my_strength",
+          "career",
+          "message",
+          "access",
+          "website",
+          "inquiry_opening_time",
+          "inquiry_telephone_number"
+        ]
+
         expect(response).to have_http_status(:ok)
       end
     end
