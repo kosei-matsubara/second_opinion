@@ -70,7 +70,19 @@ RSpec.describe "Api::V1::Articles", type: :request do
           subject
           res = JSON.parse(response.body)
 
-          expect(res.keys).to eq ["id", "title", "content", "status", "created_at", "from_today", "user"]
+          expect(res.keys).to eq [
+            "id",
+            "categories",
+            "title",
+            "background",
+            "content",
+            "status",
+            "created_at",
+            "from_today",
+            "answers_count",
+            "user"
+          ]
+
           expect(res["user"].keys).to eq ["name"]
 
           expect(response).to have_http_status(:ok)

@@ -5,7 +5,7 @@ RSpec.describe Article, type: :model do
     subject { create(:article) }
 
     it "正常にレコードを新規作成する" do
-      expect { subject }.to change { Article.count }.by(1)
+      expect { subject }.to change { described_class.count }.by(1)
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe Article, type: :model do
 
       it "エラーメッセージが返る" do
         expect(subject).to be_falsy
-        expect(article.errors.full_messages).to include("背景を入力してください", "本文を入力してください")
+        expect(article.errors.full_messages).to include("背景を入力してください", "質問を入力してください")
       end
     end
 
@@ -60,8 +60,8 @@ RSpec.describe Article, type: :model do
     let!(:draft_article) { create(:article, status: :draft) }
 
     it "公開された記事のみ取得できる" do
-      expect(Article.published).to include(published_article)
-      expect(Article.published).not_to include(draft_article)
+      expect(described_class.published).to include(published_article)
+      expect(described_class.published).not_to include(draft_article)
     end
   end
 end

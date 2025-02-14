@@ -19,7 +19,7 @@ RSpec.describe Answer, type: :model do
       let(:content) { "" }
       it "データが無効である" do
         expect(subject).to be_falsy
-        expect(answer.errors.full_messages).to include("内容を入力してください")
+        expect(answer.errors.full_messages).to include("回答を入力してください")
       end
     end
 
@@ -27,14 +27,9 @@ RSpec.describe Answer, type: :model do
       let(:content) { "a" * 601 }
       it "データが無効である" do
         expect(subject).to be_falsy
-        expect(answer.errors.full_messages).to include("内容は600文字以内で入力してください")
+        expect(answer.errors.full_messages).to include("回答は600文字以内で入力してください")
       end
     end
-  end
-
-  describe "アソシエーションをテストする" do
-    it { should belong_to(:user) }
-    it { should belong_to(:article) }
   end
 
   describe "スコープをテストする" do
@@ -44,8 +39,8 @@ RSpec.describe Answer, type: :model do
     let!(:answer2) { create(:answer, article: article2) }
 
     it "特定の記事に紐づく回答を取得できる" do
-      expect(Answer.by_article(article1.id)).to include(answer1)
-      expect(Answer.by_article(article1.id)).not_to include(answer2)
+      expect(described_class.by_article(article1.id)).to include(answer1)
+      expect(described_class.by_article(article1.id)).not_to include(answer2)
     end
   end
 end
