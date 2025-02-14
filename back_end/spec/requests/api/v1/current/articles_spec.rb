@@ -27,7 +27,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       it "空の配列が返る" do
         subject
         res = JSON.parse(response.body)
-        expect(res).to eq []
+        expect(res["articles"]).to eq []
         expect(response).to have_http_status(:ok)
       end
     end
