@@ -17,7 +17,19 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
         subject
         res = JSON.parse(response.body)
         expect(res.length).to eq 3
-        expect(res[0].keys).to eq ["id", "categories", "title", "background", "content", "status", "created_at", "from_today", "user"]
+
+        expect(res[0].keys).to eq [
+          "id",
+          "categories",
+          "title",
+          "background",
+          "content",
+          "status",
+          "created_at",
+          "from_today",
+          "user"
+        ]
+
         expect(res[0]["user"].keys).to eq ["name"]
         expect(response).to have_http_status(:ok)
       end
@@ -46,8 +58,41 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       it "正常にレコードを取得できる" do
         subject
         res = JSON.parse(response.body)
-        expect(res.keys).to eq ["id", "title", "content", "status", "created_at", "from_today", "user"]
-        expect(res["user"].keys).to eq ["name"]
+        expect(res.keys).to eq [
+          "id",
+          "categories",
+          "title",
+          "background",
+          "content",
+          "status",
+          "created_at",
+          "from_today",
+          "answers_count",
+          "user"
+        ]
+
+        expect(res["user"].keys).to eq [
+          "id",
+          "email",
+          "user_division",
+          "name",
+          "sex",
+          "generation",
+          "family_structure",
+          "prefectures",
+          "belong",
+          "address",
+          "self_introduction",
+          "my_strength",
+          "career",
+          "message",
+          "access",
+          "website",
+          "inquiry_opening_time",
+          "inquiry_telephone_number",
+          "created_at"
+        ]
+
         expect(response).to have_http_status(:ok)
       end
     end
@@ -73,8 +118,41 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
         expect { subject }.to change { current_user.articles.count }.by(1)
         expect(current_user.articles.last).to be_unsaved
         res = JSON.parse(response.body)
-        expect(res.keys).to eq ["id", "title", "content", "status", "created_at", "from_today", "user"]
-        expect(res["user"].keys).to eq ["name"]
+        expect(res.keys).to eq [
+          "id",
+          "categories",
+          "title",
+          "background",
+          "content",
+          "status",
+          "created_at",
+          "from_today",
+          "answers_count",
+          "user"
+        ]
+
+        expect(res["user"].keys).to eq [
+          "id",
+          "email",
+          "user_division",
+          "name",
+          "sex",
+          "generation",
+          "family_structure",
+          "prefectures",
+          "belong",
+          "address",
+          "self_introduction",
+          "my_strength",
+          "career",
+          "message",
+          "access",
+          "website",
+          "inquiry_opening_time",
+          "inquiry_telephone_number",
+          "created_at"
+        ]
+
         expect(response).to have_http_status(:ok)
       end
     end
@@ -85,8 +163,41 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       it "未保存ステータスの保険相談が新規作成される" do
         expect { subject }.not_to change { current_user.articles.count }
         res = JSON.parse(response.body)
-        expect(res.keys).to eq ["id", "title", "content", "status", "created_at", "from_today", "user"]
-        expect(res["user"].keys).to eq ["name"]
+        expect(res.keys).to eq [
+          "id",
+          "categories",
+          "title",
+          "background",
+          "content",
+          "status",
+          "created_at",
+          "from_today",
+          "answers_count",
+          "user"
+        ]
+
+        expect(res["user"].keys).to eq [
+          "id",
+          "email",
+          "user_division",
+          "name",
+          "sex",
+          "generation",
+          "family_structure",
+          "prefectures",
+          "belong",
+          "address",
+          "self_introduction",
+          "my_strength",
+          "career",
+          "message",
+          "access",
+          "website",
+          "inquiry_opening_time",
+          "inquiry_telephone_number",
+          "created_at"
+        ]
+
         expect(response).to have_http_status(:ok)
       end
     end
@@ -111,7 +222,19 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
         expect { subject }.to change { current_user_article.reload.status }.from("draft").to("published")
 
         res = JSON.parse(response.body)
-        expect(res.keys).to eq ["id", "categories", "title", "background", "content", "status", "created_at", "from_today", "user"]
+
+        expect(res.keys).to eq [
+          "id",
+          "categories",
+          "title",
+          "background",
+          "content",
+          "status",
+          "created_at",
+          "from_today",
+          "user"
+        ]
+
         expect(res["user"].keys).to eq ["name"]
         expect(response).to have_http_status(:ok)
       end

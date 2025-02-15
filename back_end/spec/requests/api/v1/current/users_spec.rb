@@ -13,9 +13,9 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
         res = JSON.parse(response.body)
         expect(res.keys).to eq [
           "id",
-          "name",
           "email",
           "user_division",
+          "name",
           "sex",
           "generation",
           "family_structure",
@@ -29,7 +29,8 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
           "access",
           "website",
           "inquiry_opening_time",
-          "inquiry_telephone_number"
+          "inquiry_telephone_number",
+          "created_at"
         ]
 
         expect(response).to have_http_status(:ok)
@@ -80,7 +81,9 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
         expect { subject }.to change { current_user.reload.website }.to("https://example.com")
         expect { subject }.to change { current_user.reload.inquiry_opening_time }.to("9:00-18:00")
         expect { subject }.to change { current_user.reload.inquiry_telephone_number }.to("123-456-7890")
+
         res = JSON.parse(response.body)
+
         expect(res.keys).to eq [
           "id",
           "name",
