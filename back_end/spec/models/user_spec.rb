@@ -23,14 +23,14 @@ RSpec.describe User, type: :model do
       it "emailが無効な形式の場合エラーとなる" do
         user.email = "invalid_email"
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:email]).to include("は有効ではありません")
       end
 
       it "passwordが6文字未満の場合エラーとなる" do
         user.password = "12345"
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:password]).to include("は6文字以上で入力してください")
       end
     end
@@ -109,7 +109,7 @@ RSpec.describe User, type: :model do
       it "nameが存在しない場合、データが無効である" do
         user.update(name: nil)
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:name]).to include("を入力してください")
       end
 
@@ -128,7 +128,7 @@ RSpec.describe User, type: :model do
       it "self_introductionが601文字以上の場合、データが無効である" do
         user.self_introduction = "a" * 601
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:self_introduction]).to include("は600文字以内で入力してください")
       end
 
@@ -147,7 +147,7 @@ RSpec.describe User, type: :model do
       it "my_strengthが601文字以上の場合、データが無効である" do
         user.my_strength = "a" * 601
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:my_strength]).to include("は600文字以内で入力してください")
       end
 
@@ -166,7 +166,7 @@ RSpec.describe User, type: :model do
       it "careerが401文字以上の場合、データが無効である" do
         user.career = "a" * 401
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:career]).to include("は400文字以内で入力してください")
       end
 
@@ -185,7 +185,7 @@ RSpec.describe User, type: :model do
       it "messageが401文字以上の場合、データが無効である" do
         user.message = "a" * 401
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:message]).to include("は400文字以内で入力してください")
       end
 
@@ -204,7 +204,7 @@ RSpec.describe User, type: :model do
       it "accessが401文字以上の場合、データが無効である" do
         user.access = "a" * 401
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:access]).to include("は400文字以内で入力してください")
       end
 
@@ -223,7 +223,7 @@ RSpec.describe User, type: :model do
       it "websiteが81文字以上の場合、データが無効である" do
         user.website = "a" * 81
 
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
         expect(user.errors[:website]).to include("は80文字以内で入力してください")
       end
     end
