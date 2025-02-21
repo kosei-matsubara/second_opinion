@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Api::V1::Users", type: :request do
   describe "GET /api/v1/users" do
-    subject { get api_v1_users_path, params: params }
+    subject(:request_users) { get api_v1_users_path, params: params }
 
     before do
       create_list(:user, 12, user_division: :insurance_agent)
@@ -13,7 +13,7 @@ RSpec.describe "Api::V1::Users", type: :request do
       let(:params) { nil }
 
       it "1ページ目の保険営業者のレコードを10件取得する" do
-        subject
+        request_users
         res = JSON.parse(response.body)
 
         expect(res.keys).to eq ["users", "meta"]
@@ -51,7 +51,7 @@ RSpec.describe "Api::V1::Users", type: :request do
   end
 
   describe "GET /api/v1/users/:id" do
-    subject { get api_v1_user_path(user_id) }
+    subject(:request_user) { get api_v1_user_path(user_id) }
 
     let(:user) { create(:user, user_division: user_division) }
 
@@ -62,7 +62,7 @@ RSpec.describe "Api::V1::Users", type: :request do
         let(:user_division) { :insurance_agent }
 
         it "ユーザーの詳細を取得する" do
-          subject
+          request_user
           res = JSON.parse(response.body)
 
           expect(res.keys).to eq [
@@ -94,7 +94,7 @@ RSpec.describe "Api::V1::Users", type: :request do
         let(:user_division) { :policyholder }
 
         it "ActiveRecord::RecordNotFound を返す" do
-          expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+          expect { request_user }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe "Api::V1::Users", type: :request do
       let(:user_id) { 10_000_000_000 }
 
       it "ActiveRecord::RecordNotFound を返す" do
-        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { request_user }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
