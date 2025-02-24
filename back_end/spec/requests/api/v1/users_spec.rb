@@ -14,7 +14,8 @@ RSpec.describe "Api::V1::Users", type: :request do
 
       it "1ページ目の保険営業者のレコードを10件取得する" do
         request_users
-        res = JSON.parse(response.body)
+        res = response.parsed_body # 修正: JSON.parse(response.body) → response.parsed_body
+
 
         expect(res.keys).to eq ["users", "meta"]
 
@@ -63,7 +64,7 @@ RSpec.describe "Api::V1::Users", type: :request do
 
         it "ユーザーの詳細を取得する" do
           request_user
-          res = JSON.parse(response.body)
+          res = response.parsed_body # 修正: JSON.parse(response.body) → response.parsed_body
 
           expect(res.keys).to eq [
             "id",
