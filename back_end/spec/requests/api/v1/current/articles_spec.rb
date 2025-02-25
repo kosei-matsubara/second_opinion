@@ -39,6 +39,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       it "空の配列が返る" do
         subject
         res = JSON.parse(response.body)
+
         expect(res["articles"]).to eq []
         expect(response).to have_http_status(:ok)
       end
@@ -58,6 +59,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       it "正常にレコードを取得できる" do
         subject
         res = JSON.parse(response.body)
+
         expect(res.keys).to eq [
           "id",
           "categories",
@@ -118,6 +120,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
         expect { subject }.to change { current_user.articles.count }.by(1)
         expect(current_user.articles.last).to be_unsaved
         res = JSON.parse(response.body)
+
         expect(res.keys).to eq [
           "id",
           "categories",
@@ -163,6 +166,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       it "未保存ステータスの保険相談が新規作成される" do
         expect { subject }.not_to change { current_user.articles.count }
         res = JSON.parse(response.body)
+
         expect(res.keys).to eq [
           "id",
           "categories",

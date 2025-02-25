@@ -16,10 +16,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
       it "1ページ目のレコード10件取得する" do
         subject
         res = JSON.parse(response.body)
-
-        # レスポンスキーの検証
         expect(res.keys).to eq ["articles", "meta"]
-
         expect(res["articles"].length).to eq 10
 
         expect(res["articles"][0].keys).to eq [
@@ -38,7 +35,6 @@ RSpec.describe "Api::V1::Articles", type: :request do
         expect(res["meta"].keys).to eq ["current_page", "total_pages"]
         expect(res["meta"]["current_page"]).to eq 1
         expect(res["meta"]["total_pages"]).to eq 3
-
         expect(response).to have_http_status(:ok)
       end
     end
@@ -49,10 +45,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
       it "該当ページにおいてレコード10件取得できる" do
         subject
         res = JSON.parse(response.body)
-
-        # レスポンスキーの検証
         expect(res.keys).to eq ["articles", "meta"]
-
         expect(res["articles"].length).to eq 10
 
         expect(res["articles"][0].keys).to eq [
@@ -66,12 +59,11 @@ RSpec.describe "Api::V1::Articles", type: :request do
           "from_today",
           "user"
         ]
-        expect(res["articles"][0]["user"].keys).to eq ["name"]
 
+        expect(res["articles"][0]["user"].keys).to eq ["name"]
         expect(res["meta"].keys).to eq ["current_page", "total_pages"]
         expect(res["meta"]["current_page"]).to eq 2
         expect(res["meta"]["total_pages"]).to eq 3
-
         expect(response).to have_http_status(:ok)
       end
     end

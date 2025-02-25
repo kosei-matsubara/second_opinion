@@ -11,6 +11,7 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
       it "正常にレコードを取得できる" do
         subject
         res = JSON.parse(response.body)
+
         expect(res.keys).to eq [
           "id",
           "email",
@@ -43,6 +44,7 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
       it "unauthorized エラーが返る" do
         subject
         res = JSON.parse(response.body)
+
         expect(res["errors"]).to eq ["ログインもしくはアカウント登録してください。"]
         expect(response).to have_http_status(:unauthorized)
       end
@@ -54,6 +56,7 @@ RSpec.describe "Api::V1::Current::Users", type: :request do
 
     let(:current_user) { create(:user) }
     let(:headers) { current_user.create_new_auth_token }
+
     let(:params) do
       {
         user: {

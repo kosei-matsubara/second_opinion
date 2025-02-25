@@ -15,11 +15,9 @@ RSpec.describe "Api::V1::Users", type: :request do
       it "1ページ目の保険営業者のレコードを10件取得する" do
         request_users
         res = response.parsed_body # 修正: JSON.parse(response.body) → response.parsed_body
-
-
         expect(res.keys).to eq ["users", "meta"]
-
         expect(res["users"].length).to eq 10
+
         expect(res["users"][0].keys).to eq [
           "id",
           "email",
@@ -45,7 +43,6 @@ RSpec.describe "Api::V1::Users", type: :request do
         expect(res["meta"].keys).to eq ["current_page", "total_pages", "total_count"]
         expect(res["meta"]["current_page"]).to eq 1
         expect(res["meta"]["total_pages"]).to be > 1
-
         expect(response).to have_http_status(:ok)
       end
     end
@@ -87,6 +84,7 @@ RSpec.describe "Api::V1::Users", type: :request do
             "inquiry_telephone_number",
             "created_at"
           ]
+
           expect(response).to have_http_status(:ok)
         end
       end
