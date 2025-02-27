@@ -5,6 +5,49 @@ RSpec.describe "Api::V1::Users", type: :request do
     subject(:request_users) { get api_v1_users_path, params: params }
 
     before do
+      create_list(:user, 6, user_division: :insurance_agent)
+      create_list(:user, 2, user_division: :policyholder)
+    end
+
+    context "保険営業者のレコードがページネーション未満（9件以下）の場合" do
+      let(:params) {nil}
+
+      it "1ページ目の保険営業者のレコードを8件取得する" do
+        request_users
+        res = response.parsed_body
+        expect(res.keys).to eq ["users", "meta"]
+        expect(res["users"].length).to eq 8
+
+        expect(res["users"][0].keys).to eq [
+          "id",
+          "email",
+          "user_division",
+          "name",
+          "sex",
+          "generation",
+          "family_structure",
+          "prefectures",
+          "belong",
+          "address",
+          "self_introduction",
+          "my_strength",
+          "career",
+          "message",
+          "access",
+          "website",
+          "inquiry_opening_time",
+          "inquiry_telephone_number",
+          "created_at"
+        ]
+
+        expect(res["meta"].keys).to eq ["current_page", "total_pages", "total_count"]
+        expect(res["meta"]["current_page"]).to eq 1
+        expect(res["meta"]["total_pages"]).to eq 1
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    before do
       create_list(:user, 12, user_division: :insurance_agent)
       create_list(:user, 5, user_division: :policyholder)
     end
